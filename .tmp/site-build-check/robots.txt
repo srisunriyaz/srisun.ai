@@ -1,0 +1,4 @@
+﻿User-agent: *
+Allow: /
+Disallow: /careers/apply/
+Sitemap: https://www.srisun.com/sitemap.xml
