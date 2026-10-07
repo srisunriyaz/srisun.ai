@@ -992,7 +992,7 @@ function ErpHeader() {
         <nav className={menuOpen ? 'erp-nav open' : 'erp-nav'} aria-label="ERP page navigation">
           {[['Overview','#erp-top'],['Capabilities','#erp-capabilities'],['Infrastructure','#erp-stack'],['Industries','#erp-industries'],['Integrations','#erp-integrations'],['FAQ','#erp-faq']].map(([name,href])=><a key={name} href={href} onClick={()=>setMenuOpen(false)}>{name}</a>)}
         </nav>
-        <div className="erp-header-actions"><a className="erp-header-signin" href="/contact-us">Sign in</a><a className="erp-header-demo" href="/contact-us">Request a demo <ChevronRight size={14}/></a><button type="button" className="erp-menu-toggle" onClick={()=>setMenuOpen(value=>!value)} aria-label={menuOpen?'Close ERP menu':'Open ERP menu'}>{menuOpen?<X size={22}/>:<Menu size={22}/>}</button></div>
+        <div className="erp-header-actions"><a className="erp-header-signin" href="/contact-us">Sign in.</a><a className="erp-header-demo" href="/contact-us">Request a demo <ChevronRight size={14}/></a><button type="button" className="erp-menu-toggle" onClick={()=>setMenuOpen(value=>!value)} aria-label={menuOpen?'Close ERP menu':'Open ERP menu'}>{menuOpen?<X size={22}/>:<Menu size={22}/>}</button></div>
       </div>
     </header>
   );
