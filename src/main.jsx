@@ -23,7 +23,20 @@ import {
   Phone,
   AtSign,
   MapPin,
-  Send
+  Send,
+  Compass,
+  Layers,
+  Route,
+  Cloud,
+  Workflow,
+  Bot,
+  Database,
+  ClipboardCheck,
+  Lightbulb,
+  Rocket,
+  Handshake,
+  ArrowRight,
+  Users
 } from 'lucide-react';
 import './styles.css';
 
@@ -241,7 +254,7 @@ function Header() {
             <Search size={21} />
           </button>
           <button type="button" className="language"><Globe2 size={18} /> English <ChevronDown size={14} /></button>
-          <a href="/contact-us" className="signin">Sign in</a>
+          <a href="/contact-us" className="signin">Sign In</a>
           <a href="/contact-us" className="signup">Sign Up</a>
           <button type="button" className="mobile-toggle" onClick={() => setMobile((v) => !v)} aria-label={mobile ? 'Close menu' : 'Open menu'} aria-expanded={mobile}>
             {mobile ? <X size={24} /> : <Menu size={24} />}
@@ -290,7 +303,7 @@ function Header() {
               )}
             </div>
           ))}
-          <a href="/contact-us" className="mobile-signin">Sign in</a>
+          <a href="/contact-us" className="mobile-signin">Sign In</a>
           <a href="/contact-us" className="mobile-signup">Sign Up</a>
         </div>
       )}
@@ -303,32 +316,32 @@ function Hero() {
   {
     icon: <Globe size={30} strokeWidth={1.5} />,
     title: "Web & E-Commerce",
-    text: "Websites, web apps, e-commerce and business portals."
+    text: "Websites, online stores and customer portals."
   },
   {
     icon: <Boxes size={30} strokeWidth={1.5} />,
     title: "Software & Apps",
-    text: "Business software, ERP, SaaS and mobile applications."
+    text: "ERP, SaaS and mobile apps built around how your team works."
   },
   {
     icon: <Sparkles size={30} strokeWidth={1.5} />,
     title: "AI & Automation",
-    text: "AI solutions, AI agents, workflow automation and analytics."
+    text: "AI agents and automated workflows that take repetitive tasks off your desk."
   },
   {
     icon: <ShieldCheck size={30} strokeWidth={1.5} />,
     title: "Cybersecurity",
-    text: "Security, data protection, identity and risk solutions."
+    text: "Protect data, accounts and devices from everyday threats."
   },
   {
     icon: <MessageCircle size={30} strokeWidth={1.5} />,
     title: "Business Communication",
-    text: "WhatsApp, SMS, notifications and customer communication."
+    text: "Reach customers through WhatsApp, SMS and automated alerts."
   },
   {
     icon: <Megaphone size={30} strokeWidth={1.5} />,
     title: "Digital Growth",
-    text: "Branding, digital marketing, performance marketing and content."
+    text: "Branding, ads and content that bring in new enquiries."
   }
 ];
 
@@ -344,17 +357,17 @@ function Hero() {
         <div className="srisun-hero-content">
 
           <h1>
-            Tech Solutions
+            Building Technology
             <br />
-            for Better Businesses
+            for Better Lives &amp; Businesses
           </h1>
 
           <div className="srisun-hero-line"></div>
 
           <p className="srisun-hero-description">
-            Building technology for better lives and businesses.
-            We help businesses consult, build, develop, automate,
-            protect, connect and grow with modern digital solutions.
+            Websites, apps, AI tools and security for schools, colleges
+            and growing companies across India. One team takes you
+            from first idea to everyday use.
           </p>
 
           <p className="srisun-hero-stack">
@@ -364,7 +377,7 @@ function Hero() {
             AI <span>•</span>
             Automation <span>•</span>
             Cloud <span>•</span>
-            Digital
+            Marketing
           </p>
 
           <div className="srisun-hero-actions">
@@ -373,7 +386,7 @@ function Hero() {
               href="/contact-us"
               className="srisun-hero-button"
             >
-              Get Expert Consultation
+              Book a Consultation
               <span>→</span>
             </a>
 
@@ -426,7 +439,7 @@ function Hero() {
             href="/solutions"
             className="srisun-explore"
           >
-            EXPLORE ALL SOLUTIONS
+            See All Solutions
             <span>→</span>
           </a>
 
@@ -459,15 +472,15 @@ function SrisunFeaturedSection() {
             <span className="philosophy-line">To <span className="global-word">Global</span></span>
           </h2>
           <p className="philosophy-text">
-            At Srisun, we believe simple ideas can create bigger opportunities -
-            from local beginnings to a global impact.
+            Good ideas can start anywhere. We help local businesses and
+            institutions build technology that serves customers far beyond their town.
           </p>
           <div className="philosophy-points">
-            <span><b>Local</b> Ideas</span>
-            <span><b>Real</b> Solutions</span>
-            <span><b>Global</b> Opportunities</span>
+            <span><b>Small</b> Town</span>
+            <span><b>Big</b> Ideas</span>
+            <span><b>Global</b> Customers</span>
           </div>
-          <a href="#about" className="philosophy-button">Know Our Story <span>→</span></a>
+          <a href="/company/our-story" className="philosophy-button">Read Our Story <span>→</span></a>
         </div>
 
       </div>
@@ -480,7 +493,7 @@ function SrisunOneSection() {
     <section className="srisun-one-section">
       <div className="srisun-one-container scroll-reveal">
         <div className="srisun-one-content">
-          <span className="srisun-one-label">ONE CONNECTED ECOSYSTEM</span>
+          <span className="srisun-one-label">ONE PARTNER, EVERY SERVICE</span>
 
           <div className="srisun-one-brand-row">
             <div className="srisun-one-mark" aria-hidden="true">
@@ -492,26 +505,26 @@ function SrisunOneSection() {
             </div>
           </div>
 
-          <h3>The operating ecosystem for modern business.</h3>
-          <p className="srisun-one-intro">Connect your technology, services and digital operations through one growing ecosystem.</p>
-          <p className="srisun-one-text">From web and software to AI, automation, communication and digital growth, Srisun One brings the capabilities businesses need into one connected experience.</p>
+          <h3>Run your website, apps and marketing with one team.</h3>
+          <p className="srisun-one-intro">Stop juggling a separate vendor for every tool.</p>
+          <p className="srisun-one-text">Srisun One brings web, software, AI, messaging and marketing services together, so you deal with a single point of contact instead of many.</p>
 
-          <a href={menuItemHref('Srisun One')} className="srisun-one-button">Explore Srisun One <span>→</span></a>
+          <a href={menuItemHref('Srisun One')} className="srisun-one-button">Learn About Srisun One <span>→</span></a>
         </div>
 
         <div className="srisun-client-quote">
-          <div className="client-quote-mark">“</div>
-          <blockquote>Technology should make learning, communication and everyday work simpler - and create more possibilities for the people who use it.</blockquote>
+          <div className="client-quote-mark" aria-hidden="true">?</div>
+          <blockquote>Not sure which services you need? Tell us what slows your team down, and we will suggest where Srisun One fits.</blockquote>
 
           <div className="client-profile">
-            <div className="client-avatar">AEC</div>
+            <div className="client-avatar">S1</div>
             <div>
-              <strong>Arunai Engineering College</strong>
-              <span>Education • Client Spotlight</span>
+              <strong>Srisun One</strong>
+              <span>Planning call • Product team</span>
             </div>
           </div>
 
-          <a href="/clients/stories" className="client-link">View Client Story <span>→</span></a>
+          <a href="/contact-us" className="client-link">Ask a Question <span>→</span></a>
         </div>
       </div>
     </section>
@@ -534,8 +547,8 @@ function TrustedBrandsSection() {
     <section className="trusted-brands-section" aria-labelledby="trusted-brands-title">
       <div className="trusted-brands-container scroll-reveal">
         <span className="trusted-brands-eyebrow">OUR CLIENTS</span>
-        <h2 id="trusted-brands-title">Brands that trust us</h2>
-        <div className="trusted-brands-marquee" aria-label="Brands that trust us">
+        <h2 id="trusted-brands-title">Schools, colleges and companies we work with</h2>
+        <div className="trusted-brands-marquee" aria-label="Client logos">
           <div className="trusted-brands-track">
             {[0, 1].map((copy) => (
               <div className="trusted-brands-group" key={copy} aria-hidden={copy === 1 ? 'true' : undefined}>
@@ -549,7 +562,7 @@ function TrustedBrandsSection() {
           </div>
         </div>
         <a className="trusted-stories-link" href="/clients/stories">
-          Customer stories <span aria-hidden="true">→</span>
+          See All Clients <span aria-hidden="true">→</span>
         </a>
       </div>
     </section>
@@ -558,8 +571,8 @@ function TrustedBrandsSection() {
 
 function VideoStoriesSection() {
   const slides = [
-    { title: 'Stories of businesses moving forward.', image: '/assets/client-story-team.png', alt: 'Indian business team collaborating around a laptop' },
-    { title: 'Big ideas grow with the right technology partner.', image: '/assets/client-story-studio.png', alt: 'Entrepreneur and colleague reviewing a project together' }
+    { title: 'Real organisations. Real projects.', image: '/assets/client-story-team.png', alt: 'Indian business team collaborating around a laptop' },
+    { title: 'Every project starts with one conversation.', image: '/assets/client-story-studio.png', alt: 'Entrepreneur and colleague reviewing a project together' }
   ];
   const [activeSlide, setActiveSlide] = useState(0);
   const changeSlide = (direction) => setActiveSlide((current) => (current + direction + slides.length) % slides.length);
@@ -571,9 +584,9 @@ function VideoStoriesSection() {
         <button type="button" className="video-stories-arrow video-stories-arrow-prev" onClick={() => changeSlide(-1)} aria-label="Previous story"><ChevronRight size={20} /></button>
         <div className="video-stories-card" aria-live="polite">
           <div className="video-stories-copy">
-            <span className="video-stories-kicker">REAL PEOPLE. REAL PROGRESS.</span>
+            <span className="video-stories-kicker">CLIENT STORIES</span>
             <h2 id="video-stories-title">{slide.title}</h2>
-            <a href="/clients/stories" className="video-stories-button">EXPLORE CLIENT STORIES <ChevronRight size={16} /></a>
+            <a href="/clients/stories" className="video-stories-button">Read Their Stories <ChevronRight size={16} /></a>
           </div>
           <img className="video-stories-image" src={slide.image} alt={slide.alt} />
         </div>
@@ -595,16 +608,16 @@ function EnterpriseSection() {
             <div className="enterprise-icon" aria-hidden="true"><Boxes size={30} strokeWidth={1.7} /></div>
             <h2 id="enterprise-title">Srisun for Enterprise</h2>
           </div>
-          <p>Bring your teams, technology and business operations together with solutions designed around the way you work.</p>
-          <a href="#solutions" className="enterprise-learn-link">LEARN MORE <ChevronRight size={16} /></a>
+          <p>Large teams need systems that talk to each other. We connect your departments, data and tools so decisions take less chasing.</p>
+          <a href="/services" className="enterprise-learn-link">View Enterprise Services <ChevronRight size={16} /></a>
         </div>
         <div className="enterprise-quote">
-          <blockquote>“Technology should make learning, communication and everyday work simpler — and create more possibilities for the people who use it.”</blockquote>
+          <blockquote>“Technology should make learning, communication and everyday work simpler, and create more possibilities for the people who use it.”</blockquote>
           <div className="enterprise-client">
             <img src="/assets/clients/4.jpg" alt="Arunai Engineering College" loading="lazy" />
             <div><strong>Arunai Engineering College</strong><span>Education · Client spotlight</span></div>
           </div>
-            <a href="/clients/stories" className="enterprise-story-link">READ THE STORY <ChevronRight size={16} /></a>
+            <a href="/clients/stories" className="enterprise-story-link">Read the Story <ChevronRight size={16} /></a>
         </div>
       </div>
     </section>
@@ -612,10 +625,10 @@ function EnterpriseSection() {
 }
 
 const industries = [
-  { title: 'Education', icon: <GraduationCap size={25} strokeWidth={1.7} />, text: 'Digital platforms that help make learning, communication and administration simpler.' },
-  { title: 'Finance', icon: <Landmark size={25} strokeWidth={1.7} />, text: 'Secure software and connected workflows for modern financial services.' },
-  { title: 'Retail', icon: <Store size={25} strokeWidth={1.7} />, text: 'Digital commerce and customer experiences that support retail growth.' },
-  { title: 'Manufacturing', icon: <Factory size={25} strokeWidth={1.7} />, text: 'Integrated systems and smarter workflows for manufacturing teams.' }
+  { title: 'Education', icon: <GraduationCap size={25} strokeWidth={1.7} />, text: 'Platforms for learning, admissions and parent updates.' },
+  { title: 'Finance', icon: <Landmark size={25} strokeWidth={1.7} />, text: 'Secure software and clear workflows for lenders and financial firms.' },
+  { title: 'Retail', icon: <Store size={25} strokeWidth={1.7} />, text: 'Online stores and customer tools that keep shoppers coming back.' },
+  { title: 'Manufacturing', icon: <Factory size={25} strokeWidth={1.7} />, text: 'Linked systems for production, stock and quality checks.' }
 ];
 
 function IndustriesSection() {
@@ -624,8 +637,8 @@ function IndustriesSection() {
       <div className="industries-container scroll-reveal">
         <div className="industries-heading">
           <span>INDUSTRIES WE SERVE</span>
-          <h2 id="industries-title">Technology shaped around your world.</h2>
-          <p>Every industry has its own challenges. We bring the right digital tools and expertise to help teams move forward.</p>
+          <h2 id="industries-title">Built for the sector you work in.</h2>
+          <p>A school, a bank and a factory face different problems. We start with yours.</p>
         </div>
         <div className="industries-grid">
           {industries.map((industry) => (
@@ -633,7 +646,7 @@ function IndustriesSection() {
               <div className="industry-icon" aria-hidden="true">{industry.icon}</div>
               <h3>{industry.title}</h3>
               <p>{industry.text}</p>
-              <a href="#solutions">Explore solutions <ChevronRight size={16} /></a>
+              <a href={menuItemHref(industry.title)}>View Options <ChevronRight size={16} /></a>
             </article>
           ))}
         </div>
@@ -643,10 +656,10 @@ function IndustriesSection() {
 }
 
 const workSteps = [
-  { number: '01', title: 'Discover', color: 'blue', text: 'We listen to your goals, understand your users and learn how your business works.' },
-  { number: '02', title: 'Plan', color: 'red', text: 'We shape a practical roadmap with the right services, tools and milestones.' },
-  { number: '03', title: 'Build', color: 'green', text: 'We design, develop and connect a solution around your real needs.' },
-  { number: '04', title: 'Grow', color: 'yellow', text: 'We support your team after launch and keep improving as your needs evolve.' }
+  { number: '01', title: 'Discover', color: 'blue', text: 'We learn your goals, your users and how work gets done today.' },
+  { number: '02', title: 'Plan', color: 'red', text: 'You get a roadmap with services, tools, timelines and milestones.' },
+  { number: '03', title: 'Build', color: 'green', text: 'We design, develop and test the product against your real needs.' },
+  { number: '04', title: 'Grow', color: 'yellow', text: 'After launch, we support your staff and add improvements as priorities change.' }
 ];
 
 function HowWeWorkSection() {
@@ -655,8 +668,8 @@ function HowWeWorkSection() {
       <div className="how-we-work-container scroll-reveal">
         <div className="how-we-work-heading">
           <span>HOW WE WORK</span>
-          <h2 id="how-we-work-title">A clear path from idea to impact.</h2>
-          <p>Good technology starts with understanding your business. We work alongside you at every step.</p>
+          <h2 id="how-we-work-title">Four steps from idea to launch.</h2>
+          <p>You stay involved from the first meeting to the months after go-live.</p>
         </div>
         <ol className="work-steps">
           {workSteps.map((step) => (
@@ -667,7 +680,7 @@ function HowWeWorkSection() {
             </li>
           ))}
         </ol>
-        <a href="#contact" className="how-we-work-cta">LET’S BUILD SOMETHING <ChevronRight size={17} /></a>
+        <a href="#contact" className="how-we-work-cta">Start Your Project <ChevronRight size={17} /></a>
       </div>
     </section>
   );
@@ -675,17 +688,17 @@ function HowWeWorkSection() {
 
 function CoreValuesSection() {
   const values = [
-    { icon: <MessageCircle size={21} />, color: 'red', title: 'People-first thinking', text: 'We listen closely and design around the people who use what we build.' },
-    { icon: <Sparkles size={21} />, color: 'yellow', title: 'Curiosity that moves us', text: 'We keep learning, exploring and improving with every challenge.' },
-    { icon: <ShieldCheck size={21} />, color: 'green', title: 'Trust in every step', text: 'We work with care, clarity and respect for the responsibility we hold.' },
-    { icon: <Globe size={21} />, color: 'blue', title: 'Ideas without borders', text: 'Local understanding helps us create solutions with wider reach.' }
+    { icon: <MessageCircle size={21} />, color: 'red', title: 'People first', text: 'We design for whoever will use the product every day.' },
+    { icon: <Sparkles size={21} />, color: 'yellow', title: 'Always learning', text: 'Each project teaches us something we bring to the next one.' },
+    { icon: <ShieldCheck size={21} />, color: 'green', title: 'Honest updates', text: 'We tell you what we know, what we do not and what comes next.' },
+    { icon: <Globe size={21} />, color: 'blue', title: 'No borders', text: 'Knowing local needs helps us build for any market.' }
   ];
   return (
     <section className="core-values-section" id="about" aria-labelledby="core-values-title">
       <div className="core-values-banner" role="img" aria-label="A team of people coming together to build a better future" />
       <div className="core-values-card scroll-reveal">
         <span className="home-closing-kicker">THE SRISUN WAY</span>
-        <h2 id="core-values-title">The values and principles<br />that move us forward</h2>
+        <h2 id="core-values-title">What we<br />stand for</h2>
         <span className="home-closing-rule" />
         <div className="core-values-grid">
           {values.map((value) => (
@@ -695,24 +708,24 @@ function CoreValuesSection() {
             </article>
           ))}
         </div>
-        <a href="#about" className="core-values-link">Discover our story <ChevronRight size={16} /></a>
+        <a href="/company/about-srisun" className="core-values-link">About Srisun <ChevronRight size={16} /></a>
       </div>
     </section>
   );
 }
 
 function IndiaImpactSection() {
-  const focusAreas = ['Technology', 'People', 'Possibility', 'Progress'];
+  const focusAreas = ['Consult', 'Build', 'Protect', 'Grow'];
   return (
     <section className="india-impact-section" aria-labelledby="india-impact-title">
       <div className="india-impact-inner scroll-reveal">
-        <span className="home-closing-kicker">ROOTED HERE. REACHING FURTHER.</span>
+        <span className="home-closing-kicker">BASED IN TAMIL NADU</span>
         <h2 id="india-impact-title">Made in India.<br />Made for what’s next.</h2>
-        <p>From our home in India, we bring people, services and technology together to help businesses move forward.</p>
+        <p>Our team works with organisations across India, on-site or remote.</p>
         <div className="india-impact-focus" aria-label="Our focus areas">
           {focusAreas.map((area, index) => <div key={area}><span>0{index + 1}</span><strong>{area}</strong></div>)}
         </div>
-        <a href="#solutions" className="india-impact-button">Explore what we do <ChevronRight size={16} /></a>
+        <a href="/services" className="india-impact-button">Browse Our Services <ChevronRight size={16} /></a>
       </div>
       <div className="india-impact-orbit india-impact-orbit-one" aria-hidden="true" />
       <div className="india-impact-orbit india-impact-orbit-two" aria-hidden="true" />
@@ -854,7 +867,7 @@ function CareersListingPage() {
               <article className="careers-role-card" key={role.title}>
                 <div className="careers-role-symbol" aria-hidden="true">&lt;/&gt;</div>
                 <div className="careers-role-main"><span>{role.department}</span><h2>{role.title}</h2><p>{role.summary}</p><div className="careers-role-meta"><span><Globe size={15} />{role.location}</span><span>{role.type}</span></div></div>
-                <a href={careerRolePath(role)} className="careers-role-link">View details <ChevronRight size={17} /></a>
+                <a href={careerRolePath(role)} className="careers-role-link">View Details <ChevronRight size={17} /></a>
               </article>
             )) : <p className="careers-no-results">No roles match that search. Try another title or team.</p>}
           </div>
@@ -876,7 +889,7 @@ function CareerJobDetailPage({ role }) {
               <p className="careers-job-intro">{role.summary}</p>
               <h2>What you’ll work on</h2><ul>{role.responsibilities.map((item) => <li key={item}>{item}</li>)}</ul>
               <h2>What will help you succeed</h2><ul>{role.qualifications.map((item) => <li key={item}>{item}</li>)}</ul>
-              <a className="careers-primary-button" href={`${careerRolePath(role)}/apply`}>Apply for this role <ChevronRight size={17} /></a>
+              <a className="careers-primary-button" href={`${careerRolePath(role)}/apply`}>Apply for This Role <ChevronRight size={17} /></a>
             </div>
             <aside className="careers-job-info"><h2>Role information</h2><dl><div><dt>Location</dt><dd>{role.location}</dd></div><div><dt>Work type</dt><dd>{role.type}</dd></div><div><dt>Team</dt><dd>{role.department}</dd></div></dl><div className="careers-info-note">We’re currently considering applicants based across India.</div></aside>
           </div>
@@ -916,7 +929,7 @@ function CareerApplicationPage({ role }) {
               <label className="careers-file-field">Resume *<input type="file" name="resume" accept=".pdf,.doc,.docx" required /><small>PDF or Word document</small></label>
             </div>
             <label className="careers-consent"><input type="checkbox" required /><span>I confirm that the information shared above is accurate and may be used to review my application.</span></label>
-            <button type="submit" className="careers-primary-button">Submit application <ChevronRight size={17} /></button>
+            <button type="submit" className="careers-primary-button">Submit Application <ChevronRight size={17} /></button>
             {applicationStatus && <p className="careers-form-status" role="status">{applicationStatus}</p>}
           </form>
         </div>
@@ -929,7 +942,7 @@ const contentPages = [
   { path: '/services', title: 'Services', group: 'Services', description: 'Explore the services Srisun brings together to help organizations plan, build and grow with technology.', links: serviceItems.map((title) => ({ title, href: menuItemHref(title) })) },
   ...serviceItems.map((title) => ({ path: menuItemHref(title), title, group: 'Services', description: title === 'ERP' ? 'Plan, implement and connect ERP systems around your finance, inventory, people and day-to-day operations. Srisun helps Indian businesses choose a practical path from disconnected tools to clearer workflows.' : `${title} services shaped around your business goals, people and existing technology. Start with the challenge you want to solve and we can help define a practical next step.`, bullets: ['Understand the need and the people affected.', 'Choose an approach that fits your existing systems.', 'Plan delivery, adoption and ongoing improvement.'], ...(title === 'ERP' ? { erp: true } : {}) })),
   { path: '/solutions', title: 'Solutions', group: 'Solutions', description: 'Explore the capabilities that connect strategy, software, automation, security and digital growth.', links: solutionItems.map((title) => ({ title, href: menuItemHref(title) })) },
-  ...solutionItems.map((title) => ({ path: menuItemHref(title), title, group: 'Solutions', description: `Explore ${title.toLowerCase()} services for organizations looking to make technology work better for people and business. We shape the scope around your goals, current systems and operating context.`, bullets: ['Discovery and solution planning.', 'Design and implementation support.', 'Integration, refinement and continued improvement.'] })),
+  ...solutionItems.map((title) => ({ path: menuItemHref(title), title, group: 'Solutions', description: `Explore ${title.toLowerCase()} services for organizations looking to make technology work better for people and business. We shape the scope around your goals, current systems and operating context.`, bullets: ['Discovery and solution planning.', 'Design and implementation support.', 'Integration, refinement and continued improvement.'], ...(title === 'Tech Consulting' ? { techConsulting: true, description: 'Independent technology consulting for organisations across India: strategy, IT assessments, cloud, data, AI readiness and cybersecurity, with roadmaps you can act on.' } : {}) })),
   { path: '/industries', title: 'Industries', group: 'Industries', description: 'Technology work needs to fit the context in which people use it. Explore the sectors Srisun serves and the needs each page is designed to discuss.', links: industryItems.map((title) => ({ title, href: menuItemHref(title) })) },
   ...industryItems.map((title) => ({ path: menuItemHref(title), title, group: 'Industries', description: `Explore technology considerations for ${title.toLowerCase()} organizations. Srisun brings consulting, software and digital capabilities together around the needs and workflows you identify.`, bullets: ['Map user and operational needs.', 'Connect suitable digital tools and services.', 'Plan for security, usability and future change.'] })),
   { path: '/clients', title: 'Clients', group: 'Company', description: 'Learn about the organizations and communities that have worked with Srisun.', links: [{ title: 'Customer stories', href: '/clients/stories' }] },
@@ -939,15 +952,15 @@ const contentPages = [
   ...['Partner Program', 'Technology Partners', 'Reseller Partners', 'Integration Partners', 'Strategic Partnerships', 'Affiliate Program'].map((title) => ({ path: menuItemHref(title), title, group: 'Partners', description: `Connect with Srisun around ${title.toLowerCase()}. Tell us about your organization, the capabilities you bring and the kind of collaboration you have in mind.`, bullets: ['Share your organization and areas of expertise.', 'Describe the customers or projects you support.', 'Start a conversation with the Srisun team.'] })),
   { path: '/company/about-srisun', title: 'About Srisun', group: 'Company', description: 'Srisun builds technology for better lives and businesses, bringing consulting, software, automation, cybersecurity and digital growth capabilities together.', bullets: ['Technology shaped around real business needs.', 'A focus on useful, understandable solutions.', 'Rooted in India and open to working with organizations across locations.'] },
   { path: '/company/our-story', title: 'Our story', group: 'Company', description: 'Srisun brings people and technology together to help organizations move forward. Our work spans consulting, digital experiences, software and business services.', bullets: ['Listen to the people closest to the challenge.', 'Build solutions that are clear and useful.', 'Keep learning as needs and technology change.'] },
-  { path: '/company/brand-guidelines', title: 'Brand guidelines', group: 'Company', description: 'For approved use of Srisun names, logos and brand assets, contact the Srisun team to request the current guidelines.', bullets: ['Use official Srisun assets supplied by the team.', 'Keep the logo colors, proportions and clear space intact.', 'Request approval before using the brand in a public or partner campaign.'], cta: 'Request brand guidelines' },
+  { path: '/company/brand-guidelines', title: 'Brand guidelines', group: 'Company', description: 'For approved use of Srisun names, logos and brand assets, contact the Srisun team to request the current guidelines.', bullets: ['Use official Srisun assets supplied by the team.', 'Keep the logo colors, proportions and clear space intact.', 'Request approval before using the brand in a public or partner campaign.'], cta: 'Request Brand Guidelines' },
   ...[
     ['Announcements Hub','/resources/announcements','Company news and updates from Srisun.'],['Blog','/resources/blog','Perspectives on technology, digital services and better ways of working.'],['Shri (AI Agent)','/resources/shri-ai-agent','Learn about Shri, Srisun’s AI agent initiative, and ask the team about current capabilities.'],['Newsletter','/resources/newsletter','Get in touch to ask about Srisun updates and future newsletter editions.'],['The Long Game','/resources/the-long-game','Ideas on building useful technology and long-term digital capability.'],['Knowledge Base','/resources/knowledge-base','Find support for a Srisun product or service by contacting the team.'],['Concierge','/resources/concierge','Tell us what you need help with and we will direct your enquiry.']
-  ].map(([title,path,description]) => ({ path,title,group:'Resources',description, cta:title === 'Blog' || title === 'Announcements Hub' ? 'Contact us for updates' : 'Ask Srisun' })),
-  ...[['Srisun One','Srisun One supports connected business operations. Contact Srisun to discuss product scope and availability.'],['Srisun AI','Explore AI and automation opportunities with the Srisun team. Discuss use cases, data and the controls your organization needs.'],['Srisun Books','Ask Srisun about the current capabilities and availability of Srisun Books.'],['Srisun Social','Ask about Srisun Social and how it may fit your communication needs.'],['Zedu','Learn more about Zedu by sharing your education and learning requirements with Srisun.'],['XLoan','Contact Srisun for current information about XLoan and its availability.']].map(([title,description]) => ({ path:menuItemHref(title),title,group:'Products',description, cta:'Ask about this product' })),
-  ...['Security','Compliance','IPR Complaints','Terms of Service','Privacy Policy','Refund Policy','Trademark Policy','Cookie Policy','GDPR Compliance','Abuse Policy'].map((title) => ({ path:menuItemHref(title),title,group:'Policies',description:`For the current ${title.toLowerCase()} information or to raise a request, contact Srisun. The policy text for this page must be supplied and approved by the organization before publication.`,cta:`Contact us about ${title.toLowerCase()}` }))
+  ].map(([title,path,description]) => ({ path,title,group:'Resources',description, cta:title === 'Blog' || title === 'Announcements Hub' ? 'Contact Us for Updates' : 'Ask Srisun' })),
+  ...[['Srisun One','Srisun One supports connected business operations. Contact Srisun to discuss product scope and availability.'],['Srisun AI','Explore AI and automation opportunities with the Srisun team. Discuss use cases, data and the controls your organization needs.'],['Srisun Books','Ask Srisun about the current capabilities and availability of Srisun Books.'],['Srisun Social','Ask about Srisun Social and how it may fit your communication needs.'],['Zedu','Learn more about Zedu by sharing your education and learning requirements with Srisun.'],['XLoan','Contact Srisun for current information about XLoan and its availability.']].map(([title,description]) => ({ path:menuItemHref(title),title,group:'Products',description, cta:'Ask About This Product' })),
+  ...['Security','Compliance','IPR Complaints','Terms of Service','Privacy Policy','Refund Policy','Trademark Policy','Cookie Policy','GDPR Compliance','Abuse Policy'].map((title) => ({ path:menuItemHref(title),title,group:'Policies',description:`For the current ${title.toLowerCase()} information or to raise a request, contact Srisun. The policy text for this page must be supplied and approved by the organization before publication.`,cta:`Contact Us About ${title}` }))
 ];
 
-const getPageFaq = (page) => page.erp ? [
+const getPageFaq = (page) => page.techConsulting ? techConsultingFaq : page.erp ? [
     { question: 'What does ERP implementation involve?', answer: 'ERP implementation can include process discovery, system selection, configuration, data migration, integrations, testing, training and rollout. The right scope depends on your current systems and business requirements.' },
     { question: 'Can an ERP system connect finance, inventory and sales?', answer: 'Yes. An ERP platform can connect these functions through shared records and workflows. Srisun can help map your requirements and plan integrations around the systems you use.' },
     { question: 'Does Srisun support ERP projects across India?', answer: 'Srisun is based in Tamil Nadu and can discuss ERP consulting, implementation and support requirements with businesses across India.' }
@@ -968,13 +981,13 @@ function ContentPage({ page }) {
       <section className="content-page-hero">
         <div className="content-page-inner">
           <nav className="content-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><ChevronRight size={14} />{isSearch || isGroupLanding ? <span>{isSearch ? 'Search' : page.title}</span> : <><a href={page.group === 'Services' ? '/services' : page.group === 'Solutions' ? '/solutions' : page.group === 'Industries' ? '/industries' : page.group === 'Partners' ? '/partners' : page.group === 'Clients' ? '/clients' : page.group === 'Products' ? '/products' : '/'}>{page.group}</a><ChevronRight size={14} /><span>{page.title}</span></>}</nav>
-          <div className="content-page-hero-grid"><div><span className="content-eyebrow"><i /> {isSearch ? 'SITE SEARCH' : page.group.toUpperCase()}</span><h1>{isSearch ? `Search${query ? `: ${query}` : ' Srisun'}` : page.title}</h1><p>{isSearch ? (query ? `Pages and topics related to “${query}”.` : 'Search Srisun services, solutions and resources.') : page.description}</p><a className="content-primary-link" href={page.cta ? '/contact-us' : primary}>{page.cta || 'Talk to our team'} <ChevronRight size={17} /></a></div><div className="content-hero-mark" aria-hidden="true"><img src="/assets/srisun-logo.png" alt="" /><span>Building Technology<br />for Better Lives &amp; Businesses</span></div></div>
+          <div className="content-page-hero-grid"><div><span className="content-eyebrow"><i /> {isSearch ? 'SITE SEARCH' : page.group.toUpperCase()}</span><h1>{isSearch ? `Search${query ? `: ${query}` : ' Srisun'}` : page.title}</h1><p>{isSearch ? (query ? `Pages and topics related to “${query}”.` : 'Search Srisun services, solutions and resources.') : page.description}</p><a className="content-primary-link" href={page.cta ? '/contact-us' : primary}>{page.cta || 'Talk to Our Team'} <ChevronRight size={17} /></a></div><div className="content-hero-mark" aria-hidden="true"><img src="/assets/srisun-logo.png" alt="" /><span>Building Technology<br />for Better Lives &amp; Businesses</span></div></div>
         </div>
       </section>
       <section className="content-page-body"><div className="content-page-inner">
         {page.links?.length > 0 && <><div className="content-section-heading"><span>EXPLORE</span><h2>Find the right place to start</h2></div><div className="content-link-grid">{page.links.map((link,index) => <a className="content-link-card" href={link.href} key={link.title}><span className={`content-card-index content-index-${index%4}`}>0{index+1}</span><h3>{link.title}</h3><p>Explore {link.title.toLowerCase()} and see how it connects to your organization’s goals.</p><span className="content-card-action">Explore <ChevronRight size={15}/></span></a>)}</div></>}
         {page.stories && <><div className="content-section-heading"><span>OUR CLIENTS</span><h2>Organizations moving forward</h2></div><div className="content-client-grid">{[['Vivekanandha Higher Secondary School, Pondicherry','/assets/clients/1.jpg'],['Annapurna College of Film and Media','/assets/clients/2.jpg'],['The Green Mount International School','/assets/clients/3.jpg'],['Arunai Engineering College','/assets/clients/4.jpg'],['Aakhaash Institute of Media Studies','/assets/clients/5.jpg'],['Sri Rangapoopathi Educational Charitable Trust','/assets/clients/6.jpg'],['TMS Vidyalaya Matriculation School','/assets/clients/7.jpg'],['Vijay Vidya','/assets/clients/8.jpg']].map(([name,image])=><article key={name}><img src={image} alt="" loading="lazy"/><h3>{name}</h3><p>Ask us about the work and services relevant to your organization.</p></article>)}</div></>}
-        {page.bullets?.length > 0 && <div className="content-detail-grid"><article className="content-detail-main"><div className="content-section-heading"><span>HOW WE CAN HELP</span><h2>Start with what you need</h2></div><p>{page.description}</p><ul>{page.bullets.map((item)=><li key={item}><span className="content-check"><ChevronRight size={15}/></span>{item}</li>)}</ul></article><aside className="content-detail-aside"><span className="content-aside-symbol"><Sparkles size={22}/></span><h3>Let’s talk about your goals.</h3><p>Share your context and the Srisun team can help identify a useful next step.</p><a href="/contact-us">Contact us <ChevronRight size={15}/></a></aside></div>}
+        {page.bullets?.length > 0 && <div className="content-detail-grid"><article className="content-detail-main"><div className="content-section-heading"><span>HOW WE CAN HELP</span><h2>Start with what you need</h2></div><p>{page.description}</p><ul>{page.bullets.map((item)=><li key={item}><span className="content-check"><ChevronRight size={15}/></span>{item}</li>)}</ul></article><aside className="content-detail-aside"><span className="content-aside-symbol"><Sparkles size={22}/></span><h3>Let’s talk about your goals.</h3><p>Share your context and the Srisun team can help identify a useful next step.</p><a href="/contact-us">Contact Us <ChevronRight size={15}/></a></aside></div>}
         {isSearch && <div className="content-search-results">{searchResults.length ? searchResults.map((result)=><a href={result.path} key={result.path}><span>{result.group}</span><h2>{result.title}</h2><p>{result.description}</p><ChevronRight size={18}/></a>) : <p>No pages match this search yet. <a href="/contact-us">Contact our team</a> for help.</p>}</div>}
         {page.group === 'Policies' && <p className="content-policy-note">This page is a contact route only. The approved policy text must be added before publication.</p>}
         {!isSearch && page.group !== 'Policies' && <section className="content-faq" aria-labelledby="content-faq-title"><div className="content-section-heading"><span>ANSWERS</span><h2 id="content-faq-title">Questions about {page.title.toLowerCase()}</h2></div><div className="content-faq-list">{getPageFaq(page).map((faq) => <details key={faq.question}><summary>{faq.question}<ChevronDown size={17}/></summary><p>{faq.answer}</p></details>)}</div></section>}
@@ -992,7 +1005,7 @@ function ErpHeader() {
         <nav className={menuOpen ? 'erp-nav open' : 'erp-nav'} aria-label="ERP page navigation">
           {[['Overview','#erp-top'],['Capabilities','#erp-capabilities'],['Infrastructure','#erp-stack'],['Industries','#erp-industries'],['Integrations','#erp-integrations'],['FAQ','#erp-faq']].map(([name,href])=><a key={name} href={href} onClick={()=>setMenuOpen(false)}>{name}</a>)}
         </nav>
-        <div className="erp-header-actions"><a className="erp-header-signin" href="/contact-us">Sign in.</a><a className="erp-header-demo" href="/contact-us">Request a demo <ChevronRight size={14}/></a><button type="button" className="erp-menu-toggle" onClick={()=>setMenuOpen(value=>!value)} aria-label={menuOpen?'Close ERP menu':'Open ERP menu'}>{menuOpen?<X size={22}/>:<Menu size={22}/>}</button></div>
+        <div className="erp-header-actions"><a className="erp-header-signin" href="/contact-us">Sign In</a><a className="erp-header-demo" href="/contact-us">Request a Demo <ChevronRight size={14}/></a><button type="button" className="erp-menu-toggle" onClick={()=>setMenuOpen(value=>!value)} aria-label={menuOpen?'Close ERP menu':'Open ERP menu'}>{menuOpen?<X size={22}/>:<Menu size={22}/>}</button></div>
       </div>
     </header>
   );
@@ -1002,12 +1015,12 @@ function ErpFooter() {
   return (
     <footer className="erp-site-footer">
       <div className="content-page-inner">
-        <div className="erp-footer-cta"><div><span className="erp-section-kicker">READY TO MAKE WORK FLOW?</span><h2>Let's build a clearer path forward.</h2><p>Talk with Srisun about your ERP goals, existing systems and next steps.</p></div><a href="/contact-us">Start a conversation <ChevronRight size={17}/></a></div>
+        <div className="erp-footer-cta"><div><span className="erp-section-kicker">READY TO MAKE WORK FLOW?</span><h2>Let's build a clearer path forward.</h2><p>Talk with Srisun about your ERP goals, existing systems and next steps.</p></div><a href="/contact-us">Start a Conversation <ChevronRight size={17}/></a></div>
         <div className="erp-footer-links">
           <a href="/services/erp" className="erp-footer-brand"><img src="/assets/srisun-logo.png" alt="Srisun"/><span>ERP</span><small>Building technology for better lives and businesses.</small></a>
           <div><strong>ERP</strong><a href="#erp-capabilities">Capabilities</a><a href="#erp-stack">Infrastructure</a><a href="#erp-industries">Industries</a><a href="#erp-integrations">Integrations</a></div>
           <div><strong>Explore Srisun</strong><a href="/services">Services</a><a href="/solutions">Solutions</a><a href="/clients/stories">Client stories</a><a href="/careers">Careers</a></div>
-          <div><strong>Contact</strong><a href="tel:+919876543210">+91 98765 43210</a><a href="mailto:sundar@srisun.com">sundar@srisun.com</a><a href="/contact-us">Contact us <ChevronRight size={13}/></a></div>
+          <div><strong>Contact</strong><a href="tel:+919876543210">+91 98765 43210</a><a href="mailto:sundar@srisun.com">sundar@srisun.com</a><a href="/contact-us">Contact Us <ChevronRight size={13}/></a></div>
         </div>
         <div className="erp-footer-legal"><span>© 2026, Srisun. All rights reserved.</span><div><a href="/legal/privacy-policy">Privacy</a><a href="/legal/terms-of-service">Terms</a><a href="/legal/security">Security</a></div></div>
       </div>
@@ -1040,7 +1053,7 @@ function ErpPage() {
               <span className="erp-eyebrow"><i /> ERP CONSULTING &amp; IMPLEMENTATION</span>
               <h1>Bring your business operations into sync.</h1>
               <p>Connect finance, inventory, sales and people workflows with an ERP plan shaped around the way your business works.</p>
-              <div className="erp-hero-actions"><a className="erp-primary" href="/contact-us">Talk to an ERP specialist <ChevronRight size={17} /></a><a className="erp-secondary" href="#erp-capabilities">Explore ERP capabilities <ChevronRight size={16} /></a></div>
+              <div className="erp-hero-actions"><a className="erp-primary" href="/contact-us">Talk to an ERP Specialist <ChevronRight size={17} /></a><a className="erp-secondary" href="#erp-capabilities">Explore ERP Capabilities <ChevronRight size={16} /></a></div>
               <div className="erp-hero-proof"><span><b>01</b> Map your current processes</span><span><b>02</b> Plan a connected system</span></div>
             </div>
             <div className="erp-dashboard" aria-label="Illustration of a connected ERP operations dashboard" role="img">
@@ -1066,31 +1079,223 @@ function ErpPage() {
       </section>
 
       <section className="erp-modules-section" id="erp-capabilities">
-        <div className="content-page-inner"><div className="erp-section-heading"><span className="erp-section-kicker">ERP CAPABILITIES</span><h2>Connect the parts of your business.</h2><p>Start with the areas that matter most. Build a roadmap that brings the right workflows together over time.</p></div><div className="erp-modules-grid">{modules.map(([title,description,number],index)=><article className={`erp-module-card erp-module-${index+1}`} key={title}><span className="erp-module-number">{number}</span><div className="erp-module-icon">{index===0?<Landmark size={22}/>:index===1?<Boxes size={22}/>:index===2?<Store size={22}/>:index===3?<BriefcaseBusiness size={22}/>:index===4?<Factory size={22}/>:<Sparkles size={22}/>}</div><h3>{title}</h3><p>{description}</p><a href="/contact-us">Discuss this capability <ChevronRight size={15}/></a></article>)}</div></div>
+        <div className="content-page-inner"><div className="erp-section-heading"><span className="erp-section-kicker">ERP CAPABILITIES</span><h2>Connect the parts of your business.</h2><p>Start with the areas that matter most. Build a roadmap that brings the right workflows together over time.</p></div><div className="erp-modules-grid">{modules.map(([title,description,number],index)=><article className={`erp-module-card erp-module-${index+1}`} key={title}><span className="erp-module-number">{number}</span><div className="erp-module-icon">{index===0?<Landmark size={22}/>:index===1?<Boxes size={22}/>:index===2?<Store size={22}/>:index===3?<BriefcaseBusiness size={22}/>:index===4?<Factory size={22}/>:<Sparkles size={22}/>}</div><h3>{title}</h3><p>{description}</p><a href="/contact-us">Discuss This Capability <ChevronRight size={15}/></a></article>)}</div></div>
       </section>
 
-      <section className="erp-stack-section" id="erp-stack"><div className="content-page-inner erp-stack-grid"><div className="erp-stack-copy"><span className="erp-section-kicker">A CONNECTED ERP STACK</span><h2>One foundation.<br/>Many moving parts.</h2><p>ERP works best when essential business applications, data and infrastructure work together. We help plan the layers, integrations and controls that suit your organization.</p><ul><li><span>01</span> Choose an ERP platform around your processes</li><li><span>02</span> Connect the systems your teams already use</li><li><span>03</span> Plan access, data and security together</li><li><span>04</span> Roll out in clear, manageable stages</li></ul><a href="/contact-us">Discuss your ERP stack <ChevronRight size={15}/></a></div><div className="erp-stack-visual" aria-label="Layered ERP technology stack illustration" role="img"><div className="erp-stack-orbit"/><div className="erp-layer layer-one"><span>BUSINESS APPLICATIONS</span><Boxes size={20}/></div><div className="erp-layer layer-two"><span>CONNECTED DATA</span><Globe size={20}/></div><div className="erp-layer layer-three"><span>WORKFLOWS &amp; AUTOMATION</span><Sparkles size={20}/></div><div className="erp-layer layer-four"><span>SECURE INFRASTRUCTURE</span><ShieldCheck size={20}/></div><div className="erp-stack-caption"><i/>A considered foundation for connected operations</div></div></div></section>
+      <section className="erp-stack-section" id="erp-stack"><div className="content-page-inner erp-stack-grid"><div className="erp-stack-copy"><span className="erp-section-kicker">A CONNECTED ERP STACK</span><h2>One foundation.<br/>Many moving parts.</h2><p>ERP works best when essential business applications, data and infrastructure work together. We help plan the layers, integrations and controls that suit your organization.</p><ul><li><span>01</span> Choose an ERP platform around your processes</li><li><span>02</span> Connect the systems your teams already use</li><li><span>03</span> Plan access, data and security together</li><li><span>04</span> Roll out in clear, manageable stages</li></ul><a href="/contact-us">Discuss Your ERP Stack <ChevronRight size={15}/></a></div><div className="erp-stack-visual" aria-label="Layered ERP technology stack illustration" role="img"><div className="erp-stack-orbit"/><div className="erp-layer layer-one"><span>BUSINESS APPLICATIONS</span><Boxes size={20}/></div><div className="erp-layer layer-two"><span>CONNECTED DATA</span><Globe size={20}/></div><div className="erp-layer layer-three"><span>WORKFLOWS &amp; AUTOMATION</span><Sparkles size={20}/></div><div className="erp-layer layer-four"><span>SECURE INFRASTRUCTURE</span><ShieldCheck size={20}/></div><div className="erp-stack-caption"><i/>A considered foundation for connected operations</div></div></div></section>
 
-      <section className="erp-ai-section"><div className="content-page-inner erp-ai-grid"><div className="erp-ai-visual"><div className="erp-ai-window"><div className="erp-ai-window-bar"><i/><i/><i/><span>Operations assistant</span></div><div className="erp-ai-question">Show me orders that may need attention this week</div><div className="erp-ai-response"><span><Sparkles size={16}/></span><div><small>WORKFLOW INSIGHT</small><b>12 orders may need follow-up</b><p>3 are waiting for approval and 9 are scheduled for dispatch.</p></div></div><div className="erp-ai-progress"><i/><i/><i/></div></div><div className="erp-ai-glow"/></div><div className="erp-ai-copy"><span className="erp-section-kicker">AI IN ERP</span><h2>Put useful intelligence close to the work.</h2><p>Explore where automation and AI can support everyday ERP workflows, from summarizing activity to surfacing exceptions and helping teams find information faster.</p><a href="/contact-us">Explore AI opportunities <ChevronRight size={16}/></a></div></div></section>
+      <section className="erp-ai-section"><div className="content-page-inner erp-ai-grid"><div className="erp-ai-visual"><div className="erp-ai-window"><div className="erp-ai-window-bar"><i/><i/><i/><span>Operations assistant</span></div><div className="erp-ai-question">Show me orders that may need attention this week</div><div className="erp-ai-response"><span><Sparkles size={16}/></span><div><small>WORKFLOW INSIGHT</small><b>12 orders may need follow-up</b><p>3 are waiting for approval and 9 are scheduled for dispatch.</p></div></div><div className="erp-ai-progress"><i/><i/><i/></div></div><div className="erp-ai-glow"/></div><div className="erp-ai-copy"><span className="erp-section-kicker">AI IN ERP</span><h2>Put useful intelligence close to the work.</h2><p>Explore where automation and AI can support everyday ERP workflows, from summarizing activity to surfacing exceptions and helping teams find information faster.</p><a href="/contact-us">Explore AI Opportunities <ChevronRight size={16}/></a></div></div></section>
 
-      <section className="erp-industries-section" id="erp-industries"><div className="content-page-inner"><div className="erp-section-heading"><span className="erp-section-kicker">BUILT AROUND YOUR OPERATIONS</span><h2>ERP planning for the way your industry works.</h2><p>Every organization has its own workflows. Start with the processes, teams and customer needs that matter in your sector.</p></div><div className="erp-industry-grid">{[['Manufacturing','Production planning, material movement and quality workflows.','/assets/clients/4.jpg'],['Retail','Inventory visibility, orders and connected store operations.','/assets/clients/3.jpg'],['Distribution','Purchasing, stock movement and fulfilment across locations.','/assets/clients/6.jpg'],['Education','Finance, procurement and administration across institutions.','/assets/clients/1.jpg']].map(([title,description,image],index)=><article key={title}><div className="erp-industry-image"><img src={image} alt="" loading="lazy"/><span>0{index+1}</span></div><h3>{title}</h3><p>{description}</p><a href="/contact-us">Talk about your requirements <ChevronRight size={14}/></a></article>)}</div></div></section>
+      <section className="erp-industries-section" id="erp-industries"><div className="content-page-inner"><div className="erp-section-heading"><span className="erp-section-kicker">BUILT AROUND YOUR OPERATIONS</span><h2>ERP planning for the way your industry works.</h2><p>Every organization has its own workflows. Start with the processes, teams and customer needs that matter in your sector.</p></div><div className="erp-industry-grid">{[['Manufacturing','Production planning, material movement and quality workflows.','/assets/clients/4.jpg'],['Retail','Inventory visibility, orders and connected store operations.','/assets/clients/3.jpg'],['Distribution','Purchasing, stock movement and fulfilment across locations.','/assets/clients/6.jpg'],['Education','Finance, procurement and administration across institutions.','/assets/clients/1.jpg']].map(([title,description,image],index)=><article key={title}><div className="erp-industry-image"><img src={image} alt="" loading="lazy"/><span>0{index+1}</span></div><h3>{title}</h3><p>{description}</p><a href="/contact-us">Talk About Your Requirements <ChevronRight size={14}/></a></article>)}</div></div></section>
 
       <section className="erp-scale-section"><div className="content-page-inner erp-scale-inner"><div className="erp-scale-copy"><span className="erp-section-kicker">READY FOR WHAT COMES NEXT</span><h2>A scalable system starts with a thoughtful plan.</h2><p>Design for the business you run today while keeping a path open for more users, locations, data and connected processes in the future.</p></div><div className="erp-scale-globe" aria-hidden="true"><div className="erp-globe-lines"/><span>ONE CONNECTED<br/>BUSINESS VIEW</span><i className="erp-globe-node node-a"/><i className="erp-globe-node node-b"/><i className="erp-globe-node node-c"/></div><div className="erp-scale-points"><article><strong>People</strong><span>Clear roles and access</span></article><article><strong>Processes</strong><span>Workflows that can evolve</span></article><article><strong>Platforms</strong><span>Systems connected with purpose</span></article><article><strong>Performance</strong><span>Room for changing business needs</span></article></div></div></section>
 
-      <section className="erp-trust-section"><div className="content-page-inner erp-trust-grid"><article><span className="erp-trust-icon red"><ShieldCheck size={21}/></span><div><h3>Security considered from the start</h3><p>Plan permissions, data handling, backups and operational controls as part of the ERP conversation.</p><a href="/legal/security">Explore security <ChevronRight size={14}/></a></div></article><article><span className="erp-trust-icon blue"><Globe size={21}/></span><div><h3>Your business data stays yours</h3><p>Discuss data ownership, privacy and the responsibilities that come with your chosen platform.</p><a href="/legal/privacy-policy">Read our privacy policy <ChevronRight size={14}/></a></div></article></div></section>
+      <section className="erp-trust-section"><div className="content-page-inner erp-trust-grid"><article><span className="erp-trust-icon red"><ShieldCheck size={21}/></span><div><h3>Security considered from the start</h3><p>Plan permissions, data handling, backups and operational controls as part of the ERP conversation.</p><a href="/legal/security">Explore Security <ChevronRight size={14}/></a></div></article><article><span className="erp-trust-icon blue"><Globe size={21}/></span><div><h3>Your business data stays yours</h3><p>Discuss data ownership, privacy and the responsibilities that come with your chosen platform.</p><a href="/legal/privacy-policy">Read Our Privacy Policy <ChevronRight size={14}/></a></div></article></div></section>
 
       <section className="erp-integrations-section" id="erp-integrations"><div className="content-page-inner"><div className="erp-section-heading erp-integrations-heading"><span className="erp-section-kicker">INTEGRATIONS</span><h2>Keep the systems around ERP in the picture.</h2><p>Map the data and handoffs that connect your ERP environment to the rest of your business.</p></div><div className="erp-integration-map"><div className="erp-integration-node node-center"><Boxes size={25}/><strong>ERP</strong><small>Shared operations</small></div>{[['Payments','₹'],['E-commerce','EC'],['Banking','BK'],['Customer tools','CRM'],['Shipping','SH'],['Reporting','BI'],['Communication','CM'],['Inventory','IN']].map(([title,mark],index)=><div className={`erp-integration-node node-${index+1}`} key={title}><span>{mark}</span><strong>{title}</strong></div>)}<div className="erp-map-line line-1"/><div className="erp-map-line line-2"/><div className="erp-map-line line-3"/><div className="erp-map-line line-4"/><div className="erp-map-line line-5"/><div className="erp-map-line line-6"/><div className="erp-map-line line-7"/><div className="erp-map-line line-8"/></div></div></section>
 
-      <section className="erp-support-section"><div className="content-page-inner"><div className="erp-section-heading"><span className="erp-section-kicker">SUPPORT THROUGH THE JOURNEY</span><h2>Make your ERP plans work in the real world.</h2></div><div className="erp-support-grid"><article><div className="erp-support-photo"><img src="/assets/client-story-studio.png" alt="Teams collaborating on business technology" loading="lazy"/></div><div><span>ERP CONSULTING</span><h3>Expert help from discovery to rollout.</h3><p>Get guidance with requirements, platform fit, implementation planning, data migration and team readiness.</p><a href="/contact-us">Talk to our team <ChevronRight size={14}/></a></div></article><article><div className="erp-support-photo support-photo-alt"><img src="/assets/careers-team.png" alt="Srisun team working together" loading="lazy"/></div><div><span>ONGOING SUPPORT</span><h3>Keep improving after launch.</h3><p>Review what is working, resolve gaps and adapt your ERP workflows as priorities change.</p><a href="/contact-us">Plan your next step <ChevronRight size={14}/></a></div></article></div></div></section>
+      <section className="erp-support-section"><div className="content-page-inner"><div className="erp-section-heading"><span className="erp-section-kicker">SUPPORT THROUGH THE JOURNEY</span><h2>Make your ERP plans work in the real world.</h2></div><div className="erp-support-grid"><article><div className="erp-support-photo"><img src="/assets/client-story-studio.png" alt="Teams collaborating on business technology" loading="lazy"/></div><div><span>ERP CONSULTING</span><h3>Expert help from discovery to rollout.</h3><p>Get guidance with requirements, platform fit, implementation planning, data migration and team readiness.</p><a href="/contact-us">Talk to Our Team <ChevronRight size={14}/></a></div></article><article><div className="erp-support-photo support-photo-alt"><img src="/assets/careers-team.png" alt="Srisun team working together" loading="lazy"/></div><div><span>ONGOING SUPPORT</span><h3>Keep improving after launch.</h3><p>Review what is working, resolve gaps and adapt your ERP workflows as priorities change.</p><a href="/contact-us">Plan Your Next Step <ChevronRight size={14}/></a></div></article></div></div></section>
 
       <section className="erp-process-section"><div className="content-page-inner"><div className="erp-section-heading"><span className="erp-section-kicker">HOW WE WORK</span><h2>From your first question to go-live.</h2><p>A clear path helps keep the project grounded in business needs at every stage.</p></div><div className="erp-process-grid">{steps.map(([number,title,description])=><article key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p></article>)}</div></div></section>
 
-      <section className="erp-stats-section"><div className="content-page-inner"><div className="erp-stats-heading"><span className="erp-section-kicker">MADE FOR THE WAY YOU WORK</span><h2>Build your next chapter on connected operations.</h2><p>Plan a system that fits your people, your processes and your pace of change.</p><a href="/contact-us">Start a conversation <ChevronRight size={15}/></a></div><div className="erp-stats-grid"><div><strong>01</strong><span>Clear discovery</span></div><div><strong>02</strong><span>Connected workflows</span></div><div><strong>03</strong><span>Practical rollout</span></div><div><strong>04</strong><span>Ongoing improvement</span></div></div></div></section>
+      <section className="erp-stats-section"><div className="content-page-inner"><div className="erp-stats-heading"><span className="erp-section-kicker">MADE FOR THE WAY YOU WORK</span><h2>Build your next chapter on connected operations.</h2><p>Plan a system that fits your people, your processes and your pace of change.</p><a href="/contact-us">Start a Conversation <ChevronRight size={15}/></a></div><div className="erp-stats-grid"><div><strong>01</strong><span>Clear discovery</span></div><div><strong>02</strong><span>Connected workflows</span></div><div><strong>03</strong><span>Practical rollout</span></div><div><strong>04</strong><span>Ongoing improvement</span></div></div></div></section>
 
 
       <section className="erp-cta-section"><div className="content-page-inner erp-cta-card"><div><span className="erp-section-kicker">START WITH A CONVERSATION</span><h2>Planning an ERP project?</h2><p>Tell us where your workflows feel disconnected. We'll help you explore practical next steps for your organization.</p></div><a href="/contact-us">Talk to Srisun <ChevronRight size={17}/></a></div></section>
 
       <section className="erp-faq-section" id="erp-faq"><div className="content-page-inner"><div className="erp-section-heading"><span className="erp-section-kicker">ERP FAQ</span><h2>Common questions about ERP.</h2></div><div className="content-faq-list">{getPageFaq({title:'ERP',description:'ERP consulting, implementation and integration support from Srisun.'}).slice(0,3).map((faq)=><details key={faq.question}><summary>{faq.question}<ChevronDown size={17}/></summary><p>{faq.answer}</p></details>)}</div></div></section>
+    </main>
+  );
+}
+
+const techConsultingWords = ['Strategy', 'Cloud', 'Data', 'AI', 'Security'];
+
+const techConsultingAdvantages = [
+  [Compass, 'red', 'Business first, technology second', 'We start with your goals, constraints and the people involved, then choose tools that fit the way you work.'],
+  [Layers, 'yellow', 'Vendor-neutral advice', 'Recommendations are based on fit, budget and your existing systems: off-the-shelf, custom-built or a mix.'],
+  [Route, 'green', 'Roadmaps you can act on', 'Every engagement ends with clear priorities, owners, effort estimates and timelines, not just a slide deck.'],
+  [ShieldCheck, 'blue', 'Secure by design', 'Security, data privacy and compliance are part of the plan from day one instead of an afterthought.']
+];
+
+const techConsultingServices = [
+  { tab: 'Plan & strategise', items: [
+    [Lightbulb, 'Digital transformation strategy', 'Understand where you are, define where you want to be and map realistic steps to get there.', '/solutions/digital-growth'],
+    [ClipboardCheck, 'IT assessment & audit', 'Review infrastructure, software, costs and risks, with clear findings ranked by priority.', '/contact-us'],
+    [Search, 'Technology selection', 'Compare ERP, CRM, LMS and cloud platforms against your real requirements before you commit.', '/services/erp']
+  ] },
+  { tab: 'Modernise & build', items: [
+    [Cloud, 'Cloud adoption & migration', 'Plan and carry out moves to the cloud with minimal disruption to everyday work.', '/contact-us'],
+    [Workflow, 'Systems integration', 'Connect the tools you already use so information moves without manual re-entry.', '/solutions/software-and-apps'],
+    [Bot, 'AI & automation readiness', 'Identify the processes worth automating and make sure your data is ready first.', '/solutions/ai-and-automation']
+  ] },
+  { tab: 'Protect & optimise', items: [
+    [ShieldCheck, 'Cybersecurity consulting', 'Find vulnerabilities, set practical policies and help teams reduce everyday risk.', '/solutions/cybersecurity'],
+    [Database, 'Data & analytics strategy', 'Decide what data to collect, how to manage it and which reports should drive decisions.', '/contact-us'],
+    [Handshake, 'Ongoing technology advisory', 'A long-term partner for reviews, vendor management and planning what comes next.', '/contact-us']
+  ] }
+];
+
+const techConsultingSteps = [
+  [Users, '01', 'Discover', 'Workshops and conversations to understand your goals, pain points, people and current systems.'],
+  [Search, '02', 'Assess', 'Analyse gaps, risks and opportunities, and compare the options that could work for you.'],
+  [Route, '03', 'Recommend', 'A prioritised roadmap with effort, timelines, quick wins and the decisions you need to make.'],
+  [Rocket, '04', 'Enable', 'Support implementation, prepare your teams and review results so the plan keeps working.']
+];
+
+const techConsultingFaq = [
+  { question: 'How long does a technology consulting engagement take?', answer: 'It depends on the scope. A focused assessment may take a few weeks, while advisory support can continue over a longer period. We agree the scope and timeline with you before work begins.' },
+  { question: 'Do you only recommend Srisun products?', answer: 'No. Recommendations are based on fit with your goals, budget and existing systems. Srisun products are suggested only when they genuinely suit your needs.' },
+  { question: 'Can Srisun help implement what you recommend?', answer: 'Yes. Srisun can support delivery, integration and training, or work alongside the vendors and teams you already have.' },
+  { question: 'Do you work with organisations outside Tamil Nadu?', answer: 'Yes. Srisun works with organisations across India, remotely or on-site, depending on what the engagement needs.' }
+];
+
+function TechConsultingPage() {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
+  const [activeClient, setActiveClient] = useState(0);
+
+  useEffect(() => {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const timer = setInterval(() => setWordIndex((index) => (index + 1) % techConsultingWords.length), 2400);
+    return () => clearInterval(timer);
+  }, []);
+
+  const featuredClients = trustedBrands.slice(0, 4);
+  const [clientName, clientLogo] = featuredClients[activeClient];
+
+  return (
+    <main className="tc-page" id="tc-top">
+      <section className="tc-hero">
+        <svg className="tc-hero-art" viewBox="0 0 520 420" aria-hidden="true">
+          <g fill="none" stroke="currentColor" strokeWidth="1.2">
+            <path d="M40 360 L140 280 L250 310 L360 190 L470 220" />
+            <path d="M140 280 L170 150 L300 90 L360 190" />
+            <path d="M250 310 L300 90 M170 150 L60 120 M300 90 L440 60 L470 220" />
+            <rect x="330" y="250" width="150" height="120" rx="6" />
+            <rect x="350" y="270" width="110" height="10" rx="2" />
+            <rect x="350" y="292" width="80" height="10" rx="2" />
+            <rect x="350" y="314" width="95" height="10" rx="2" />
+            <circle cx="300" cy="90" r="34" />
+            <circle cx="170" cy="150" r="22" />
+          </g>
+          <g fill="currentColor">
+            {[[40,360],[140,280],[250,310],[360,190],[470,220],[170,150],[300,90],[60,120],[440,60]].map(([cx,cy]) => <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="5" />)}
+          </g>
+        </svg>
+        <div className="content-page-inner tc-hero-inner">
+          <nav className="content-breadcrumb tc-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><ChevronRight size={14} /><a href="/solutions">Solutions</a><ChevronRight size={14} /><span>Tech Consulting</span></nav>
+          <span className="tc-eyebrow">TECHNOLOGY CONSULTING, GROUNDED IN YOUR BUSINESS</span>
+          <h1>Clear technology decisions for <span className="tc-rotating-word" key={wordIndex}>{techConsultingWords[wordIndex]}</span><i className="tc-cursor" aria-hidden="true" /></h1>
+          <span className="tc-rule" aria-hidden="true" />
+          <p>Srisun helps organisations across India decide what to build, what to buy and what to change, then stays with them until it works.</p>
+          <div className="tc-hero-actions">
+            <a className="tc-btn-primary" href="/contact-us">Book a Consultation <ChevronRight size={16} /></a>
+            <a className="tc-btn-ghost" href="#tc-process">See How We Work <ChevronRight size={16} /></a>
+          </div>
+        </div>
+      </section>
+
+      <section className="tc-logos" aria-label="Organisations that work with Srisun">
+        <div className="content-page-inner">
+          <p>TRUSTED BY SCHOOLS, COLLEGES AND GROWING ORGANISATIONS</p>
+          <div className="tc-logo-track">
+            <div className="tc-logo-row">
+              {[...trustedBrands, ...trustedBrands].map(([name, logo], index) => <img key={`${name}-${index}`} src={logo} alt={index < trustedBrands.length ? name : ''} aria-hidden={index >= trustedBrands.length} loading="lazy" />)}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="tc-advantage" id="tc-approach">
+        <div className="content-page-inner">
+          <div className="tc-heading"><h2>The Srisun approach</h2><span className="tc-rule red" aria-hidden="true" /></div>
+          <div className="tc-advantage-grid">
+            {techConsultingAdvantages.map(([Icon, tone, title, text]) => (
+              <article key={title}>
+                <span className={`tc-adv-icon ${tone}`}><Icon size={24} /></span>
+                <div><h3>{title}</h3><p>{text}</p></div>
+              </article>
+            ))}
+          </div>
+          <div className="tc-engagement">
+            <span>WAYS TO WORK WITH US</span>
+            <div>{['Fixed-scope assessments', 'Ongoing advisory', 'Project-based delivery', 'On-site or remote'].map((item) => <b key={item}>{item}</b>)}</div>
+          </div>
+        </div>
+      </section>
+
+      <section className="tc-services" id="tc-services">
+        <div className="content-page-inner tc-services-inner">
+          <div className="tc-heading center light"><h2>Consulting for every stage of growth</h2><span className="tc-rule" aria-hidden="true" /></div>
+          <div className="tc-tabs" role="tablist" aria-label="Consulting service areas">
+            {techConsultingServices.map(({ tab }, index) => (
+              <button type="button" role="tab" id={`tc-tab-${index}`} aria-controls="tc-tabpanel" aria-selected={activeTab === index} className={activeTab === index ? 'active' : ''} onClick={() => setActiveTab(index)} key={tab}>{tab}</button>
+            ))}
+          </div>
+          <div className="tc-service-list" role="tabpanel" id="tc-tabpanel" aria-labelledby={`tc-tab-${activeTab}`} key={activeTab}>
+            {techConsultingServices[activeTab].items.map(([Icon, title, text, href]) => (
+              <a className="tc-service-row" href={href} key={title}>
+                <span className="tc-service-icon"><Icon size={26} strokeWidth={1.5} /></span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+                <span className="tc-service-arrow" aria-hidden="true"><ArrowRight size={16} /></span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="tc-process" id="tc-process">
+        <div className="content-page-inner">
+          <div className="tc-heading center"><span className="tc-kicker">OUR PROCESS</span><h2>From first conversation to measurable outcome</h2><span className="tc-rule red" aria-hidden="true" /><p>A clear, collaborative path keeps every recommendation tied to what your organisation actually needs.</p></div>
+          <ol className="tc-process-grid">
+            {techConsultingSteps.map(([Icon, number, title, text]) => (
+              <li key={number}>
+                <span className="tc-step-icon"><Icon size={22} /></span>
+                <span className="tc-step-number">STEP {number}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="tc-stories" id="tc-stories">
+        <div className="tc-stories-band">
+          <div className="content-page-inner"><div className="tc-heading center light"><h2>Organisations that grow with Srisun</h2><span className="tc-rule" aria-hidden="true" /></div></div>
+        </div>
+        <div className="content-page-inner">
+          <div className="tc-story-card">
+            <div className="tc-story-main" key={activeClient}>
+              <div className="tc-story-logo"><img src={clientLogo} alt="" /></div>
+              <div>
+                <span className="tc-kicker">CLIENT STORY</span>
+                <h3>{clientName}</h3>
+                <span className="tc-story-rule" aria-hidden="true" />
+                <p>One of the institutions in the Srisun client portfolio. Ask our team about the technology and digital work relevant to organisations like yours.</p>
+                <a href="/contact-us">Discuss a Similar Project <ChevronRight size={14} /></a>
+              </div>
+            </div>
+            <div className="tc-story-list" role="tablist" aria-label="Choose a client">
+              {featuredClients.map(([name, logo], index) => (
+                <button type="button" role="tab" aria-selected={activeClient === index} className={activeClient === index ? 'active' : ''} onClick={() => setActiveClient(index)} key={name}>
+                  <img src={logo} alt="" /><span>{name}</span>
+                </button>
+              ))}
+              <a href="/clients/stories">View All Client Stories <ChevronRight size={14} /></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="tc-faq" id="tc-faq">
+        <div className="content-page-inner">
+          <div className="tc-heading center"><span className="tc-kicker">FAQ</span><h2>Questions about tech consulting</h2><span className="tc-rule red" aria-hidden="true" /></div>
+          <div className="content-faq-list">{techConsultingFaq.map((faq) => <details key={faq.question}><summary>{faq.question}<ChevronDown size={17} /></summary><p>{faq.answer}</p></details>)}</div>
+        </div>
+      </section>
+
     </main>
   );
 }
@@ -1151,7 +1356,7 @@ function ContactUsPage() {
               <label className="contact-modern-topic">What can we help with?<select name="topic" defaultValue=""><option value="">Choose a topic</option><option>Technology consulting</option><option>Website or application</option><option>Software and automation</option><option>General enquiry</option></select></label>
               <label className="contact-modern-message">Your message *<textarea name="message" rows="4" required placeholder="Tell us a little about your project or question" /></label>
             </div>
-            <button type="submit">Send enquiry <Send size={16} /></button>
+            <button type="submit">Send Enquiry <Send size={16} /></button>
             <small className="contact-modern-note">This opens your email app with the message ready to send.</small>
           </form>
           </div>
@@ -1183,9 +1388,9 @@ function Footer() {
   return (
     <footer className="site-footer zoho-footer">
       <div className="footer-signup scroll-reveal">
-        <h2>Ready to do your best work?</h2>
-        <p>Let’s get you started.</p>
-        <a href="#contact">Get in touch <ChevronRight size={16} /></a>
+        <h2>Have a project in mind?</h2>
+        <p>Tell us what you need and we will suggest a next step.</p>
+        <a href="#contact">Get In Touch <ChevronRight size={16} /></a>
       </div>
       <div className="footer-main">
         {footerCols.map((column) => (
@@ -1230,6 +1435,7 @@ export function App() {
       : isContactPage ? 'Contact Srisun | Let’s build something better'
         : isHomePage ? 'Srisun | Technology Solutions for Businesses'
           : routePage?.erp ? 'ERP Consulting & Implementation in India | Srisun'
+          : routePage?.techConsulting ? 'Technology Consulting Services in India | Srisun'
           : routePage ? `${routePage.title} | Srisun` : 'Page Not Found | Srisun';
     const description = isCareersPage ? selectedCareerRole?.summary || 'Explore open roles at Srisun across India and find your next opportunity.' : isContactPage ? 'Contact Srisun to discuss technology consulting, software, automation and digital services.' : routePage?.description || 'Explore Srisun technology solutions for businesses.';
     document.title = title;
@@ -1256,7 +1462,7 @@ export function App() {
         ...(routePage && routePage.group !== 'Policies' && normalizedPath !== '/search' ? [{ '@type': 'FAQPage', mainEntity: getPageFaq(routePage).map((faq) => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })) }] : [])
       ]
     });
-    const elements = document.querySelectorAll('.scroll-reveal, .erp-page section');
+    const elements = document.querySelectorAll('.scroll-reveal, .erp-page section, .tc-page section');
     if (!('IntersectionObserver' in window)) {
       elements.forEach((el) => el.classList.add('is-visible'));
       return;
@@ -1278,7 +1484,7 @@ export function App() {
     <>
       {routePage?.erp ? <ErpHeader /> : <Header />}
 
-      {isCareersPage ? <CareersPage /> : isContactPage ? <ContactUsPage /> : routePage ? routePage.erp ? <ErpPage /> : <ContentPage page={routePage} /> : isNotFound ? <main className="content-page content-not-found"><div className="content-page-inner"><span className="content-eyebrow"><i /> 404</span><h1>We couldn’t find that page.</h1><p>Try the main sections or contact the Srisun team for help.</p><div className="content-not-found-links"><a href="/">Home</a><a href="/services">Services</a><a href="/solutions">Solutions</a><a href="/contact-us">Contact Us</a></div></div></main> : (
+      {isCareersPage ? <CareersPage /> : isContactPage ? <ContactUsPage /> : routePage ? routePage.erp ? <ErpPage /> : routePage.techConsulting ? <TechConsultingPage /> : <ContentPage page={routePage} /> : isNotFound ? <main className="content-page content-not-found"><div className="content-page-inner"><span className="content-eyebrow"><i /> 404</span><h1>We couldn’t find that page.</h1><p>Try the main sections or contact the Srisun team for help.</p><div className="content-not-found-links"><a href="/">Home</a><a href="/services">Services</a><a href="/solutions">Solutions</a><a href="/contact-us">Contact Us</a></div></div></main> : (
         <main>
           <Hero />
           <SrisunFeaturedSection />
