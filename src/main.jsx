@@ -359,7 +359,7 @@ function Hero() {
           <h1>
             Building Technology
             <br />
-            for Better Lives &amp; Businesses
+            for Better Lives &amp; Businessesyy
           </h1>
 
           <div className="srisun-hero-line"></div>
