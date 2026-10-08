@@ -36,9 +36,20 @@ import {
   Rocket,
   Handshake,
   ArrowRight,
-  Users
+  Users,
+  Monitor,
+  ShoppingCart,
+  PenTool,
+  Puzzle,
+  Smartphone,
+  Headphones,
+  CreditCard,
+  TrendingUp,
+  Palette
 } from 'lucide-react';
 import './styles.css';
+import { trustedBrands } from './siteData.js';
+import { getSubpage, SubPage, subpageFaq } from './subpages.jsx';
 
 const menuData = {
   Services: [
@@ -359,7 +370,7 @@ function Hero() {
           <h1>
             Building Technology
             <br />
-            for Better Lives &amp; Businessesyy
+            for Better Lives &amp; Businesses
           </h1>
 
           <div className="srisun-hero-line"></div>
@@ -531,16 +542,6 @@ function SrisunOneSection() {
   );
 }
 
-const trustedBrands = [
-  ['Vivekanandha Higher Secondary School, Pondicherry', '/assets/clients/1.jpg'],
-  ['Annapurna College of Film and Media', '/assets/clients/2.jpg'],
-  ['The Green Mount International School', '/assets/clients/3.jpg'],
-  ['Arunai Engineering College', '/assets/clients/4.jpg'],
-  ['Aakhaash Institute of Media Studies', '/assets/clients/5.jpg'],
-  ['Sri Rangapoopathi Educational Charitable Trust', '/assets/clients/6.jpg'],
-  ['TMS Vidyalaya Matriculation School', '/assets/clients/7.jpg'],
-  ['Vijay Vidya', '/assets/clients/8.jpg']
-];
 
 function TrustedBrandsSection() {
   return (
@@ -938,11 +939,22 @@ function CareerApplicationPage({ role }) {
   );
 }
 
+// Solutions pages that use the full SolutionShowcasePage layout (see showcasePages).
+const showcaseSummaries = {
+  'Tech Consulting': { showcase: 'consulting', description: 'Independent technology consulting for organisations across India: strategy, IT assessments, cloud, data, AI readiness and cybersecurity, with roadmaps you can act on.' },
+  'Web & E-Commerce': { showcase: 'commerce', description: 'Websites and online stores for businesses across India: custom design, WooCommerce and Shopify stores, payment integrations, SEO-ready builds and support after launch.' },
+  'AI & Automation': { showcase: 'ai', description: 'AI agents, workflow automation and analytics for organisations across India, starting with a review of where automation will save time.' },
+  'Cybersecurity': { showcase: 'security', description: 'Cybersecurity for organisations across India: security reviews, access and data protection, backups, staff training and ongoing support.' },
+  'Business Communication': { showcase: 'comms', description: 'WhatsApp Business, SMS, email and app notifications for organisations across India, set up with templates, automation and reporting.' },
+  'Digital Growth': { showcase: 'growth', description: 'Branding, performance ads, SEO, social media and content for organisations across India, with clear goals and regular reports.' },
+  'Software & Apps': { showcase: 'software', description: 'Custom web apps, Android and iOS apps, SaaS platforms and business software for organisations across India, with support after launch.' }
+};
+
 const contentPages = [
   { path: '/services', title: 'Services', group: 'Services', description: 'Explore the services Srisun brings together to help organizations plan, build and grow with technology.', links: serviceItems.map((title) => ({ title, href: menuItemHref(title) })) },
   ...serviceItems.map((title) => ({ path: menuItemHref(title), title, group: 'Services', description: title === 'ERP' ? 'Plan, implement and connect ERP systems around your finance, inventory, people and day-to-day operations. Srisun helps Indian businesses choose a practical path from disconnected tools to clearer workflows.' : `${title} services shaped around your business goals, people and existing technology. Start with the challenge you want to solve and we can help define a practical next step.`, bullets: ['Understand the need and the people affected.', 'Choose an approach that fits your existing systems.', 'Plan delivery, adoption and ongoing improvement.'], ...(title === 'ERP' ? { erp: true } : {}) })),
   { path: '/solutions', title: 'Solutions', group: 'Solutions', description: 'Explore the capabilities that connect strategy, software, automation, security and digital growth.', links: solutionItems.map((title) => ({ title, href: menuItemHref(title) })) },
-  ...solutionItems.map((title) => ({ path: menuItemHref(title), title, group: 'Solutions', description: `Explore ${title.toLowerCase()} services for organizations looking to make technology work better for people and business. We shape the scope around your goals, current systems and operating context.`, bullets: ['Discovery and solution planning.', 'Design and implementation support.', 'Integration, refinement and continued improvement.'], ...(title === 'Tech Consulting' ? { techConsulting: true, description: 'Independent technology consulting for organisations across India: strategy, IT assessments, cloud, data, AI readiness and cybersecurity, with roadmaps you can act on.' } : {}) })),
+  ...solutionItems.map((title) => ({ path: menuItemHref(title), title, group: 'Solutions', description: `Explore ${title.toLowerCase()} services for organizations looking to make technology work better for people and business. We shape the scope around your goals, current systems and operating context.`, bullets: ['Discovery and solution planning.', 'Design and implementation support.', 'Integration, refinement and continued improvement.'], ...(showcaseSummaries[title] || {}) })),
   { path: '/industries', title: 'Industries', group: 'Industries', description: 'Technology work needs to fit the context in which people use it. Explore the sectors Srisun serves and the needs each page is designed to discuss.', links: industryItems.map((title) => ({ title, href: menuItemHref(title) })) },
   ...industryItems.map((title) => ({ path: menuItemHref(title), title, group: 'Industries', description: `Explore technology considerations for ${title.toLowerCase()} organizations. Srisun brings consulting, software and digital capabilities together around the needs and workflows you identify.`, bullets: ['Map user and operational needs.', 'Connect suitable digital tools and services.', 'Plan for security, usability and future change.'] })),
   { path: '/clients', title: 'Clients', group: 'Company', description: 'Learn about the organizations and communities that have worked with Srisun.', links: [{ title: 'Customer stories', href: '/clients/stories' }] },
@@ -960,7 +972,7 @@ const contentPages = [
   ...['Security','Compliance','IPR Complaints','Terms of Service','Privacy Policy','Refund Policy','Trademark Policy','Cookie Policy','GDPR Compliance','Abuse Policy'].map((title) => ({ path:menuItemHref(title),title,group:'Policies',description:`For the current ${title.toLowerCase()} information or to raise a request, contact Srisun. The policy text for this page must be supplied and approved by the organization before publication.`,cta:`Contact Us About ${title}` }))
 ];
 
-const getPageFaq = (page) => page.techConsulting ? techConsultingFaq : page.erp ? [
+const getPageFaq = (page) => page.showcase ? showcasePages[page.showcase].faq : subpageFaq(page.path) ? subpageFaq(page.path) : page.erp ? [
     { question: 'What does ERP implementation involve?', answer: 'ERP implementation can include process discovery, system selection, configuration, data migration, integrations, testing, training and rollout. The right scope depends on your current systems and business requirements.' },
     { question: 'Can an ERP system connect finance, inventory and sales?', answer: 'Yes. An ERP platform can connect these functions through shared records and workflows. Srisun can help map your requirements and plan integrations around the systems you use.' },
     { question: 'Does Srisun support ERP projects across India?', answer: 'Srisun is based in Tamil Nadu and can discuss ERP consulting, implementation and support requirements with businesses across India.' }
@@ -996,31 +1008,46 @@ function ContentPage({ page }) {
   );
 }
 
-function ErpHeader() {
+const erpMicrosite = {
+  theme: 'erp', label: 'ERP', home: '/services/erp',
+  nav: [['Overview', '#erp-top'], ['Capabilities', '#erp-capabilities'], ['Infrastructure', '#erp-stack'], ['Industries', '#erp-industries'], ['Integrations', '#erp-integrations'], ['FAQ', '#erp-faq']],
+  cta: ['Request a Demo', '/contact-us', 'Demo'],
+  footerKicker: 'READY TO MAKE WORK FLOW?', footerTitle: 'Let’s build a clearer path forward.', footerText: 'Talk with Srisun about your ERP goals, existing systems and next steps.', footerButton: 'Start a Conversation',
+  footerLinks: ['ERP', [['Capabilities', '#erp-capabilities'], ['Infrastructure', '#erp-stack'], ['Industries', '#erp-industries'], ['Integrations', '#erp-integrations']]]
+};
+
+// Page-specific header used by the ERP, Tech Consulting and Web & E-Commerce pages.
+function MicrositeHeader({ site }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
-    <header className="erp-site-header">
+    <header className={`erp-site-header micro-${site.theme}`}>
       <div className="erp-site-header-inner">
-        <a href="/services/erp" className="erp-brand" aria-label="Srisun ERP home"><img src="/assets/srisun-logo.png" alt="Srisun"/><span>ERP</span></a>
-        <nav className={menuOpen ? 'erp-nav open' : 'erp-nav'} aria-label="ERP page navigation">
-          {[['Overview','#erp-top'],['Capabilities','#erp-capabilities'],['Infrastructure','#erp-stack'],['Industries','#erp-industries'],['Integrations','#erp-integrations'],['FAQ','#erp-faq']].map(([name,href])=><a key={name} href={href} onClick={()=>setMenuOpen(false)}>{name}</a>)}
+        <a href={site.home} className="erp-brand" aria-label={`Srisun ${site.label} home`}><img src="/assets/srisun-logo.png" alt="Srisun" /><span>{site.label}</span></a>
+        <nav className={menuOpen ? 'erp-nav open' : 'erp-nav'} aria-label={`${site.label} page navigation`}>
+          {site.nav.map(([name, href]) => <a key={name} href={href} onClick={() => setMenuOpen(false)}>{name}</a>)}
+          <a className="erp-nav-home" href="/">Srisun Home</a>
         </nav>
-        <div className="erp-header-actions"><a className="erp-header-signin" href="/contact-us">Sign In</a><a className="erp-header-demo" href="/contact-us">Request a Demo <ChevronRight size={14}/></a><button type="button" className="erp-menu-toggle" onClick={()=>setMenuOpen(value=>!value)} aria-label={menuOpen?'Close ERP menu':'Open ERP menu'}>{menuOpen?<X size={22}/>:<Menu size={22}/>}</button></div>
+        <div className="erp-header-actions">
+          <a className="erp-header-signin" href="/">Srisun Home</a>
+          <a className="erp-header-demo" href={site.cta[1]}><span className="ms-cta-long">{site.cta[0]}</span><span className="ms-cta-short">{site.cta[2]}</span> <ChevronRight size={14} /></a>
+          <button type="button" className="erp-menu-toggle" onClick={() => setMenuOpen((value) => !value)} aria-label={menuOpen ? 'Close page menu' : 'Open page menu'} aria-expanded={menuOpen}>{menuOpen ? <X size={22} /> : <Menu size={22} />}</button>
+        </div>
       </div>
     </header>
   );
 }
 
-function ErpFooter() {
+function MicrositeFooter({ site }) {
+  const [columnTitle, columnLinks] = site.footerLinks;
   return (
-    <footer className="erp-site-footer">
+    <footer className={`erp-site-footer micro-${site.theme}`}>
       <div className="content-page-inner">
-        <div className="erp-footer-cta"><div><span className="erp-section-kicker">READY TO MAKE WORK FLOW?</span><h2>Let's build a clearer path forward.</h2><p>Talk with Srisun about your ERP goals, existing systems and next steps.</p></div><a href="/contact-us">Start a Conversation <ChevronRight size={17}/></a></div>
+        <div className="erp-footer-cta"><div><span className="erp-section-kicker">{site.footerKicker}</span><h2>{site.footerTitle}</h2><p>{site.footerText}</p></div><a href="/contact-us">{site.footerButton} <ChevronRight size={17} /></a></div>
         <div className="erp-footer-links">
-          <a href="/services/erp" className="erp-footer-brand"><img src="/assets/srisun-logo.png" alt="Srisun"/><span>ERP</span><small>Building technology for better lives and businesses.</small></a>
-          <div><strong>ERP</strong><a href="#erp-capabilities">Capabilities</a><a href="#erp-stack">Infrastructure</a><a href="#erp-industries">Industries</a><a href="#erp-integrations">Integrations</a></div>
+          <a href={site.home} className="erp-footer-brand"><img src="/assets/srisun-logo.png" alt="Srisun" /><span>{site.label}</span><small>Building technology for better lives and businesses.</small></a>
+          <div><strong>{columnTitle}</strong>{columnLinks.map(([name, href]) => <a key={name} href={href}>{name}</a>)}</div>
           <div><strong>Explore Srisun</strong><a href="/services">Services</a><a href="/solutions">Solutions</a><a href="/clients/stories">Client stories</a><a href="/careers">Careers</a></div>
-          <div><strong>Contact</strong><a href="tel:+919876543210">+91 98765 43210</a><a href="mailto:sundar@srisun.com">sundar@srisun.com</a><a href="/contact-us">Contact Us <ChevronRight size={13}/></a></div>
+          <div><strong>Contact</strong><a href="tel:+919876543210">+91 98765 43210</a><a href="mailto:sundar@srisun.com">sundar@srisun.com</a><a href="/contact-us">Contact Us <ChevronRight size={13} /></a></div>
         </div>
         <div className="erp-footer-legal"><span>© 2026, Srisun. All rights reserved.</span><div><a href="/legal/privacy-policy">Privacy</a><a href="/legal/terms-of-service">Terms</a><a href="/legal/security">Security</a></div></div>
       </div>
@@ -1108,63 +1135,467 @@ function ErpPage() {
   );
 }
 
-const techConsultingWords = ['Strategy', 'Cloud', 'Data', 'AI', 'Security'];
+const showcaseNav = [['Overview', '#sc-top'], ['Approach', '#sc-approach'], ['Services', '#sc-services'], ['Process', '#sc-process'], ['Clients', '#sc-stories'], ['FAQ', '#sc-faq']];
 
-const techConsultingAdvantages = [
-  [Compass, 'red', 'Business first, technology second', 'We start with your goals, constraints and the people involved, then choose tools that fit the way you work.'],
-  [Layers, 'yellow', 'Vendor-neutral advice', 'Recommendations are based on fit, budget and your existing systems: off-the-shelf, custom-built or a mix.'],
-  [Route, 'green', 'Roadmaps you can act on', 'Every engagement ends with clear priorities, owners, effort estimates and timelines, not just a slide deck.'],
-  [ShieldCheck, 'blue', 'Secure by design', 'Security, data privacy and compliance are part of the plan from day one instead of an afterthought.']
-];
+const techConsultingPage = {
+  theme: 'consulting',
+  seoTitle: 'Technology Consulting Services in India | Srisun',
+  micro: {
+    theme: 'consulting', label: 'Consulting', home: '/solutions/tech-consulting', nav: showcaseNav,
+    cta: ['Book a Consultation', '/contact-us', 'Book a Call'],
+    footerKicker: 'NOT SURE WHERE TO START?', footerTitle: 'Let’s find your next step.', footerText: 'Tell us your challenge and we will suggest a practical way forward.', footerButton: 'Request a Consultation',
+    footerLinks: ['Tech Consulting', [['Approach', '#sc-approach'], ['Services', '#sc-services'], ['Process', '#sc-process'], ['FAQ', '#sc-faq']]]
+  },
+  breadcrumb: 'Tech Consulting',
+  eyebrow: 'TECHNOLOGY CONSULTING, GROUNDED IN YOUR BUSINESS',
+  headline: 'Clear technology decisions for',
+  words: ['Strategy', 'Cloud', 'Data', 'AI', 'Security'],
+  intro: 'Srisun helps organisations across India decide what to build, what to buy and what to change, then stays with them until it works.',
+  primary: ['Book a Consultation', '/contact-us'],
+  secondary: ['See How We Work', '#sc-process'],
+  logosCaption: 'TRUSTED BY SCHOOLS, COLLEGES AND GROWING ORGANISATIONS',
+  approachTitle: 'The Srisun approach',
+  advantages: [
+    [Compass, 'red', 'Business first, technology second', 'We start with your goals, constraints and the people involved, then choose tools that fit the way you work.'],
+    [Layers, 'yellow', 'Vendor-neutral advice', 'Recommendations are based on fit, budget and your existing systems: off-the-shelf, custom-built or a mix.'],
+    [Route, 'green', 'Roadmaps you can act on', 'Every engagement ends with clear priorities, owners, effort estimates and timelines, not just a slide deck.'],
+    [ShieldCheck, 'blue', 'Secure by design', 'Security, data privacy and compliance are part of the plan from day one instead of an afterthought.']
+  ],
+  chipsLabel: 'WAYS TO WORK WITH US',
+  chips: ['Fixed-scope assessments', 'Ongoing advisory', 'Project-based delivery', 'On-site or remote'],
+  servicesTitle: 'Consulting for every stage of growth',
+  services: [
+    { tab: 'Plan & Strategise', items: [
+      [Lightbulb, 'Digital transformation strategy', 'Understand where you are, define where you want to be and map realistic steps to get there.', '/solutions/digital-growth'],
+      [ClipboardCheck, 'IT assessment & audit', 'Review infrastructure, software, costs and risks, with clear findings ranked by priority.', '/contact-us'],
+      [Search, 'Technology selection', 'Compare ERP, CRM, LMS and cloud platforms against your real requirements before you commit.', '/services/erp']
+    ] },
+    { tab: 'Modernise & Build', items: [
+      [Cloud, 'Cloud adoption & migration', 'Plan and carry out moves to the cloud with minimal disruption to everyday work.', '/contact-us'],
+      [Workflow, 'Systems integration', 'Connect the tools you already use so information moves without manual re-entry.', '/solutions/software-and-apps'],
+      [Bot, 'AI & automation readiness', 'Identify the processes worth automating and make sure your data is ready first.', '/solutions/ai-and-automation']
+    ] },
+    { tab: 'Protect & Optimise', items: [
+      [ShieldCheck, 'Cybersecurity consulting', 'Find vulnerabilities, set practical policies and help teams reduce everyday risk.', '/solutions/cybersecurity'],
+      [Database, 'Data & analytics strategy', 'Decide what data to collect, how to manage it and which reports should drive decisions.', '/contact-us'],
+      [Handshake, 'Ongoing technology advisory', 'A long-term partner for reviews, vendor management and planning what comes next.', '/contact-us']
+    ] }
+  ],
+  processTitle: 'From first conversation to measurable outcome',
+  processIntro: 'A clear, collaborative path keeps every recommendation tied to what your organisation actually needs.',
+  steps: [
+    [Users, '01', 'Discover', 'Workshops and conversations to understand your goals, pain points, people and current systems.'],
+    [Search, '02', 'Assess', 'Analyse gaps, risks and opportunities, and compare the options that could work for you.'],
+    [Route, '03', 'Recommend', 'A prioritised roadmap with effort, timelines, quick wins and the decisions you need to make.'],
+    [Rocket, '04', 'Enable', 'Support implementation, prepare your teams and review results so the plan keeps working.']
+  ],
+  storiesTitle: 'Organisations that grow with Srisun',
+  storyText: 'One of the institutions in the Srisun client portfolio. Ask our team about the technology work relevant to organisations like yours.',
+  faqTitle: 'Questions about tech consulting',
+  faq: [
+    { question: 'How long does a technology consulting engagement take?', answer: 'It depends on the scope. A focused assessment may take a few weeks, while advisory support can continue over a longer period. We agree the scope and timeline with you before work begins.' },
+    { question: 'Do you only recommend Srisun products?', answer: 'No. Recommendations are based on fit with your goals, budget and existing systems. Srisun products are suggested only when they genuinely suit your needs.' },
+    { question: 'Can Srisun help implement what you recommend?', answer: 'Yes. Srisun can support delivery, integration and training, or work alongside the vendors and teams you already have.' },
+    { question: 'Do you work with organisations outside Tamil Nadu?', answer: 'Yes. Srisun works with organisations across India, remotely or on-site, depending on what the engagement needs.' }
+  ]
+};
 
-const techConsultingServices = [
-  { tab: 'Plan & strategise', items: [
-    [Lightbulb, 'Digital transformation strategy', 'Understand where you are, define where you want to be and map realistic steps to get there.', '/solutions/digital-growth'],
-    [ClipboardCheck, 'IT assessment & audit', 'Review infrastructure, software, costs and risks, with clear findings ranked by priority.', '/contact-us'],
-    [Search, 'Technology selection', 'Compare ERP, CRM, LMS and cloud platforms against your real requirements before you commit.', '/services/erp']
-  ] },
-  { tab: 'Modernise & build', items: [
-    [Cloud, 'Cloud adoption & migration', 'Plan and carry out moves to the cloud with minimal disruption to everyday work.', '/contact-us'],
-    [Workflow, 'Systems integration', 'Connect the tools you already use so information moves without manual re-entry.', '/solutions/software-and-apps'],
-    [Bot, 'AI & automation readiness', 'Identify the processes worth automating and make sure your data is ready first.', '/solutions/ai-and-automation']
-  ] },
-  { tab: 'Protect & optimise', items: [
-    [ShieldCheck, 'Cybersecurity consulting', 'Find vulnerabilities, set practical policies and help teams reduce everyday risk.', '/solutions/cybersecurity'],
-    [Database, 'Data & analytics strategy', 'Decide what data to collect, how to manage it and which reports should drive decisions.', '/contact-us'],
-    [Handshake, 'Ongoing technology advisory', 'A long-term partner for reviews, vendor management and planning what comes next.', '/contact-us']
-  ] }
-];
+const webCommercePage = {
+  theme: 'commerce',
+  seoTitle: 'Website & E-Commerce Development in India | Srisun',
+  micro: {
+    theme: 'commerce', label: 'Web', home: '/solutions/web-and-e-commerce', nav: showcaseNav,
+    cta: ['Get a Quote', '/contact-us', 'Get a Quote'],
+    footerKicker: 'READY TO BUILD YOUR WEBSITE?', footerTitle: 'Let’s build a website that sells.', footerText: 'Tell us what you sell and who buys it. We will suggest the right site or store for your budget.', footerButton: 'Talk to Our Experts',
+    footerLinks: ['Web & E-Commerce', [['Why Srisun', '#sc-approach'], ['Services', '#sc-services'], ['Process', '#sc-process'], ['FAQ', '#sc-faq']]]
+  },
+  breadcrumb: 'Web & E-Commerce',
+  eyebrow: 'WEBSITES AND ONLINE STORES FOR GROWING BUSINESSES',
+  headline: 'Digital stores that sell',
+  words: ['Fashion', 'Groceries', 'Jewellery', 'Courses', 'Services'],
+  intro: 'Srisun designs and builds websites and online stores for businesses across India, then helps you run them after launch.',
+  primary: ['Get Your Website', '/contact-us'],
+  secondary: ['See Our Process', '#sc-process'],
+  logosCaption: 'TRUSTED BY SCHOOLS, COLLEGES AND BUSINESSES',
+  approachTitle: 'Why build with Srisun',
+  advantages: [
+    [Palette, 'red', 'Designed for your brand', 'Every layout starts from your products and your customers, not from a template.'],
+    [Smartphone, 'yellow', 'Mobile first', 'Most buyers browse on a phone, so we design for small screens before large ones.'],
+    [CreditCard, 'green', 'Payments that work', 'UPI, cards and wallets, with a checkout your buyers trust.'],
+    [Search, 'blue', 'Ready for Google', 'Clean structure, fast pages and the basics search engines need to find you.']
+  ],
+  chipsLabel: 'PLATFORMS WE BUILD ON',
+  chips: ['WordPress', 'WooCommerce', 'Shopify', 'Custom builds'],
+  servicesTitle: 'Everything your website needs',
+  services: [
+    { tab: 'Build', items: [
+      [Monitor, 'Business websites', 'Fast, mobile-friendly sites for schools, clinics, shops and service firms.', '/contact-us'],
+      [ShoppingCart, 'E-commerce stores', 'Online stores with product pages, cart, checkout and order tracking.', '/contact-us'],
+      [Rocket, 'Landing pages', 'Focused pages for a launch, an admission season or an ad campaign.', '/solutions/digital-growth']
+    ] },
+    { tab: 'Design', items: [
+      [PenTool, 'UI/UX design', 'Layouts and journeys built around what your visitors want to do.', '/contact-us'],
+      [Palette, 'Website redesign', 'Refresh an older site so it looks current and loads faster.', '/contact-us'],
+      [Layers, 'Product catalogues', 'Organise large ranges into categories buyers can browse easily.', '/contact-us']
+    ] },
+    { tab: 'Grow', items: [
+      [Puzzle, 'Payments & bookings', 'Payment gateways, appointment booking, memberships and custom modules.', '/services/booking'],
+      [TrendingUp, 'SEO setup', 'Page titles, speed and structure that help customers find you on Google.', '/solutions/digital-growth'],
+      [Headphones, 'Care & maintenance', 'Updates, backups, fixes and small changes after launch.', '/services/domain-server']
+    ] }
+  ],
+  processTitle: 'From first call to a live website',
+  processIntro: 'You see the design before we build, and you test the site before customers do.',
+  steps: [
+    [Users, '01', 'Discover', 'We note your goals, products, customers and the sites you like.'],
+    [PenTool, '02', 'Design', 'You review page layouts and the look before development starts.'],
+    [Monitor, '03', 'Develop', 'We build the site, connect payments and test every page.'],
+    [Rocket, '04', 'Launch & grow', 'We go live, train your team and keep improving the site.']
+  ],
+  storiesTitle: 'Organisations that work with Srisun',
+  storyText: 'One of the institutions in the Srisun client portfolio. Ask our team about the web projects relevant to organisations like yours.',
+  faqTitle: 'Questions about websites and stores',
+  faq: [
+    { question: 'How long does it take to build a website?', answer: 'It depends on the number of pages, products and features. We agree a timeline with you after the first discussion, before any work begins.' },
+    { question: 'Can my team update the website after launch?', answer: 'Yes. We can build on a platform your team can edit, such as WordPress or Shopify, and show you how to make everyday changes.' },
+    { question: 'Do you provide domain and hosting?', answer: 'Yes. Srisun also offers domain and server services, so your website, domain and hosting can be managed in one place.' },
+    { question: 'Do you support the website after it goes live?', answer: 'Yes. Srisun can handle updates, backups, fixes and new features once your site is live.' }
+  ]
+};
 
-const techConsultingSteps = [
-  [Users, '01', 'Discover', 'Workshops and conversations to understand your goals, pain points, people and current systems.'],
-  [Search, '02', 'Assess', 'Analyse gaps, risks and opportunities, and compare the options that could work for you.'],
-  [Route, '03', 'Recommend', 'A prioritised roadmap with effort, timelines, quick wins and the decisions you need to make.'],
-  [Rocket, '04', 'Enable', 'Support implementation, prepare your teams and review results so the plan keeps working.']
-];
+const softwareAppsPage = {
+  theme: 'software',
+  seoTitle: 'Custom Software & App Development in India | Srisun',
+  micro: {
+    theme: 'software', label: 'Software', home: '/solutions/software-and-apps', nav: showcaseNav,
+    cta: ['Start a Project', '/contact-us', 'Start'],
+    footerKicker: 'HAVE AN APP IDEA?', footerTitle: 'Let’s turn it into working software.', footerText: 'Tell us who will use it and what it needs to do. We will suggest a practical first version.', footerButton: 'Start a Project',
+    footerLinks: ['Software & Apps', [['Approach', '#sc-approach'], ['Services', '#sc-services'], ['Process', '#sc-process'], ['FAQ', '#sc-faq']]]
+  },
+  breadcrumb: 'Software & Apps',
+  eyebrow: 'CUSTOM SOFTWARE AND MOBILE APPS',
+  headline: 'Software built for your',
+  words: ['Sales Team', 'Classrooms', 'Warehouse', 'Customers', 'Clinic'],
+  intro: 'Srisun builds web apps, mobile apps and business software around how your organisation works, then supports them after launch.',
+  primary: ['Discuss Your Project', '/contact-us'],
+  secondary: ['See How We Work', '#sc-process'],
+  logosCaption: 'TRUSTED BY SCHOOLS, COLLEGES AND GROWING ORGANISATIONS',
+  approachTitle: 'How we build software',
+  advantages: [
+    [Users, 'red', 'Built around your process', 'We map how work happens today before writing code, so the software fits your team.'],
+    [Layers, 'yellow', 'Start small, then grow', 'Launch the core features first, then add modules as you learn what users need.'],
+    [Workflow, 'green', 'Works with your tools', 'Connect to the accounting, payment and messaging tools you already use.'],
+    [ShieldCheck, 'blue', 'Secure from day one', 'Role-based access, backups and data protection are part of the first build.']
+  ],
+  chipsLabel: 'WHAT WE BUILD',
+  chips: ['Web apps', 'Android & iOS apps', 'SaaS platforms', 'Internal tools'],
+  servicesTitle: 'Software for every part of your business',
+  services: [
+    { tab: 'Web & SaaS', items: [
+      [Monitor, 'Custom web applications', 'Portals, dashboards and tools your team and customers use in the browser.', '/contact-us'],
+      [Cloud, 'SaaS products', 'Multi-user platforms with subscriptions, roles and admin controls.', '/contact-us'],
+      [Database, 'Admin dashboards', 'Reports and controls that show what is happening across the business.', '/contact-us']
+    ] },
+    { tab: 'Mobile Apps', items: [
+      [Smartphone, 'Android & iOS apps', 'Apps for customers, students or field staff, built for both platforms.', '/contact-us'],
+      [MessageCircle, 'Notifications & messaging', 'Push alerts, SMS and WhatsApp updates that keep users informed.', '/solutions/business-communication'],
+      [Rocket, 'App store launch', 'We prepare the listings and handle submission to Google Play and the App Store.', '/contact-us']
+    ] },
+    { tab: 'Business Systems', items: [
+      [Boxes, 'ERP & inventory', 'Finance, stock and orders connected in one system.', '/services/erp'],
+      [Handshake, 'CRM', 'Track leads, follow-ups and customer history in one place.', '/services/crm'],
+      [Bot, 'Automation', 'Remove repeated manual steps with workflows and AI tools.', '/solutions/ai-and-automation']
+    ] }
+  ],
+  processTitle: 'From idea to working software',
+  processIntro: 'You see working screens early and give feedback at every stage.',
+  steps: [
+    [Search, '01', 'Discover', 'We list your users, their tasks and the problems the software must solve.'],
+    [PenTool, '02', 'Design', 'You review clickable screens before development begins.'],
+    [Monitor, '03', 'Build & test', 'We develop in short cycles and test each feature as it is finished.'],
+    [Rocket, '04', 'Launch & support', 'We go live, train your users and keep improving the software.']
+  ],
+  storiesTitle: 'Organisations that build with Srisun',
+  storyText: 'One of the institutions in the Srisun client portfolio. Ask our team about the software projects relevant to organisations like yours.',
+  faqTitle: 'Questions about software and apps',
+  faq: [
+    { question: 'How much does custom software cost?', answer: 'It depends on the features, the number of users and the integrations needed. We share an estimate after we understand your requirements.' },
+    { question: 'Can you build apps for both Android and iOS?', answer: 'Yes. Srisun builds mobile apps for both platforms and can help publish them on Google Play and the App Store.' },
+    { question: 'Can the software connect to our existing tools?', answer: 'Yes. We can connect to accounting, payment, messaging and other tools through their APIs where they are available.' },
+    { question: 'Do you support the software after launch?', answer: 'Yes. Srisun can handle fixes, updates and new features once your software is live.' }
+  ]
+};
 
-const techConsultingFaq = [
-  { question: 'How long does a technology consulting engagement take?', answer: 'It depends on the scope. A focused assessment may take a few weeks, while advisory support can continue over a longer period. We agree the scope and timeline with you before work begins.' },
-  { question: 'Do you only recommend Srisun products?', answer: 'No. Recommendations are based on fit with your goals, budget and existing systems. Srisun products are suggested only when they genuinely suit your needs.' },
-  { question: 'Can Srisun help implement what you recommend?', answer: 'Yes. Srisun can support delivery, integration and training, or work alongside the vendors and teams you already have.' },
-  { question: 'Do you work with organisations outside Tamil Nadu?', answer: 'Yes. Srisun works with organisations across India, remotely or on-site, depending on what the engagement needs.' }
-];
+const aiAutomationPage = {
+  theme: 'ai',
+  seoTitle: 'AI & Automation Services in India | Srisun',
+  micro: {
+    theme: 'ai', label: 'AI', home: '/solutions/ai-and-automation', nav: showcaseNav,
+    cta: ['Book an AI Review', '/contact-us', 'AI Review'],
+    footerKicker: 'NOT SURE WHERE AI FITS?', footerTitle: 'Let’s find your first automation.', footerText: 'Tell us which tasks take up your team’s week. We will suggest where to start.', footerButton: 'Book an AI Review',
+    footerLinks: ['AI & Automation', [['Approach', '#sc-approach'], ['Services', '#sc-services'], ['Process', '#sc-process'], ['FAQ', '#sc-faq']]]
+  },
+  breadcrumb: 'AI & Automation',
+  eyebrow: 'AI AGENTS, AUTOMATION AND ANALYTICS',
+  headline: 'Put AI to work on your',
+  words: ['Enquiries', 'Admissions', 'Invoices', 'Reports', 'Follow-ups'],
+  intro: 'Srisun finds the repetitive work in your organisation and builds AI agents and automated workflows to handle it, with people kept in control.',
+  primary: ['Find What to Automate', '/contact-us'],
+  secondary: ['See How We Work', '#sc-process'],
+  logosCaption: 'TRUSTED BY SCHOOLS, COLLEGES AND GROWING ORGANISATIONS',
+  approachTitle: 'How we approach AI',
+  advantages: [
+    [Lightbulb, 'red', 'Start with the problem', 'We pick tasks where automation saves real time, not where AI only sounds impressive.'],
+    [Users, 'yellow', 'People stay in control', 'Agents suggest and draft. Your team approves anything that matters.'],
+    [Database, 'green', 'Your data, used carefully', 'We check what data each task needs, where it is stored and who can see it.'],
+    [ShieldCheck, 'blue', 'Clear limits and logs', 'Every automated action is logged, so you can see what happened and why.']
+  ],
+  chipsLabel: 'WHERE WE START',
+  chips: ['Automation review', 'Pilot project', 'Full rollout', 'Ongoing tuning'],
+  servicesTitle: 'AI and automation across your work',
+  services: [
+    { tab: 'AI Agents', items: [
+      [Bot, 'Customer support agents', 'Answer common questions on your website or WhatsApp and pass the hard ones to staff.', '/solutions/business-communication'],
+      [MessageCircle, 'Enquiry & lead handling', 'Reply to new enquiries, collect details and book follow-ups automatically.', '/services/crm'],
+      [Sparkles, 'Internal assistants', 'Help staff find policies, documents and answers in your own information.', '/contact-us']
+    ] },
+    { tab: 'Workflow Automation', items: [
+      [Workflow, 'Approval workflows', 'Route requests, approvals and reminders without long email chains.', '/contact-us'],
+      [ClipboardCheck, 'Document processing', 'Read invoices, forms and applications, then enter the data for you.', '/contact-us'],
+      [Send, 'Notifications & reminders', 'Send fee, payment and appointment reminders on schedule.', '/solutions/business-communication']
+    ] },
+    { tab: 'Analytics', items: [
+      [TrendingUp, 'Dashboards & reports', 'See sales, admissions or operations in one view, updated automatically.', '/contact-us'],
+      [Database, 'Data cleanup & setup', 'Turn scattered spreadsheets into data you can report on.', '/contact-us'],
+      [Search, 'Insights & alerts', 'Get notified when numbers move outside the range you expect.', '/contact-us']
+    ] }
+  ],
+  processTitle: 'From first idea to a working automation',
+  processIntro: 'We test on a small scale first, so you see results before a wider rollout.',
+  steps: [
+    [Search, '01', 'Review', 'We list repetitive tasks and note how much time each one takes today.'],
+    [Lightbulb, '02', 'Prioritise', 'We choose the tasks where automation gives the clearest benefit.'],
+    [Bot, '03', 'Pilot', 'We build a small working version and test it with your team.'],
+    [Rocket, '04', 'Roll out', 'We expand what works, train staff and monitor the results.']
+  ],
+  storiesTitle: 'Organisations that work with Srisun',
+  storyText: 'One of the institutions in the Srisun client portfolio. Ask our team about the automation work relevant to organisations like yours.',
+  faqTitle: 'Questions about AI and automation',
+  faq: [
+    { question: 'Do we need a lot of data to use AI?', answer: 'Not always. Many automations work with the forms, emails and spreadsheets you already have. We check this during the first review.' },
+    { question: 'Will AI replace our staff?', answer: 'Our aim is to remove repetitive tasks so your team can spend more time on work that needs people.' },
+    { question: 'How is our data handled?', answer: 'We plan access, storage and logging with you, and connect only the data each automation needs.' },
+    { question: 'Can it connect to WhatsApp and our existing software?', answer: 'Yes, where those tools offer an API. We confirm what is possible during the review.' }
+  ]
+};
 
-function TechConsultingPage() {
+const cybersecurityPage = {
+  theme: 'security',
+  seoTitle: 'Cybersecurity Services in India | Srisun',
+  micro: {
+    theme: 'security', label: 'Security', home: '/solutions/cybersecurity', nav: showcaseNav,
+    cta: ['Get a Security Review', '/contact-us', 'Review'],
+    footerKicker: 'WORRIED ABOUT A GAP?', footerTitle: 'Let’s check your security.', footerText: 'Tell us about your systems and your team. We will suggest where to start.', footerButton: 'Request a Security Review',
+    footerLinks: ['Cybersecurity', [['Approach', '#sc-approach'], ['Services', '#sc-services'], ['Process', '#sc-process'], ['FAQ', '#sc-faq']]]
+  },
+  breadcrumb: 'Cybersecurity',
+  eyebrow: 'CYBERSECURITY FOR GROWING ORGANISATIONS',
+  headline: 'Protect your',
+  words: ['Data', 'Accounts', 'Devices', 'Website', 'Customers'],
+  intro: 'Srisun helps organisations across India find security gaps, fix them in order of risk and train staff to avoid everyday threats.',
+  primary: ['Request a Security Review', '/contact-us'],
+  secondary: ['See How We Work', '#sc-process'],
+  logosCaption: 'TRUSTED BY SCHOOLS, COLLEGES AND GROWING ORGANISATIONS',
+  approachTitle: 'How we approach security',
+  advantages: [
+    [ClipboardCheck, 'red', 'Risk first', 'We fix the gaps most likely to cause harm before the minor ones.'],
+    [Users, 'yellow', 'Plain-language advice', 'Every finding comes with clear steps your team can follow, not just a technical report.'],
+    [Layers, 'green', 'Sized for you', 'Controls that suit a school, clinic or growing company, not a large bank.'],
+    [ShieldCheck, 'blue', 'Ongoing protection', 'Security is checked again as your systems and staff change.']
+  ],
+  chipsLabel: 'WHERE WE START',
+  chips: ['Security review', 'Priority fixes', 'Staff training', 'Regular check-ups'],
+  servicesTitle: 'Security for every layer of your organisation',
+  services: [
+    { tab: 'Assess', items: [
+      [Search, 'Security assessment', 'Review your systems, accounts and settings to find weak points.', '/contact-us'],
+      [Monitor, 'Website & app checks', 'Test your website and apps for common vulnerabilities.', '/solutions/web-and-e-commerce'],
+      [Database, 'Data protection review', 'Map where sensitive data lives and who can access it.', '/contact-us']
+    ] },
+    { tab: 'Protect', items: [
+      [ShieldCheck, 'Access & identity', 'Strong passwords, two-step login and the right access for each role.', '/contact-us'],
+      [Cloud, 'Backup & recovery', 'Tested backups, so you can recover quickly after an incident.', '/services/domain-server'],
+      [Smartphone, 'Device security', 'Keep laptops and phones updated, protected and accounted for.', '/contact-us']
+    ] },
+    { tab: 'Train & Respond', items: [
+      [Users, 'Staff awareness training', 'Help staff spot phishing emails, fake calls and unsafe links.', '/contact-us'],
+      [Lightbulb, 'Incident response plan', 'A clear plan for who does what if something goes wrong.', '/contact-us'],
+      [Handshake, 'Ongoing security support', 'Regular reviews, updates and advice as your organisation grows.', '/contact-us']
+    ] }
+  ],
+  processTitle: 'From first review to stronger protection',
+  processIntro: 'You get a ranked list of risks, with the fix for each one.',
+  steps: [
+    [Search, '01', 'Assess', 'We review systems, accounts, devices and how staff work today.'],
+    [ClipboardCheck, '02', 'Prioritise', 'We rank each gap by risk and agree what to fix first.'],
+    [ShieldCheck, '03', 'Protect', 'We put controls in place and test that they work.'],
+    [Users, '04', 'Train & review', 'We train staff and recheck security at regular intervals.']
+  ],
+  storiesTitle: 'Organisations that work with Srisun',
+  storyText: 'One of the institutions in the Srisun client portfolio. Ask our team about the security work relevant to organisations like yours.',
+  faqTitle: 'Questions about cybersecurity',
+  faq: [
+    { question: 'Is cybersecurity only for large companies?', answer: 'No. Schools, clinics and small firms also hold personal data and payment details that need protection.' },
+    { question: 'What does a security review include?', answer: 'We look at your accounts, devices, website, backups and data access, then share the risks we find and how to fix each one.' },
+    { question: 'Will the review disrupt our work?', answer: 'We plan checks around your working hours and agree any testing with you before it starts.' },
+    { question: 'Can you train our staff?', answer: 'Yes. Srisun runs awareness sessions that help staff recognise phishing and other common scams.' }
+  ]
+};
+
+const businessCommunicationPage = {
+  theme: 'comms',
+  seoTitle: 'WhatsApp, SMS & Business Messaging Services in India | Srisun',
+  micro: {
+    theme: 'comms', label: 'Messaging', home: '/solutions/business-communication', nav: showcaseNav,
+    cta: ['Get Started', '/contact-us', 'Start'],
+    footerKicker: 'WANT TO REACH CUSTOMERS FASTER?', footerTitle: 'Let’s set up your first message.', footerText: 'Tell us what your customers need to hear from you. We will suggest the right channel.', footerButton: 'Plan Your Messaging',
+    footerLinks: ['Business Communication', [['Approach', '#sc-approach'], ['Services', '#sc-services'], ['Process', '#sc-process'], ['FAQ', '#sc-faq']]]
+  },
+  breadcrumb: 'Business Communication',
+  eyebrow: 'WHATSAPP, SMS AND CUSTOMER MESSAGING',
+  headline: 'Reach customers on',
+  words: ['WhatsApp', 'SMS', 'Email', 'App Alerts'],
+  intro: 'Srisun sets up WhatsApp, SMS and automated notifications so your customers get the right message at the right time.',
+  primary: ['Plan Your Messaging', '/contact-us'],
+  secondary: ['See How We Work', '#sc-process'],
+  logosCaption: 'TRUSTED BY SCHOOLS, COLLEGES AND GROWING ORGANISATIONS',
+  approachTitle: 'How we set up messaging',
+  advantages: [
+    [MessageCircle, 'red', 'Channels your customers use', 'We start where your customers already reply, not with every channel at once.'],
+    [Workflow, 'yellow', 'Automated, not robotic', 'Triggers send timely updates while your staff handle the real conversations.'],
+    [Users, 'green', 'One view of conversations', 'Replies land where your team can see and answer them.'],
+    [ShieldCheck, 'blue', 'Consent built in', 'Opt-ins, templates and sender approvals are set up properly from the start.']
+  ],
+  chipsLabel: 'CHANNELS WE SET UP',
+  chips: ['WhatsApp Business', 'Bulk SMS', 'Email updates', 'App notifications'],
+  servicesTitle: 'Messaging for every customer moment',
+  services: [
+    { tab: 'WhatsApp', items: [
+      [MessageCircle, 'WhatsApp Business setup', 'Verified business profile, message templates and team access.', '/contact-us'],
+      [Bot, 'WhatsApp chatbots', 'Answer common questions and collect details automatically.', '/solutions/ai-and-automation'],
+      [Send, 'Broadcast campaigns', 'Send offers and updates to customers who opted in.', '/contact-us']
+    ] },
+    { tab: 'SMS & Alerts', items: [
+      [Smartphone, 'Transactional SMS', 'OTPs, order updates and payment confirmations.', '/contact-us'],
+      [Send, 'Scheduled reminders', 'Fee, appointment and renewal reminders sent on time.', '/contact-us'],
+      [Monitor, 'App & web notifications', 'Push alerts for the people using your app or website.', '/solutions/software-and-apps']
+    ] },
+    { tab: 'Integrations', items: [
+      [Workflow, 'CRM & ERP connection', 'Trigger messages from records in your CRM or ERP.', '/services/crm'],
+      [Database, 'Message reports', 'Track delivery, reads and replies in one place.', '/contact-us'],
+      [Handshake, 'Ongoing support', 'Template changes, approvals and troubleshooting.', '/contact-us']
+    ] }
+  ],
+  processTitle: 'From first message to automated updates',
+  processIntro: 'We start with one use case, prove it works, then add more.',
+  steps: [
+    [Search, '01', 'Map', 'We list the messages your customers need and when they need them.'],
+    [PenTool, '02', 'Set up', 'We register senders, write templates and get them approved.'],
+    [Workflow, '03', 'Automate', 'We connect triggers from your systems and test every flow.'],
+    [Rocket, '04', 'Grow', 'We review results and add new messages and channels.']
+  ],
+  storiesTitle: 'Organisations that work with Srisun',
+  storyText: 'One of the institutions in the Srisun client portfolio. Ask our team about the messaging work relevant to organisations like yours.',
+  faqTitle: 'Questions about business messaging',
+  faq: [
+    { question: 'Do we need approval to send WhatsApp business messages?', answer: 'Yes. WhatsApp needs a verified business profile and approved message templates. Srisun handles the setup and submission for you.' },
+    { question: 'Can messages be sent automatically from our software?', answer: 'Yes, where your software offers an API. We connect it so messages go out when records change.' },
+    { question: 'Can customers reply to our messages?', answer: 'Yes. Replies can go to a shared inbox, a chatbot or both.' },
+    { question: 'What do we need to get started?', answer: 'A business phone number, your business details and a list of the messages you want to send.' }
+  ]
+};
+
+const digitalGrowthPage = {
+  theme: 'growth',
+  seoTitle: 'Digital Marketing & Branding Services in India | Srisun',
+  micro: {
+    theme: 'growth', label: 'Growth', home: '/solutions/digital-growth', nav: showcaseNav,
+    cta: ['Get a Growth Plan', '/contact-us', 'Plan'],
+    footerKicker: 'READY TO GROW?', footerTitle: 'Let’s plan your next campaign.', footerText: 'Tell us who you want to reach and what you want them to do. We will suggest a plan.', footerButton: 'Plan Your Growth',
+    footerLinks: ['Digital Growth', [['Approach', '#sc-approach'], ['Services', '#sc-services'], ['Process', '#sc-process'], ['FAQ', '#sc-faq']]]
+  },
+  breadcrumb: 'Digital Growth',
+  eyebrow: 'BRANDING, DIGITAL MARKETING AND CONTENT',
+  headline: 'Grow your',
+  words: ['Brand', 'Enquiries', 'Admissions', 'Sales', 'Reach'],
+  intro: 'Srisun plans and runs branding, ads, SEO and content that bring in new enquiries, then reports on what is working.',
+  primary: ['Plan Your Growth', '/contact-us'],
+  secondary: ['See How We Work', '#sc-process'],
+  logosCaption: 'TRUSTED BY SCHOOLS, COLLEGES AND GROWING ORGANISATIONS',
+  approachTitle: 'How we approach growth',
+  advantages: [
+    [TrendingUp, 'red', 'Measured from day one', 'Every campaign has a goal and tracking, so you see what each rupee does.'],
+    [Users, 'yellow', 'Know your audience', 'We define who you want to reach before choosing channels.'],
+    [Palette, 'green', 'A consistent brand', 'Logo, colours and voice that look the same everywhere you appear.'],
+    [Lightbulb, 'blue', 'Test, learn, improve', 'We start small, keep what works and stop what does not.']
+  ],
+  chipsLabel: 'WHERE WE HELP',
+  chips: ['Brand identity', 'Google & Meta ads', 'SEO', 'Social media content'],
+  servicesTitle: 'Growth across brand, marketing and content',
+  services: [
+    { tab: 'Brand', items: [
+      [Palette, 'Brand identity', 'Logo, colours and guidelines for a consistent look.', '/contact-us'],
+      [PenTool, 'Design & creatives', 'Posters, social posts and ad designs.', '/contact-us'],
+      [MessageCircle, 'Brand voice', 'How you describe yourself across web, social and print.', '/contact-us']
+    ] },
+    { tab: 'Marketing', items: [
+      [TrendingUp, 'Performance ads', 'Google and Meta campaigns tied to enquiries and sales.', '/services/marketing'],
+      [Search, 'SEO', 'Help customers find you on Google for the searches that matter.', '/contact-us'],
+      [Send, 'Email & WhatsApp campaigns', 'Reach existing customers with offers and updates.', '/solutions/business-communication']
+    ] },
+    { tab: 'Content', items: [
+      [Monitor, 'Social media management', 'Planned posts and replies on the platforms your audience uses.', '/contact-us'],
+      [Layers, 'Content writing', 'Website pages, blogs and campaign copy.', '/contact-us'],
+      [Database, 'Reports & insights', 'Regular reports on reach, enquiries and spend.', '/contact-us']
+    ] }
+  ],
+  processTitle: 'From first plan to steady growth',
+  processIntro: 'You see the plan and the budget before anything goes live.',
+  steps: [
+    [Search, '01', 'Research', 'We study your audience, competitors and current channels.'],
+    [Lightbulb, '02', 'Plan', 'We set goals, channels and a budget you approve.'],
+    [Rocket, '03', 'Launch', 'We create the content and run the campaigns.'],
+    [TrendingUp, '04', 'Improve', 'We report results and move budget to what works.']
+  ],
+  storiesTitle: 'Organisations that work with Srisun',
+  storyText: 'One of the institutions in the Srisun client portfolio. Ask our team about the growth work relevant to organisations like yours.',
+  faqTitle: 'Questions about digital growth',
+  faq: [
+    { question: 'How soon will we see results?', answer: 'Ads can bring enquiries soon after launch. SEO and brand work build over months. We set expectations for each channel in the plan.' },
+    { question: 'What budget do we need?', answer: 'It depends on your goals and channels. We suggest a starting budget and adjust it based on results.' },
+    { question: 'Can you manage our social media accounts?', answer: 'Yes. Srisun can plan, design and publish posts, and handle replies.' },
+    { question: 'Will we get reports?', answer: 'Yes. You get regular reports on reach, enquiries and spend.' }
+  ]
+};
+
+const showcasePages = { consulting: techConsultingPage, commerce: webCommercePage, software: softwareAppsPage, ai: aiAutomationPage, security: cybersecurityPage, comms: businessCommunicationPage, growth: digitalGrowthPage };
+
+function SolutionShowcasePage({ page }) {
   const [wordIndex, setWordIndex] = useState(0);
   const [activeTab, setActiveTab] = useState(0);
   const [activeClient, setActiveClient] = useState(0);
 
   useEffect(() => {
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return undefined;
-    const timer = setInterval(() => setWordIndex((index) => (index + 1) % techConsultingWords.length), 2400);
+    const timer = setInterval(() => setWordIndex((index) => (index + 1) % page.words.length), 2400);
     return () => clearInterval(timer);
-  }, []);
+  }, [page]);
 
   const featuredClients = trustedBrands.slice(0, 4);
   const [clientName, clientLogo] = featuredClients[activeClient];
 
   return (
-    <main className="tc-page" id="tc-top">
+    <main className={`tc-page tc-theme-${page.theme}`} id="sc-top">
       <section className="tc-hero">
         <svg className="tc-hero-art" viewBox="0 0 520 420" aria-hidden="true">
           <g fill="none" stroke="currentColor" strokeWidth="1.2">
@@ -1183,21 +1614,21 @@ function TechConsultingPage() {
           </g>
         </svg>
         <div className="content-page-inner tc-hero-inner">
-          <nav className="content-breadcrumb tc-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><ChevronRight size={14} /><a href="/solutions">Solutions</a><ChevronRight size={14} /><span>Tech Consulting</span></nav>
-          <span className="tc-eyebrow">TECHNOLOGY CONSULTING, GROUNDED IN YOUR BUSINESS</span>
-          <h1>Clear technology decisions for <span className="tc-rotating-word" key={wordIndex}>{techConsultingWords[wordIndex]}</span><i className="tc-cursor" aria-hidden="true" /></h1>
+          <nav className="content-breadcrumb tc-breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><ChevronRight size={14} /><a href="/solutions">Solutions</a><ChevronRight size={14} /><span>{page.breadcrumb}</span></nav>
+          <span className="tc-eyebrow">{page.eyebrow}</span>
+          <h1>{page.headline} <span className="tc-rotating-word" key={wordIndex}>{page.words[wordIndex]}</span><i className="tc-cursor" aria-hidden="true" /></h1>
           <span className="tc-rule" aria-hidden="true" />
-          <p>Srisun helps organisations across India decide what to build, what to buy and what to change, then stays with them until it works.</p>
+          <p>{page.intro}</p>
           <div className="tc-hero-actions">
-            <a className="tc-btn-primary" href="/contact-us">Book a Consultation <ChevronRight size={16} /></a>
-            <a className="tc-btn-ghost" href="#tc-process">See How We Work <ChevronRight size={16} /></a>
+            <a className="tc-btn-primary" href={page.primary[1]}>{page.primary[0]} <ChevronRight size={16} /></a>
+            <a className="tc-btn-ghost" href={page.secondary[1]}>{page.secondary[0]} <ChevronRight size={16} /></a>
           </div>
         </div>
       </section>
 
       <section className="tc-logos" aria-label="Organisations that work with Srisun">
         <div className="content-page-inner">
-          <p>TRUSTED BY SCHOOLS, COLLEGES AND GROWING ORGANISATIONS</p>
+          <p>{page.logosCaption}</p>
           <div className="tc-logo-track">
             <div className="tc-logo-row">
               {[...trustedBrands, ...trustedBrands].map(([name, logo], index) => <img key={`${name}-${index}`} src={logo} alt={index < trustedBrands.length ? name : ''} aria-hidden={index >= trustedBrands.length} loading="lazy" />)}
@@ -1206,11 +1637,11 @@ function TechConsultingPage() {
         </div>
       </section>
 
-      <section className="tc-advantage" id="tc-approach">
+      <section className="tc-advantage" id="sc-approach">
         <div className="content-page-inner">
-          <div className="tc-heading"><h2>The Srisun approach</h2><span className="tc-rule red" aria-hidden="true" /></div>
+          <div className="tc-heading"><h2>{page.approachTitle}</h2><span className="tc-rule red" aria-hidden="true" /></div>
           <div className="tc-advantage-grid">
-            {techConsultingAdvantages.map(([Icon, tone, title, text]) => (
+            {page.advantages.map(([Icon, tone, title, text]) => (
               <article key={title}>
                 <span className={`tc-adv-icon ${tone}`}><Icon size={24} /></span>
                 <div><h3>{title}</h3><p>{text}</p></div>
@@ -1218,22 +1649,22 @@ function TechConsultingPage() {
             ))}
           </div>
           <div className="tc-engagement">
-            <span>WAYS TO WORK WITH US</span>
-            <div>{['Fixed-scope assessments', 'Ongoing advisory', 'Project-based delivery', 'On-site or remote'].map((item) => <b key={item}>{item}</b>)}</div>
+            <span>{page.chipsLabel}</span>
+            <div>{page.chips.map((item) => <b key={item}>{item}</b>)}</div>
           </div>
         </div>
       </section>
 
-      <section className="tc-services" id="tc-services">
+      <section className="tc-services" id="sc-services">
         <div className="content-page-inner tc-services-inner">
-          <div className="tc-heading center light"><h2>Consulting for every stage of growth</h2><span className="tc-rule" aria-hidden="true" /></div>
-          <div className="tc-tabs" role="tablist" aria-label="Consulting service areas">
-            {techConsultingServices.map(({ tab }, index) => (
-              <button type="button" role="tab" id={`tc-tab-${index}`} aria-controls="tc-tabpanel" aria-selected={activeTab === index} className={activeTab === index ? 'active' : ''} onClick={() => setActiveTab(index)} key={tab}>{tab}</button>
+          <div className="tc-heading center light"><h2>{page.servicesTitle}</h2><span className="tc-rule" aria-hidden="true" /></div>
+          <div className="tc-tabs" role="tablist" aria-label="Service areas">
+            {page.services.map(({ tab }, index) => (
+              <button type="button" role="tab" id={`sc-tab-${index}`} aria-controls="sc-tabpanel" aria-selected={activeTab === index} className={activeTab === index ? 'active' : ''} onClick={() => setActiveTab(index)} key={tab}>{tab}</button>
             ))}
           </div>
-          <div className="tc-service-list" role="tabpanel" id="tc-tabpanel" aria-labelledby={`tc-tab-${activeTab}`} key={activeTab}>
-            {techConsultingServices[activeTab].items.map(([Icon, title, text, href]) => (
+          <div className="tc-service-list" role="tabpanel" id="sc-tabpanel" aria-labelledby={`sc-tab-${activeTab}`} key={activeTab}>
+            {page.services[activeTab].items.map(([Icon, title, text, href]) => (
               <a className="tc-service-row" href={href} key={title}>
                 <span className="tc-service-icon"><Icon size={26} strokeWidth={1.5} /></span>
                 <h3>{title}</h3>
@@ -1245,11 +1676,11 @@ function TechConsultingPage() {
         </div>
       </section>
 
-      <section className="tc-process" id="tc-process">
+      <section className="tc-process" id="sc-process">
         <div className="content-page-inner">
-          <div className="tc-heading center"><span className="tc-kicker">OUR PROCESS</span><h2>From first conversation to measurable outcome</h2><span className="tc-rule red" aria-hidden="true" /><p>A clear, collaborative path keeps every recommendation tied to what your organisation actually needs.</p></div>
+          <div className="tc-heading center"><span className="tc-kicker">OUR PROCESS</span><h2>{page.processTitle}</h2><span className="tc-rule red" aria-hidden="true" /><p>{page.processIntro}</p></div>
           <ol className="tc-process-grid">
-            {techConsultingSteps.map(([Icon, number, title, text]) => (
+            {page.steps.map(([Icon, number, title, text]) => (
               <li key={number}>
                 <span className="tc-step-icon"><Icon size={22} /></span>
                 <span className="tc-step-number">STEP {number}</span>
@@ -1261,9 +1692,9 @@ function TechConsultingPage() {
         </div>
       </section>
 
-      <section className="tc-stories" id="tc-stories">
+      <section className="tc-stories" id="sc-stories">
         <div className="tc-stories-band">
-          <div className="content-page-inner"><div className="tc-heading center light"><h2>Organisations that grow with Srisun</h2><span className="tc-rule" aria-hidden="true" /></div></div>
+          <div className="content-page-inner"><div className="tc-heading center light"><h2>{page.storiesTitle}</h2><span className="tc-rule" aria-hidden="true" /></div></div>
         </div>
         <div className="content-page-inner">
           <div className="tc-story-card">
@@ -1273,7 +1704,7 @@ function TechConsultingPage() {
                 <span className="tc-kicker">CLIENT STORY</span>
                 <h3>{clientName}</h3>
                 <span className="tc-story-rule" aria-hidden="true" />
-                <p>One of the institutions in the Srisun client portfolio. Ask our team about the technology and digital work relevant to organisations like yours.</p>
+                <p>{page.storyText}</p>
                 <a href="/contact-us">Discuss a Similar Project <ChevronRight size={14} /></a>
               </div>
             </div>
@@ -1289,13 +1720,12 @@ function TechConsultingPage() {
         </div>
       </section>
 
-      <section className="tc-faq" id="tc-faq">
+      <section className="tc-faq" id="sc-faq">
         <div className="content-page-inner">
-          <div className="tc-heading center"><span className="tc-kicker">FAQ</span><h2>Questions about tech consulting</h2><span className="tc-rule red" aria-hidden="true" /></div>
-          <div className="content-faq-list">{techConsultingFaq.map((faq) => <details key={faq.question}><summary>{faq.question}<ChevronDown size={17} /></summary><p>{faq.answer}</p></details>)}</div>
+          <div className="tc-heading center"><span className="tc-kicker">FAQ</span><h2>{page.faqTitle}</h2><span className="tc-rule red" aria-hidden="true" /></div>
+          <div className="content-faq-list">{page.faq.map((faq) => <details key={faq.question}><summary>{faq.question}<ChevronDown size={17} /></summary><p>{faq.answer}</p></details>)}</div>
         </div>
       </section>
-
     </main>
   );
 }
@@ -1428,6 +1858,9 @@ export function App() {
     ? { path: '/search', title: 'Search', group: 'Search', description: 'Search Srisun services, solutions and resources.' }
     : contentPages.find((page) => page.path === normalizedPath);
   const isNotFound = !isHomePage && !isCareersPage && !isContactPage && !routePage;
+  const showcasePage = routePage?.showcase ? showcasePages[routePage.showcase] : null;
+  const microsite = routePage?.erp ? erpMicrosite : showcasePage ? showcasePage.micro : null;
+  const subpage = routePage && !routePage.erp && !showcasePage ? getSubpage(routePage.path) : null;
 
   useEffect(() => {
     const title = isCareersPage
@@ -1435,7 +1868,7 @@ export function App() {
       : isContactPage ? 'Contact Srisun | Let’s build something better'
         : isHomePage ? 'Srisun | Technology Solutions for Businesses'
           : routePage?.erp ? 'ERP Consulting & Implementation in India | Srisun'
-          : routePage?.techConsulting ? 'Technology Consulting Services in India | Srisun'
+          : showcasePage ? showcasePage.seoTitle
           : routePage ? `${routePage.title} | Srisun` : 'Page Not Found | Srisun';
     const description = isCareersPage ? selectedCareerRole?.summary || 'Explore open roles at Srisun across India and find your next opportunity.' : isContactPage ? 'Contact Srisun to discuss technology consulting, software, automation and digital services.' : routePage?.description || 'Explore Srisun technology solutions for businesses.';
     document.title = title;
@@ -1462,7 +1895,7 @@ export function App() {
         ...(routePage && routePage.group !== 'Policies' && normalizedPath !== '/search' ? [{ '@type': 'FAQPage', mainEntity: getPageFaq(routePage).map((faq) => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })) }] : [])
       ]
     });
-    const elements = document.querySelectorAll('.scroll-reveal, .erp-page section, .tc-page section');
+    const elements = document.querySelectorAll('.scroll-reveal, .erp-page section, .tc-page section, .sp-page [data-reveal]');
     if (!('IntersectionObserver' in window)) {
       elements.forEach((el) => el.classList.add('is-visible'));
       return;
@@ -1482,9 +1915,9 @@ export function App() {
 
   return (
     <>
-      {routePage?.erp ? <ErpHeader /> : <Header />}
+      {microsite ? <MicrositeHeader site={microsite} /> : <Header />}
 
-      {isCareersPage ? <CareersPage /> : isContactPage ? <ContactUsPage /> : routePage ? routePage.erp ? <ErpPage /> : routePage.techConsulting ? <TechConsultingPage /> : <ContentPage page={routePage} /> : isNotFound ? <main className="content-page content-not-found"><div className="content-page-inner"><span className="content-eyebrow"><i /> 404</span><h1>We couldn’t find that page.</h1><p>Try the main sections or contact the Srisun team for help.</p><div className="content-not-found-links"><a href="/">Home</a><a href="/services">Services</a><a href="/solutions">Solutions</a><a href="/contact-us">Contact Us</a></div></div></main> : (
+      {isCareersPage ? <CareersPage /> : isContactPage ? <ContactUsPage /> : routePage ? routePage.erp ? <ErpPage /> : showcasePage ? <SolutionShowcasePage page={showcasePage} /> : subpage ? <SubPage page={subpage} meta={routePage} /> : <ContentPage page={routePage} /> : isNotFound ? <main className="content-page content-not-found"><div className="content-page-inner"><span className="content-eyebrow"><i /> 404</span><h1>We couldn’t find that page.</h1><p>Try the main sections or contact the Srisun team for help.</p><div className="content-not-found-links"><a href="/">Home</a><a href="/services">Services</a><a href="/solutions">Solutions</a><a href="/contact-us">Contact Us</a></div></div></main> : (
         <main>
           <Hero />
           <SrisunFeaturedSection />
@@ -1499,7 +1932,7 @@ export function App() {
         </main>
       )}
 
-      {routePage?.erp ? <ErpFooter /> : <Footer />}
+      {microsite ? <MicrositeFooter site={microsite} /> : <Footer />}
     </>
   );
 }

@@ -1578,7 +1578,13 @@ a.contact-option:hover { transform: translateY(-2px); border-color: #cdddf0; box
    Royal-blue bands alternate with white/grey sections;
    red is reserved for the primary consultation CTA.
 ========================================================= */
-.tc-page { --tc-royal: #1237b5; --tc-royal-deep: #0c2a8f; overflow: hidden; background: #fff; color: var(--ink); }
+.tc-page { --tc-royal: #1237b5; --tc-royal-deep: #0c2a8f; --tc-glow: #2a59e0; --tc-eyebrow: #7fd4ff; --tc-highlight: #ffd45e; --tc-cursor: var(--accent-green); --tc-on-band: #dbe4ff; --tc-on-band-soft: #c7d3ff; --tc-band-icon: #b9cdff; --tc-shadow: #0c2a8f2b; overflow: hidden; background: #fff; color: var(--ink); }
+.tc-theme-comms { --tc-royal: #6d1d57; --tc-royal-deep: #3a0c2e; --tc-glow: #9b2f7c; --tc-eyebrow: #ffb4e3; --tc-highlight: #ffd45e; --tc-cursor: #ffd45e; --tc-on-band: #f6dcee; --tc-on-band-soft: #e9bfdc; --tc-band-icon: #ffb4e3; --tc-shadow: #3a0c2e3a; }
+.tc-theme-growth { --tc-royal: #1d5a2e; --tc-royal-deep: #0d3218; --tc-glow: #2f7f3f; --tc-eyebrow: #b8f28a; --tc-highlight: #c9f56a; --tc-cursor: #c9f56a; --tc-on-band: #dcf0dd; --tc-on-band-soft: #bfe0c2; --tc-band-icon: #a8e58c; --tc-shadow: #0d32183a; }
+.tc-theme-security { --tc-royal: #1f2b38; --tc-royal-deep: #0e151d; --tc-glow: #23493f; --tc-eyebrow: #6ee7b7; --tc-highlight: #34d399; --tc-cursor: #34d399; --tc-on-band: #d9e3ec; --tc-on-band-soft: #b9c7d4; --tc-band-icon: #7dd8b5; --tc-shadow: #0e151d40; }
+.tc-theme-ai { --tc-royal: #13294f; --tc-royal-deep: #0a1630; --tc-glow: #1d5a8f; --tc-eyebrow: #7ee0ff; --tc-highlight: #5ee6ff; --tc-cursor: #5ee6ff; --tc-on-band: #d6e6f7; --tc-on-band-soft: #b5cce6; --tc-band-icon: #8fd8ff; --tc-shadow: #0a16303d; }
+.tc-theme-software { --tc-royal: #4a2bb8; --tc-royal-deep: #2a1675; --tc-glow: #6d4ff2; --tc-eyebrow: #c9bcff; --tc-highlight: #ffd45e; --tc-cursor: #5eead4; --tc-on-band: #e6defe; --tc-on-band-soft: #cfc2ff; --tc-band-icon: #c4b5ff; --tc-shadow: #2a16753a; }
+.tc-theme-commerce { --tc-royal: #0d6b6e; --tc-royal-deep: #07434f; --tc-glow: #12938f; --tc-eyebrow: #8ff0dc; --tc-highlight: #ffc65c; --tc-cursor: #ffc65c; --tc-on-band: #d5f3ef; --tc-on-band-soft: #b4e6df; --tc-band-icon: #9fe6da; --tc-shadow: #07434f33; }
 .tc-page [id] { scroll-margin-top: 90px; }
 .tc-rule { display: block; width: 44px; height: 3px; margin: 18px 0 0; border-radius: 2px; background: var(--accent-yellow); }
 .tc-rule.red { background: var(--red); }
@@ -1596,18 +1602,18 @@ a.contact-option:hover { transform: translateY(-2px); border-color: #cdddf0; box
 .tc-btn-ghost:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
 
 /* Hero */
-.tc-hero { position: relative; isolation: isolate; padding: 34px 0 110px; color: #fff; background: radial-gradient(ellipse at 82% 30%, #2a59e0 0, transparent 52%), linear-gradient(135deg, var(--tc-royal) 0%, var(--tc-royal-deep) 100%); }
+.tc-hero { position: relative; isolation: isolate; padding: 34px 0 110px; color: #fff; background: radial-gradient(ellipse at 82% 30%, var(--tc-glow) 0, transparent 52%), linear-gradient(135deg, var(--tc-royal) 0%, var(--tc-royal-deep) 100%); }
 .tc-hero-art { position: absolute; z-index: -1; right: max(2%, calc((100% - 1240px) / 2)); bottom: 30px; width: min(44%, 540px); height: auto; color: #ffffff2e; }
-.tc-breadcrumb { margin-bottom: 52px; color: #c7d3ff; }
-.tc-breadcrumb a { color: #c7d3ff; }
+.tc-breadcrumb { margin-bottom: 52px; color: var(--tc-on-band-soft); }
+.tc-breadcrumb a { color: var(--tc-on-band-soft); }
 .tc-breadcrumb a:hover { color: #fff; }
 .tc-breadcrumb span { color: #fff; }
-.tc-eyebrow { display: block; color: #7fd4ff; font-size: 14px; font-weight: 700; letter-spacing: .13em; }
+.tc-eyebrow { display: block; color: var(--tc-eyebrow); font-size: 14px; font-weight: 700; letter-spacing: .13em; }
 .tc-hero h1 { max-width: 640px; margin: 22px 0 0; color: #fff; font-size: clamp(42px, 5.4vw, 68px); font-weight: 400; line-height: 1.08; letter-spacing: -.04em; }
-.tc-rotating-word { display: inline-block; color: #ffd45e; font-weight: 600; animation: tc-word-in .45s ease both; }
-.tc-cursor { display: inline-block; width: 3px; height: .9em; margin-left: 8px; vertical-align: -.08em; background: var(--accent-green); animation: tc-blink 1s steps(1) infinite; }
-.tc-hero .tc-rule { margin-top: 26px; background: var(--accent-green); }
-.tc-hero p { max-width: 540px; margin: 24px 0 34px; color: #dbe4ff; font-size: 19px; line-height: 1.65; }
+.tc-rotating-word { display: inline-block; color: var(--tc-highlight); font-weight: 600; animation: tc-word-in .45s ease both; }
+.tc-cursor { display: inline-block; width: 3px; height: .9em; margin-left: 8px; vertical-align: -.08em; background: var(--tc-cursor); animation: tc-blink 1s steps(1) infinite; }
+.tc-hero .tc-rule { margin-top: 26px; background: var(--tc-cursor); }
+.tc-hero p { max-width: 540px; margin: 24px 0 34px; color: var(--tc-on-band); font-size: 19px; line-height: 1.65; }
 .tc-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px 28px; }
 @keyframes tc-word-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @keyframes tc-blink { 50% { opacity: 0; } }
@@ -1646,14 +1652,14 @@ a.contact-option:hover { transform: translateY(-2px); border-color: #cdddf0; box
 .tc-tabs button { min-height: 44px; padding: 0 22px; border: 1px solid #ffffff59; border-radius: 999px; color: #fff; background: transparent; font-size: 15px; font-weight: 500; cursor: pointer; transition: background .2s, color .2s; }
 .tc-tabs button:hover { background: #ffffff1f; }
 .tc-tabs button.active { border-color: #fff; color: var(--tc-royal); background: #fff; font-weight: 600; }
-.tc-tabs button:focus-visible, .tc-story-list button:focus-visible { outline: 2px solid #ffd45e; outline-offset: 3px; }
+.tc-tabs button:focus-visible, .tc-story-list button:focus-visible { outline: 2px solid var(--tc-highlight); outline-offset: 3px; }
 .tc-service-list { animation: tc-word-in .4s ease both; }
 .tc-service-row { display: grid; grid-template-columns: 48px minmax(180px, 1fr) minmax(0, 1.25fr) 40px; gap: 24px; align-items: center; padding: 28px 8px; border-bottom: 1px solid #ffffff2b; transition: background .2s; }
 .tc-service-row:first-child { border-top: 1px solid #ffffff2b; }
 .tc-service-row:hover { background: #ffffff0f; }
-.tc-service-icon { color: #b9cdff; }
+.tc-service-icon { color: var(--tc-band-icon); }
 .tc-service-row h3 { margin: 0; color: #fff; font-size: 21px; font-weight: 500; }
-.tc-service-row p { margin: 0; color: #d3dcfb; font-size: 16px; line-height: 1.6; }
+.tc-service-row p { margin: 0; color: var(--tc-on-band); font-size: 16px; line-height: 1.6; }
 .tc-service-arrow { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid #ffffff66; border-radius: 50%; color: #fff; transition: background .2s, color .2s, transform .2s; }
 .tc-service-row:hover .tc-service-arrow { color: var(--tc-royal); background: #fff; transform: translateX(3px); }
 
@@ -1672,7 +1678,7 @@ a.contact-option:hover { transform: translateY(-2px); border-color: #cdddf0; box
 .tc-stories { padding-bottom: 96px; }
 .tc-stories-band { padding: 90px 0 190px; background: linear-gradient(180deg, var(--tc-royal) 0%, var(--tc-royal-deep) 100%); }
 .tc-stories-band .tc-heading { margin-bottom: 0; }
-.tc-story-card { display: grid; grid-template-columns: minmax(0, 1fr) 320px; max-width: 1000px; margin: -150px auto 0; overflow: hidden; border-radius: 8px; background: #fff; box-shadow: 0 24px 60px #0c2a8f2b; }
+.tc-story-card { display: grid; grid-template-columns: minmax(0, 1fr) 320px; max-width: 1000px; margin: -150px auto 0; overflow: hidden; border-radius: 8px; background: #fff; box-shadow: 0 24px 60px var(--tc-shadow); }
 .tc-story-main { display: grid; grid-template-columns: 170px 1fr; gap: 36px; align-items: center; padding: 48px 44px; animation: tc-word-in .4s ease both; }
 .tc-story-logo { width: 170px; height: 170px; display: grid; place-items: center; padding: 14px; border: 1px solid #e6ebf2; border-radius: 50%; background: #fff; }
 .tc-story-logo img { width: 100%; height: 100%; object-fit: contain; }
@@ -1776,4 +1782,59 @@ a.contact-option:hover { transform: translateY(-2px); border-color: #cdddf0; box
   font-weight: 500;
   letter-spacing: 0;
   text-transform: none;
+}
+
+/* =========================================================
+   MICROSITE HEADER & FOOTER THEMES
+   ERP, Tech Consulting and Web & E-Commerce share one header
+   and footer; each theme only swaps the accent colours.
+========================================================= */
+.micro-consulting { --ms-accent: #1237b5; --ms-tint: #eaf0ff; --ms-cta: var(--red); }
+.micro-comms { --ms-accent: #6d1d57; --ms-tint: #fbe8f4; --ms-cta: var(--red); }
+.micro-growth { --ms-accent: #1d5a2e; --ms-tint: #e6f5e4; --ms-cta: var(--red); }
+.micro-security { --ms-accent: #1f2b38; --ms-tint: #e3f6ee; --ms-cta: var(--red); }
+.micro-ai { --ms-accent: #13294f; --ms-tint: #e3f4fb; --ms-cta: var(--red); }
+.micro-software { --ms-accent: #4a2bb8; --ms-tint: #efeaff; --ms-cta: var(--red); }
+.micro-commerce { --ms-accent: #0d6b6e; --ms-tint: #e3f6f3; --ms-cta: var(--red); }
+:is(.micro-consulting, .micro-commerce, .micro-software, .micro-ai, .micro-security, .micro-comms, .micro-growth) .erp-brand span,
+:is(.micro-consulting, .micro-commerce, .micro-software, .micro-ai, .micro-security, .micro-comms, .micro-growth) .erp-footer-brand > span { color: var(--ms-accent); background: var(--ms-tint); }
+:is(.micro-consulting, .micro-commerce, .micro-software, .micro-ai, .micro-security, .micro-comms, .micro-growth) .erp-header-demo { background: var(--ms-accent); }
+:is(.micro-consulting, .micro-commerce, .micro-software, .micro-ai, .micro-security, .micro-comms, .micro-growth) .erp-header-demo:hover { background: color-mix(in srgb, var(--ms-accent) 82%, #000); }
+:is(.micro-consulting, .micro-commerce, .micro-software, .micro-ai, .micro-security, .micro-comms, .micro-growth) .erp-nav a:hover,
+:is(.micro-consulting, .micro-commerce, .micro-software, .micro-ai, .micro-security, .micro-comms, .micro-growth) .erp-header-signin:hover,
+:is(.micro-consulting, .micro-commerce, .micro-software, .micro-ai, .micro-security, .micro-comms, .micro-growth) .erp-footer-links > div a:hover,
+:is(.micro-consulting, .micro-commerce, .micro-software, .micro-ai, .micro-security, .micro-comms, .micro-growth) .erp-footer-legal a:hover { color: var(--ms-accent); }
+:is(.micro-consulting, .micro-commerce, .micro-software, .micro-ai, .micro-security, .micro-comms, .micro-growth) .erp-section-kicker { color: var(--ms-accent); }
+:is(.micro-consulting, .micro-commerce, .micro-software, .micro-ai, .micro-security, .micro-comms, .micro-growth) .erp-footer-cta > a { background: var(--ms-cta); }
+
+/* =========================================================
+   LAYOUT FIXES (site-wide audit)
+   - full-bleed logo marquee no longer causes sideways scroll
+   - story carousel arrows stay inside the viewport on tablets
+   - microsite header collapses to a menu below 1024px
+========================================================= */
+.trusted-brands-section { overflow-x: clip; }
+@media (min-width: 601px) and (max-width: 1200px) {
+  .video-stories-carousel { width: calc(100% - 140px); }
+  .video-stories-arrow-prev { left: -58px; }
+  .video-stories-arrow-next { right: -58px; }
+}
+
+.erp-footer-brand { max-width: 240px; }
+.erp-nav-home, .ms-cta-short { display: none; }
+@media (max-width: 1024px) {
+  .erp-site-header-inner { position: relative; }
+  .erp-nav { position: absolute; top: 100%; right: 0; left: 0; height: auto; display: none; flex-direction: column; align-items: stretch; gap: 0; padding: 8px clamp(18px, 3vw, 48px) 14px; border-bottom: 1px solid #e8edf3; background: #fff; box-shadow: 0 18px 32px #102b4816; }
+  .erp-nav.open { display: flex; animation: menuReveal .2s ease both; }
+  .erp-nav a { padding: 13px 2px; border-bottom: 1px solid #f0f2f5; font-size: 15px; }
+  .erp-nav a:last-child { border-bottom: 0; }
+  .erp-nav-home { display: block; }
+  .erp-header-signin { display: none; }
+  .erp-header-actions { margin-left: auto; }
+  .erp-menu-toggle { display: grid; place-items: center; }
+}
+@media (max-width: 480px) {
+  .erp-brand img { width: 100px; }
+  .ms-cta-long { display: none; }
+  .ms-cta-short { display: inline; }
 }
