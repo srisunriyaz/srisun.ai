@@ -1758,11 +1758,11 @@ function ContactUsPage() {
           <div className="contact-modern-office">
           <div className="contact-modern-office-inner">
             <span className="contact-modern-office-icon"><MapPin size={21} /></span>
-            <div><small>OUR OFFICE</small><strong>208/10A, Tiruvannamalai Road, Anukkumallai</strong><p>Tiruvannamalai - 606754, Tamil Nadu, India</p></div>
+            <div><small>OUR OFFICE</small><strong>Srisun Corporation</strong><p>#16, 1st floor, GR Tower, Tindivanam Road, Kilnachipet, Tiruvannamalai, Tamil Nadu, India - 606611</p></div>
           </div>
           <div className="contact-modern-map-wrap">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3899.2061179268303!2d79.07114267574843!3d12.234318730612216!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bacc08e5abf9551%3A0x4ee717b93a274e16!2s208%2C%20Tiruvannamalai%20Rd%2C%20Tiruvennanallur%2C%20Tiruvannamalai%2C%20Tamil%20Nadu%20606601!5e0!3m2!1sen!2sin!4v1791288430867!5m2!1sen!2sin"
+              src="https://www.google.com/maps?q=GR%20Tower%2C%20Tindivanam%20Road%2C%20Kilnachipet%2C%20Tiruvannamalai%2C%20Tamil%20Nadu%20606611%2C%20India&output=embed"
               title="Map to the Srisun office"
               width="600"
               height="450"

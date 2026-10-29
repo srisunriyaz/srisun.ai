@@ -18,5 +18,9 @@ const devApi = () => ({
 export default defineConfig(({ mode }) => {
   // server-side secrets (DATABASE_URL) from .env.local; never exposed to the bundle
   Object.assign(process.env, { ...loadEnv(mode, process.cwd(), ''), ...process.env });
-  return { plugins: [react(), devApi()] };
+  return {
+    plugins: [react(), devApi()],
+    // `vite preview` rejects unknown Host headers; allow the production domains
+    preview: { allowedHosts: ['srisun.ai', 'www.srisun.ai'] },
+  };
 });
