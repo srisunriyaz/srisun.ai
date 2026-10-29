@@ -1,0 +1,12 @@
+# Never upload secrets, the old PHP backend or local data to Vercel.
+.env
+.env.*
+!.env.example
+database/
+storage/
+.tmp/
+dist/
+node_modules/
+*.docx
+legacy/
+.env.local

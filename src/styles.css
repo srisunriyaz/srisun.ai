@@ -7,7 +7,7 @@
 ========================================================= */
 
 :root {
-  --font: "IBM Plex Sans", sans-serif;
+  --font: "Inter", sans-serif;
   --navy: #172b4d;
   --ink: #172033;
   --blue: #1264d8;
@@ -240,7 +240,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .brand { flex: 0 0 auto; display: flex; align-items: center; }
-.brand img { width: 150px; height: auto; max-height: 56px; display: block; object-fit: contain; }
+.brand img { width: 172px; height: auto; max-height: 62px; display: block; object-fit: contain; }
 
 .desktop-nav { display: flex; align-items: stretch; gap: clamp(18px, 2.2vw, 28px); flex: 1; min-width: 0; height: 100%; }
 .nav-item { position: relative; height: 100%; display: flex; align-items: center; }
@@ -263,12 +263,9 @@ a { color: inherit; text-decoration: none; }
 .nav-link.active svg { transform: rotate(180deg); }
 
 .header-actions { flex: none; display: flex; align-items: center; gap: 14px; white-space: nowrap; margin-left: auto; }
-.icon-button, .language { border: 0; background: transparent; color: var(--ink); padding: 7px; }
-.icon-button { display: grid; place-items: center; }
-.language { display: inline-flex; align-items: center; gap: 7px; }
-.signin { color: #e22d35; font-size: 16px; font-weight: 500; }
-.signup { border: 1px solid #e22d35; color: #e22d35; border-radius: 2px; padding: 5px 9px; font-size: 15px; font-weight: 500; transition: background .15s, color .15s; }
-.signup:hover { background: #e22d35; color: #fff; }
+.icon-button { border: 0; background: transparent; color: var(--ink); padding: 7px; display: grid; place-items: center; }
+.header-consult { display: inline-flex; align-items: center; border: 1px solid #e22d35; border-radius: 2px; padding: 9px 16px; background: #e22d35; color: #fff; font-size: 15px; font-weight: 600; white-space: nowrap; transition: background .15s, border-color .15s; }
+.header-consult:hover { background: #c71d25; border-color: #c71d25; }
 .mobile-toggle { display: none; border: 0; background: transparent; color: var(--ink); padding: 6px; }
 
 /* Dropdowns */
@@ -335,7 +332,7 @@ a { color: inherit; text-decoration: none; }
 .srisun-hero-content h1 {
   margin: 0;
   font-size: clamp(38px, 4.4vw, 61px);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.1;
   letter-spacing: -.035em;
   color: #080808;
@@ -360,7 +357,7 @@ a { color: inherit; text-decoration: none; }
 .srisun-featured-heading span { position: relative; display: inline-block; font-size: 15px; font-weight: 600; letter-spacing: .04em; color: #111827; }
 .srisun-featured-heading span::after { content: ""; position: absolute; left: 50%; bottom: -12px; width: 27px; height: 2px; background: var(--red); transform: translateX(-50%); }
 
-.srisun-featured-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 28px; }
+.srisun-featured-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 22px; }
 .srisun-featured-item { display: flex; align-items: flex-start; gap: 14px; padding: 3px 0; color: #111; transition: transform .18s; }
 .srisun-featured-item:hover { transform: translateX(3px); }
 .srisun-featured-icon { flex: 0 0 38px; width: 38px; height: 38px; margin-top: 1px; display: flex; align-items: center; justify-content: center; }
@@ -372,8 +369,8 @@ a { color: inherit; text-decoration: none; }
 .srisun-featured-item:nth-child(5) .srisun-featured-icon { color: #ef3d4f; }
 .srisun-featured-item:nth-child(6) .srisun-featured-icon { color: #f15b4f; }
 .srisun-featured-info { min-width: 0; }
-.srisun-featured-info h3 { margin: 0 0 5px; font-size: 19px; font-weight: 400; line-height: 1.25; color: #111; }
-.srisun-featured-info p { margin: 0; font-size: 16px; line-height: 1.5; color: #374151; }
+.srisun-featured-info h3 { margin: 0 0 5px; font-size: 19px; font-weight: 600; line-height: 1.25; letter-spacing: -.02em; color: #111; }
+.srisun-featured-info p { margin: 0; font-size: 16px; font-weight: 400; line-height: 1.5; color: #374151; }
 
 .srisun-explore {
   align-self: flex-end;
@@ -439,9 +436,9 @@ a { color: inherit; text-decoration: none; }
 .philosophy-label { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 22px; font-size: 15px; font-weight: 600; letter-spacing: .19em; text-transform: uppercase; color: rgba(255,255,255,.88); }
 .philosophy-label::after { content: ""; width: 46px; height: 1px; background: rgba(255,255,255,.72); }
 
-.philosophy-title-wrap { margin: 0; font-size: clamp(48px, 5.3vw, 80px); font-weight: 400; line-height: 1; letter-spacing: -.05em; color: #fff; }
+.philosophy-title-wrap { margin: 0; font-size: clamp(32px, 3.4vw, 50px); font-weight: 400; line-height: 1.08; letter-spacing: -.035em; color: #fff; }
 .philosophy-line { display: block; }
-.global-word { display: inline-block; font-size: 1.1em; font-weight: 700; line-height: .85; letter-spacing: -.02em; color: #1688ff; transform: rotate(-3deg); text-shadow: 0 5px 20px rgba(22,136,255,.22); }
+.global-word { display: inline-block; font-size: 1.1em; font-weight: 700; line-height: .85; letter-spacing: -.02em; color: #1688ff; text-shadow: 0 5px 20px rgba(22,136,255,.22); }
 
 .philosophy-text { max-width: 520px; margin: 26px 0 0; font-size: 17px; line-height: 1.65; color: rgba(255,255,255,.84); }
 
@@ -473,6 +470,8 @@ a { color: inherit; text-decoration: none; }
 .trusted-brands-marquee:hover .trusted-brands-track { animation-play-state: paused; }
 .trusted-brands-group { display: flex; flex: 0 0 auto; align-items: center; gap: 56px; padding-right: 56px; }
 .trusted-brand { flex: 0 0 160px; height: 116px; display: flex; justify-content: center; align-items: center; }
+.trusted-brand a { display: flex; align-items: center; justify-content: center; border-radius: 6px; transition: transform .2s ease; }
+.trusted-brand a:hover { transform: translateY(-2px); }
 .trusted-brand img { display: block; width: 130px; height: 108px; object-fit: contain; }
 @keyframes trusted-brands-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .trusted-stories-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 30px; color: #17191d; font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
@@ -570,13 +569,11 @@ a { color: inherit; text-decoration: none; }
 .srisun-one-content { max-width: 610px; }
 .srisun-one-label { display: block; margin-bottom: 24px; font-size: 14px; font-weight: 700; letter-spacing: .18em; color: rgba(255,255,255,.78); }
 .srisun-one-brand-row { display: flex; align-items: center; gap: 18px; margin-bottom: 25px; }
-.srisun-one-mark { position: relative; flex: 0 0 62px; width: 62px; height: 62px; }
-.srisun-one-mark span { position: absolute; width: 27px; height: 27px; border: 2px solid #fff; transform: rotate(30deg); }
-.srisun-one-mark span:nth-child(1) { left: 3px;  top: 17px; border-color: #f5d34f; }
-.srisun-one-mark span:nth-child(2) { left: 20px; top: 2px;  border-color: #12d7a2; }
-.srisun-one-mark span:nth-child(3) { left: 20px; top: 31px; border-color: #fff; }
-.srisun-one-mark span:nth-child(4) { left: 36px; top: 17px; border-color: #ff6b6b; }
-.srisun-one-mini { display: block; margin-bottom: 2px; font-size: 13px; font-weight: 700; letter-spacing: .16em; color: rgba(255,255,255,.78); }
+.srisun-one-lockup { display: inline-flex; align-items: center; gap: 20px; margin: 0; }
+.srisun-one-lockup-text { display: flex; flex-direction: column; }
+.srisun-one-lockup-text span { display: block; font-size: clamp(34px, 3.9vw, 48px); font-weight: 700; line-height: .85; letter-spacing: .02em; color: #fff; }
+.srisun-one-lockup img { flex: 0 0 auto; width: clamp(58px, 6.6vw, 82px); height: auto; display: block; }
+.srisun-one-lockup img.srisun-one-logo { width: clamp(200px, 22vw, 270px); }
 .srisun-one-content h2 { margin: 0; font-size: clamp(42px, 5.3vw, 65px); font-weight: 400; line-height: 1; letter-spacing: -.04em; color: #fff; }
 .srisun-one-content h3 { margin: 24px 0 10px; font-size: 21px; font-weight: 500; line-height: 1.35; color: #fff; }
 .srisun-one-intro { max-width: 570px; margin: 0 0 10px; font-size: 17px; line-height: 1.55; color: #fff; }
@@ -587,7 +584,8 @@ a { color: inherit; text-decoration: none; }
 
 .srisun-client-quote { min-width: 0; padding: 5px 0 5px 62px; border-left: 1px dashed rgba(255,255,255,.34); }
 .client-quote-mark { width: 34px; height: 34px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #080808; color: #fff; font-size: 26px; line-height: 1; padding-top: 6px; }
-.srisun-client-quote blockquote { max-width: 440px; margin: 0; font-size: clamp(20px, 1.9vw, 23px); line-height: 1.5; color: #fff; }
+.client-quote-heading { max-width: 440px; margin: 0; font-size: clamp(20px, 1.9vw, 23px); font-weight: 600; line-height: 1.4; color: #fff; }
+.client-quote-text { max-width: 440px; margin: 12px 0 0; font-size: 17px; font-weight: 400; line-height: 1.6; color: rgba(255,255,255,.82); }
 .client-profile { display: flex; align-items: center; gap: 13px; margin-top: 25px; }
 .client-avatar { flex: 0 0 46px; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(255,255,255,.94); color: #164d83; font-size: 15px; font-weight: 700; }
 .client-profile strong, .client-profile span { display: block; }
@@ -638,7 +636,6 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 1200px) {
   .header-inner { gap: 24px; }
   .desktop-nav { gap: 20px; }
-  .language { display: none; }
   /* wide menus anchor to the header, not their trigger, so they never leave the screen */
   .nav-item.wide { position: static; }
   .nav-item.wide .dropdown-menu, .nav-item:last-child .resources-dropdown { left: 0; right: auto; }
@@ -662,11 +659,12 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 1024px) {
   :root { --header-h: 68px; }
 
-  .desktop-nav, .signin, .signup { display: none; }
+  .desktop-nav { display: none; }
   .dropdown-menu { display: none; }
   .mobile-toggle { display: grid; place-items: center; }
-  .brand img { width: 140px; }
+  .brand img { width: 158px; }
   .header-actions { gap: 6px; }
+  .header-consult { padding: 8px 13px; font-size: 14px; }
 
   .search-bar { right: var(--gutter); }
 
@@ -687,15 +685,14 @@ a { color: inherit; text-decoration: none; }
   .mobile-submenu { padding: 6px 0 12px 12px; border-bottom: 1px solid #edf0f4; }
   .mobile-submenu a { display: block; padding: 10px 2px; font-size: 17px; color: #4b5565; }
   .mobile-group-title { padding: 12px 2px 5px; font-size: 15px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #7a8494; }
-  .mobile-signin, .mobile-signup { width: 100%; margin-top: 12px; padding: 13px; display: flex; justify-content: center; border: 1px solid #e22d35; border-radius: 3px; font-weight: 500; color: #e22d35; }
-  .mobile-signup { background: #e22d35; color: #fff; }
+  .mobile-consult { width: 100%; margin-top: 16px; padding: 13px; display: flex; justify-content: center; border: 1px solid #e22d35; border-radius: 3px; background: #e22d35; font-weight: 600; color: #fff; }
 
   /* Srisun One stacks */
   .srisun-one-section { padding: 64px 0 72px; }
   .srisun-one-container { grid-template-columns: minmax(0, 1fr); gap: 44px; align-items: start; }
   .srisun-one-content { max-width: 680px; }
   .srisun-client-quote { padding: 36px 0 0; border-left: 0; border-top: 1px dashed rgba(255,255,255,.34); }
-  .srisun-client-quote blockquote { max-width: 620px; }
+  .client-quote-heading, .client-quote-text { max-width: 620px; }
 
   .legal-links { gap: 8px 20px; }
   .legal-links a { padding: 0; border-right: 0; }
@@ -719,6 +716,7 @@ a { color: inherit; text-decoration: none; }
   .philosophy-image-wrap::after { background: linear-gradient(180deg, rgba(21,24,28,0) 0%, rgba(21,24,28,0) 38%, rgba(21,24,28,.9) 76%, #15181c 100%); }
   .philosophy-image { object-position: 62% 28%; }
   .philosophy-content { width: 100%; min-height: 0; margin-top: -48px; padding: 0 44px 48px; }
+  .philosophy-title-wrap { font-size: clamp(36px, 6vw, 56px); }
   .philosophy-text { max-width: 560px; }
 }
 
@@ -762,7 +760,8 @@ a { color: inherit; text-decoration: none; }
   .work-step h3 { margin-top: 14px; }
   .how-we-work-cta { width: 100%; justify-content: center; }
 
-  .brand img { width: 128px; }
+  .brand img { width: 142px; }
+  .header-consult { display: none; }
 
   .srisun-hero-container { padding: 40px 0 40px; gap: 36px; }
   .srisun-hero-line { margin: 20px 0; }
@@ -779,7 +778,7 @@ a { color: inherit; text-decoration: none; }
   .philosophy-content { margin-top: -44px; padding: 0 24px 36px; }
   .philosophy-label { margin-bottom: 16px; font-size: 14px; letter-spacing: .16em; }
   .philosophy-label::after { width: 32px; }
-  .philosophy-title-wrap { font-size: clamp(44px, 13.7vw, 57px); }
+  .philosophy-title-wrap { font-size: clamp(27px, 8.4vw, 42px); }
   .philosophy-text { margin-top: 20px; font-size: 17px; }
   .philosophy-points { width: 100%; margin-top: 24px; }
   .philosophy-points span { padding: 0 14px; }
@@ -787,6 +786,7 @@ a { color: inherit; text-decoration: none; }
 
   .srisun-one-section { padding: 52px 0 56px; }
   .srisun-one-brand-row { gap: 14px; }
+  .srisun-one-lockup { gap: 14px; }
   .srisun-one-content h3 { font-size: 19px; }
   .srisun-one-button { width: 100%; justify-content: center; }
   .srisun-client-quote { padding-top: 30px; }
@@ -802,6 +802,7 @@ a { color: inherit; text-decoration: none; }
 /* ≤380 — small phones */
 @media (max-width: 380px) {
   .philosophy-content { padding: 0 20px 32px; }
+  .philosophy-title-wrap { font-size: clamp(26px, 8.6vw, 36px); }
   .philosophy-points span { padding: 0 10px; }
   .philosophy-points b { font-size: 17px; }
   .philosophy-points span { font-size: 16px; }
@@ -833,12 +834,8 @@ a { color: inherit; text-decoration: none; }
 .nav-link:hover { transform: translateY(-1px); }
 .icon-button { transition: transform .2s ease, color .2s ease; }
 .icon-button:hover { color: var(--blue); transform: scale(1.08); }
-.language { transition: color .2s ease; }
-.language:hover { color: var(--blue); }
-.signin { transition: color .2s ease, transform .2s ease; }
-.signin:hover { transform: translateY(-1px); }
-.signup { transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease; }
-.signup:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(226,45,53,.16); }
+.header-consult { transition: background .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
+.header-consult:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(226,45,53,.16); }
 .dropdown-link { transition: background .18s ease, color .18s ease, padding-left .18s ease; }
 .dropdown-link:hover { padding-left: 28px; }
 
@@ -903,18 +900,14 @@ a { color: inherit; text-decoration: none; }
 .philosophy-container.is-visible .philosophy-points { transition-delay: .25s; }
 .philosophy-container.is-visible .philosophy-button { transition-delay: .32s; }
 .global-word { transition: color .25s ease, transform .25s ease, text-shadow .25s ease; }
-.philosophy-container:hover .global-word { transform: rotate(-2deg) translateY(-2px); text-shadow: 0 7px 25px rgba(22,136,255,.34); }
+.philosophy-container:hover .global-word { transform: translateY(-2px); text-shadow: 0 7px 25px rgba(22,136,255,.34); }
 .philosophy-points span { transition: color .2s ease, transform .2s ease; }
 .philosophy-points span:hover { color: #fff; transform: translateY(-2px); }
 
 /* Srisun One */
-.srisun-one-mark span { transition: transform .3s ease, box-shadow .3s ease; }
-.srisun-one-brand-row:hover .srisun-one-mark span:nth-child(1) { transform: rotate(38deg) translate(-2px, 2px); }
-.srisun-one-brand-row:hover .srisun-one-mark span:nth-child(2) { transform: rotate(38deg) translate(2px, -2px); }
-.srisun-one-brand-row:hover .srisun-one-mark span:nth-child(3) { transform: rotate(22deg) translate(2px, 2px); }
-.srisun-one-brand-row:hover .srisun-one-mark span:nth-child(4) { transform: rotate(22deg) translate(3px, -1px); }
+.srisun-one-lockup img { transition: transform .3s ease; }
+.srisun-one-brand-row:hover .srisun-one-lockup img { transform: translateY(-2px) scale(1.04); }
 .srisun-one-content h2 { transition: letter-spacing .3s ease; }
-.srisun-one-brand-row:hover h2 { letter-spacing: -.02em; }
 .srisun-client-quote { transition: transform .25s ease, border-color .25s ease; }
 .srisun-client-quote:hover { transform: translateX(3px); border-color: rgba(255,255,255,.58); }
 .client-quote-mark { transition: transform .25s ease, background .25s ease; }
@@ -1336,7 +1329,6 @@ a { color: inherit; text-decoration: none; }
 
 
 /* Final font-size pass: raise micro labels while keeping a 16px body baseline. */
-.srisun-one-mini,
 .careers-hero-values span,
 .careers-visual-caption span,
 .careers-human-photos span,
@@ -1838,3 +1830,52 @@ a.contact-option:hover { transform: translateY(-2px); border-color: #cdddf0; box
   .ms-cta-long { display: none; }
   .ms-cta-short { display: inline; }
 }
+
+
+/* form states shared by the contact and job application forms */
+.careers-hp { position: absolute !important; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.careers-form-error { background: #fdecec; color: #9b1c1c; }
+.careers-loading { max-width: 1120px; margin: 0 auto; padding: 120px 24px; color: #5b6575; }
+.careers-primary-button:disabled, .contact-modern-form button[type="submit"]:disabled { opacity: .65; cursor: progress; }
+.contact-modern-status { margin: 14px 0 0; padding: 12px 14px; border-radius: 6px; font-size: 15px; line-height: 1.5; }
+.contact-modern-status.is-ok { background: #e8f6ee; color: #135c36; }
+.contact-modern-status.is-err { background: #fdecec; color: #9b1c1c; }
+
+/* Client logos: one shared height everywhere, width follows each logo's shape.
+   Files are trimmed to the artwork, so equal height means equal visual size. */
+:root { --logo-h: 48px; }
+.trusted-brand { flex: 0 0 auto; height: 96px; padding: 0 30px; }
+.trusted-brand img { width: auto; height: var(--logo-h); max-width: none; object-fit: contain; }
+.tc-logo-row { align-items: center; gap: 56px; }
+.tc-logo-row img { width: auto; height: var(--logo-h); }
+@media (max-width: 720px) {
+  :root { --logo-h: 38px; }
+  .trusted-brand { height: 76px; padding: 0 20px; }
+}
+.erp-industry-icon { display: grid; place-items: center; color: #d52e3c; background: linear-gradient(135deg, #fdecee, #eef3fb); }
+
+/* Client logos: every file is a 400x200 canvas, so a fixed 2:1 box keeps them equal. */
+.trusted-brand { padding: 0 10px; }
+.trusted-brands-group { gap: 28px; padding-right: 28px; }
+.trusted-brand img, .tc-logo-row img { width: 180px; height: 90px; object-fit: contain; }
+@media (max-width: 720px) {
+  .trusted-brand { height: 76px; padding: 0 4px; }
+  .trusted-brands-group { gap: 16px; padding-right: 16px; }
+  .trusted-brand img, .tc-logo-row img { width: 124px; height: 62px; }
+}
+
+/* Home: the section under the philosophy card is now the white client strip. */
+.philosophy-section { background: linear-gradient(to bottom, var(--page-gray) 50%, #fff 50%); }
+.enterprise-container { grid-template-columns: minmax(0, 1fr); }
+.enterprise-copy { max-width: 720px; }
+
+/* Phones: show the photo cleanly, with no dark overlay or sticky hover effect. */
+@media (max-width: 860px) {
+  .philosophy-image-wrap::after { display: none; }
+  .philosophy-content { margin-top: 0; padding-top: 32px; }
+}
+@media (hover: none) {
+  .philosophy-container:hover .philosophy-image { transform: none; filter: none; }
+  .philosophy-container:hover .global-word { transform: none; text-shadow: none; }
+}
+

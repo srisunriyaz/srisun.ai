@@ -1,0 +1,461 @@
+[
+  {
+    "name": "Fine Deco Tiles",
+    "url": "https://finedecotiles.co.uk",
+    "logo": "/assets/clients/fine-deco-tiles.png",
+    "industry": "Retail",
+    "solutions": [
+      "Web & E-Commerce",
+      "Digital Growth"
+    ],
+    "tags": [
+      "WordPress",
+      "Web Design",
+      "E-Commerce",
+      "SEO"
+    ],
+    "blurb": "Online storefront and product catalogue for a tile and surfaces retailer."
+  },
+  {
+    "name": "The 1234 Foundation",
+    "url": "https://the1234foundation.com",
+    "logo": "/assets/clients/1234-foundation.png",
+    "industry": "Professional Services",
+    "solutions": [
+      "Web & E-Commerce",
+      "Digital Growth"
+    ],
+    "tags": [
+      "WordPress",
+      "Web Design",
+      "Content"
+    ],
+    "blurb": "Public-facing site for a foundation communicating its programmes and outreach."
+  },
+  {
+    "name": "TETA — Tiruvannamalai Electrical Traders Association",
+    "url": "https://teta.co.in",
+    "logo": "/assets/clients/teta.png",
+    "industry": "Professional Services",
+    "solutions": [
+      "Web & E-Commerce",
+      "Business Communication"
+    ],
+    "tags": [
+      "Web Design",
+      "Member Directory",
+      "Notifications"
+    ],
+    "blurb": "Association website with a member directory and announcement channel."
+  },
+  {
+    "name": "Maw Sit Oa",
+    "url": "https://mawsitoa.com",
+    "logo": "",
+    "industry": "SMEs",
+    "solutions": [
+      "Web & E-Commerce"
+    ],
+    "tags": [
+      "Web Design",
+      "E-Commerce"
+    ],
+    "blurb": "Brand and product website for a speciality retail business."
+  },
+  {
+    "name": "Majestic Residency",
+    "url": "https://majesticresidency.com",
+    "logo": "/assets/clients/majestic-residency.png",
+    "industry": "SMEs",
+    "solutions": [
+      "Web & E-Commerce",
+      "Digital Growth"
+    ],
+    "tags": [
+      "Web Design",
+      "Booking Enquiry",
+      "SEO"
+    ],
+    "blurb": "Hospitality website with room presentation and booking enquiries."
+  },
+  {
+    "name": "Kasturba Gandhi Jal College of Education for Women",
+    "url": "https://kasturbagandhijal.in",
+    "logo": "/assets/clients/kasturba-gandhi-jal.png",
+    "industry": "Education",
+    "solutions": [
+      "Web & E-Commerce",
+      "Business Communication"
+    ],
+    "tags": [
+      "Web Design",
+      "Admissions Form",
+      "Notices"
+    ],
+    "blurb": "College website covering courses, admissions and announcements."
+  },
+  {
+    "name": "Walaja Cricket Academy",
+    "url": "https://walajacricketacademy.in",
+    "logo": "/assets/clients/walaja-cricket-academy.png",
+    "industry": "Education",
+    "solutions": [
+      "Web & E-Commerce",
+      "Digital Growth"
+    ],
+    "tags": [
+      "Web Design",
+      "Registration",
+      "Social"
+    ],
+    "blurb": "Academy website with programme details and player registration."
+  },
+  {
+    "name": "Smt. Gandhimathi College of Pharmacy",
+    "url": "https://sgcp.edu.in",
+    "logo": "/assets/clients/smt-gandhimathi-pharmacy.png",
+    "industry": "Education",
+    "solutions": [
+      "Web & E-Commerce",
+      "Business Communication"
+    ],
+    "tags": [
+      "Web Design",
+      "Admissions Form",
+      "SEO"
+    ],
+    "blurb": "Pharmacy college website for courses, faculty and admissions."
+  },
+  {
+    "name": "Ektaa Loans",
+    "url": "https://ektaaloans.com",
+    "logo": "/assets/clients/ektaa-loans.png",
+    "industry": "Finance",
+    "solutions": [
+      "Web & E-Commerce",
+      "Software & Apps"
+    ],
+    "tags": [
+      "Web Design",
+      "Lead Capture",
+      "API Integration"
+    ],
+    "blurb": "Lending website with product pages and an application enquiry flow."
+  },
+  {
+    "name": "Saai Residency",
+    "url": "https://saairesidency.com",
+    "logo": "/assets/clients/saai-residency.png",
+    "industry": "SMEs",
+    "solutions": [
+      "Web & E-Commerce"
+    ],
+    "tags": [
+      "Web Design",
+      "Booking Enquiry"
+    ],
+    "blurb": "Residency website presenting rooms, facilities and contact routes."
+  },
+  {
+    "name": "Kumaran Polytechnic College",
+    "url": "https://kumaranpolytechniccollege.com",
+    "logo": "/assets/clients/kumaran-polytechnic.png",
+    "industry": "Education",
+    "solutions": [
+      "Web & E-Commerce",
+      "Business Communication"
+    ],
+    "tags": [
+      "Web Design",
+      "Admissions Form",
+      "Notices"
+    ],
+    "blurb": "Polytechnic website for departments, admissions and campus updates."
+  },
+  {
+    "name": "Annaamalai School",
+    "url": "https://annaamalaischool.in",
+    "logo": "",
+    "industry": "Education",
+    "solutions": [
+      "Web & E-Commerce",
+      "Business Communication"
+    ],
+    "tags": [
+      "Web Design",
+      "Admissions Form",
+      "Parent Updates"
+    ],
+    "blurb": "School website for admissions, academics and parent communication."
+  },
+  {
+    "name": "Hotel Amirtha",
+    "url": "https://hotelamirtha.com",
+    "logo": "",
+    "industry": "SMEs",
+    "solutions": [
+      "Web & E-Commerce",
+      "Digital Growth"
+    ],
+    "tags": [
+      "Web Design",
+      "Booking Enquiry",
+      "SEO"
+    ],
+    "blurb": "Hotel website with rooms, dining and enquiry capture."
+  },
+  {
+    "name": "MR Hospitals",
+    "url": "https://mrhospitalchennai.com",
+    "logo": "/assets/clients/mr-hospitals.png",
+    "industry": "Healthcare",
+    "solutions": [
+      "Web & E-Commerce",
+      "Business Communication"
+    ],
+    "tags": [
+      "Web Design",
+      "Appointment Enquiry",
+      "SEO"
+    ],
+    "blurb": "Hospital website covering departments, doctors and appointments."
+  },
+  {
+    "name": "ChennaiAzhagi",
+    "url": "https://chennaiazhagi.com",
+    "logo": "/assets/clients/chennai-azhagi.png",
+    "industry": "Education",
+    "solutions": [
+      "Web & E-Commerce",
+      "Digital Growth"
+    ],
+    "tags": [
+      "Web Design",
+      "Course Enrolment",
+      "Digital Marketing"
+    ],
+    "blurb": "Online beauty training academy with course listings and enrolment."
+  },
+  {
+    "name": "Netstock Solutions",
+    "url": "https://netstocksolutions.com",
+    "logo": "/assets/clients/netstock-solutions.png",
+    "industry": "Professional Services",
+    "solutions": [
+      "Web & E-Commerce",
+      "Tech Consulting"
+    ],
+    "tags": [
+      "Web Design",
+      "Corporate Site",
+      "API Integration"
+    ],
+    "blurb": "Corporate website for a technology services provider."
+  },
+  {
+    "name": "SmartGen Developers",
+    "url": "https://smartgendevelopers.com",
+    "logo": "/assets/clients/smartgen-developers.png",
+    "industry": "Professional Services",
+    "solutions": [
+      "Web & E-Commerce",
+      "Digital Growth"
+    ],
+    "tags": [
+      "Web Design",
+      "Project Showcase",
+      "SEO"
+    ],
+    "blurb": "Property developer website presenting projects and enquiries."
+  },
+  {
+    "name": "Arunachala Natural",
+    "url": "https://arunachalanatural.com",
+    "logo": "/assets/clients/arunachala-natural.png",
+    "industry": "Manufacturing",
+    "solutions": [
+      "Web & E-Commerce",
+      "Digital Growth"
+    ],
+    "tags": [
+      "WordPress",
+      "E-Commerce",
+      "Web Design",
+      "Digital Marketing"
+    ],
+    "blurb": "Natural products brand with an online store and campaign pages."
+  },
+  {
+    "name": "TN Urban Tree — Tiruvannamalai",
+    "url": "https://tnurbantree.tn.gov.in/tiruvannamalai",
+    "logo": "",
+    "industry": "Professional Services",
+    "solutions": [
+      "Business Communication"
+    ],
+    "tags": [
+      "SMS",
+      "Notifications",
+      "Citizen Updates"
+    ],
+    "blurb": "Citizen messaging and update delivery for an urban greening programme."
+  },
+  {
+    "name": "Hotel ASM Grand",
+    "url": "http://hotelasmgrand.in/",
+    "logo": "",
+    "industry": "SMEs",
+    "solutions": [
+      "Business Communication",
+      "Digital Growth"
+    ],
+    "tags": [
+      "WhatsApp",
+      "SMS",
+      "Booking Alerts"
+    ],
+    "blurb": "Guest messaging for booking confirmations and offers."
+  },
+  {
+    "name": "Flamingo Healthcare Centre",
+    "url": "https://flamingohealthcare.in",
+    "logo": "/assets/clients/flamingo-healthcare.png",
+    "industry": "Healthcare",
+    "solutions": [
+      "Business Communication",
+      "Web & E-Commerce"
+    ],
+    "tags": [
+      "WhatsApp",
+      "Appointment Alerts",
+      "Web Design"
+    ],
+    "blurb": "Patient messaging alongside a clinic information site."
+  },
+  {
+    "name": "Million Franchise",
+    "url": "https://millionfranchise.com",
+    "logo": "/assets/clients/million-franchise.png",
+    "industry": "Professional Services",
+    "solutions": [
+      "Web & E-Commerce",
+      "Digital Growth"
+    ],
+    "tags": [
+      "Web Design",
+      "Lead Capture",
+      "Digital Marketing"
+    ],
+    "blurb": "Franchise discovery platform connecting brands and investors."
+  },
+  {
+    "name": "MBusiness",
+    "url": "https://mbusiness.in",
+    "logo": "/assets/clients/mbusiness.png",
+    "industry": "Professional Services",
+    "solutions": [
+      "Web & E-Commerce",
+      "Digital Growth"
+    ],
+    "tags": [
+      "Web Design",
+      "Content",
+      "SEO"
+    ],
+    "blurb": "Business media and listings brand."
+  },
+  {
+    "name": "Millionpreneurs",
+    "url": "https://millionpreneurs.com",
+    "logo": "",
+    "industry": "Professional Services",
+    "solutions": [
+      "Digital Growth",
+      "Business Communication"
+    ],
+    "tags": [
+      "Community",
+      "Events",
+      "Digital Marketing"
+    ],
+    "blurb": "Entrepreneur community and events brand."
+  },
+  {
+    "name": "BMindz",
+    "url": "https://bmindz.com",
+    "logo": "/assets/clients/bmindz.png",
+    "industry": "Professional Services",
+    "solutions": [
+      "Digital Growth",
+      "Software & Apps"
+    ],
+    "tags": [
+      "Web Design",
+      "Branding",
+      "Digital Marketing"
+    ],
+    "blurb": "Brand and digital services studio."
+  },
+  {
+    "name": "Srisun Tiles & Granites",
+    "url": "",
+    "logo": "",
+    "industry": "Manufacturing",
+    "solutions": [
+      "Web & E-Commerce"
+    ],
+    "tags": [
+      "Catalogue",
+      "Web Design"
+    ],
+    "blurb": "Tiles and granites brand within the Srisun group."
+  },
+  {
+    "name": "XLoan",
+    "url": "https://xloan.in",
+    "logo": "/assets/clients/xloan.png",
+    "industry": "Finance",
+    "solutions": [
+      "Software & Apps",
+      "Web & E-Commerce"
+    ],
+    "tags": [
+      "Web App",
+      "Lead Capture",
+      "API Integration"
+    ],
+    "blurb": "Loan discovery and application platform."
+  },
+  {
+    "name": "Jobnaa",
+    "url": "https://jobnaa.com",
+    "logo": "",
+    "industry": "Professional Services",
+    "solutions": [
+      "Software & Apps",
+      "AI & Automation"
+    ],
+    "tags": [
+      "Job Portal",
+      "Web App",
+      "Automation"
+    ],
+    "blurb": "Job listing and candidate matching platform."
+  },
+  {
+    "name": "MYDC",
+    "url": "https://mydc.co.in",
+    "logo": "/assets/clients/mydc.png",
+    "industry": "Professional Services",
+    "solutions": [
+      "Software & Apps",
+      "Tech Consulting"
+    ],
+    "tags": [
+      "Web App",
+      "Dashboard",
+      "API Integration"
+    ],
+    "blurb": "Digital services platform with an account dashboard."
+  }
+]

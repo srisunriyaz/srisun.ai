@@ -2,3 +2,14 @@ node_modules/
 dist/
 .env
 .DS_Store
+storage/uploads/*
+!storage/uploads/.gitkeep
+
+.vercel
+.env*
+
+# local tooling
+.claude/
+.agents/
+.tmp/
+skills-lock.json

@@ -1,0 +1,13 @@
+# Apache: send every /api request to the front controller and expose nothing else.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# Only index.php may be requested directly.
+<FilesMatch "^(?!index\.php$).*\.(php|phps|inc|env|sql|log)$">
+  Require all denied
+</FilesMatch>
+
+Options -Indexes
