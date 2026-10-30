@@ -833,3 +833,6 @@ img.cs-related-img { width: auto; height: calc(var(--logo-h) - 8px); max-width: 
 .sp-policy-note { border-left-color: var(--sp-a); background: #f6f8fb; }
 .sp-logo img { width: 100%; max-width: 200px; height: auto; aspect-ratio: 2 / 1; }
 
+
+/* Accessibility: theme-coloured labels darkened slightly so every page theme meets WCAG AA contrast. */
+.sp-eyebrow:not(.light), .sp-mock li em { color: color-mix(in srgb, var(--sp-a) 72%, #000); }

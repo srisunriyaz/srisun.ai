@@ -1,3 +1,21 @@
+/* Inter is self-hosted (SIL Open Font License): one variable file per character set, all weights. */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/inter-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/inter-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* =========================================================
    SRISUN — GLOBAL STYLES
    One 1240px content grid shared by header, hero, cards,
@@ -1108,7 +1126,7 @@ a { color: inherit; text-decoration: none; }
 
 /* Home page closing sections */
 .core-values-section { position: relative; padding: 0 0 84px; background: #f5f7fa; }
-.core-values-banner { height: clamp(300px, 36vw, 760px); background: linear-gradient(180deg, rgba(14,25,41,.08), rgba(14,25,41,.28)), url('/assets/careers-collaboration.png') center 42% / cover no-repeat; }
+.core-values-banner { height: clamp(300px, 36vw, 760px); background: linear-gradient(180deg, rgba(14,25,41,.08), rgba(14,25,41,.28)), url('/assets/careers-collaboration.webp') center 42% / cover no-repeat; }
 .core-values-card { position: relative; width: min(900px, calc(100% - 48px)); margin: -100px auto 0; padding: 52px 64px 44px; background: #fff; box-shadow: 0 14px 42px rgba(23,32,51,.08); text-align: center; }
 .home-closing-kicker { display: block; color: var(--accent-green); font-size: 13px; font-weight: 700; letter-spacing: .17em; }
 .core-values-card h2 { margin: 12px 0 0; color: #172033; font-size: clamp(34px, 4.2vw, 46px); font-weight: 400; line-height: 1.1; letter-spacing: -.045em; }
@@ -1879,3 +1897,20 @@ a.contact-option:hover { transform: translateY(-2px); border-color: #cdddf0; box
   .philosophy-container:hover .global-word { transform: none; text-shadow: none; }
 }
 
+
+/* Accessibility: text colours nudged to meet WCAG AA contrast (4.5:1), same hues as before. */
+.erp-footer-cta > div > p, .erp-footer-brand > small, .erp-footer-links > div > a { color: #556275; }
+.career-home-primary { background: #d0222f; }
+.career-people-copy .career-home-kicker { color: #047a52; }
+.career-people-accent b:nth-child(1) { color: #0a64c4; }
+.career-people-accent b:nth-child(2) { color: #c8202d; }
+.career-people-accent b:nth-child(3) { color: #047a52; }
+.footer-contact .contact-links > a { color: #0a64c4; }
+.contact-breadcrumb > span { color: #5f6b7c; }
+.contact-modern-form-kicker { color: #c8202d; }
+.contact-modern-form button { background: #d0222f; }
+.contact-modern-form button:hover { background: #b81c28; }
+.contact-modern-office-inner small, .erp-footer-legal > span, .erp-footer-legal > div > a, .careers-job-topline > span { color: #5f6b7c; }
+.careers-job-topline > a { color: #c8202d; }
+/* Layout stability: the hero illustration keeps its viewBox ratio from the first paint. */
+.tc-hero-art { aspect-ratio: 520 / 420; }

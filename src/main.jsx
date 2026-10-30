@@ -467,7 +467,9 @@ function SrisunFeaturedSection() {
       <div className="philosophy-container scroll-reveal">
         <div className="philosophy-image-wrap">
           <img
-            src="/assets/philosophy-girl.jpg"
+            src="/assets/philosophy-girl.webp"
+            srcSet={srcSetFor('/assets/philosophy-girl.webp')}
+            sizes="(max-width: 860px) 100vw, 1240px"
             alt="Smiling professional thinking beside a laptop"
             className="philosophy-image"
             width="1020"
@@ -537,8 +539,8 @@ function TrustedBrandsSection() {
 
 function VideoStoriesSection() {
   const slides = [
-    { title: 'See the work we have done for our clients.', image: '/assets/client-story-team.png', alt: 'Indian business team collaborating around a laptop' },
-    { title: 'A good project starts with a clear brief.', image: '/assets/client-story-studio.png', alt: 'Entrepreneur and colleague reviewing a project together' }
+    { title: 'See the work we have done for our clients.', image: '/assets/client-story-team.webp', alt: 'Indian business team collaborating around a laptop' },
+    { title: 'A good project starts with a clear brief.', image: '/assets/client-story-studio.webp', alt: 'Entrepreneur and colleague reviewing a project together' }
   ];
   const [activeSlide, setActiveSlide] = useState(0);
   const changeSlide = (direction) => setActiveSlide((current) => (current + direction + slides.length) % slides.length);
@@ -554,7 +556,7 @@ function VideoStoriesSection() {
             <h2 id="video-stories-title">{slide.title}</h2>
             <a href="/clients/stories" className="video-stories-button">Read Their Stories <ChevronRight size={16} /></a>
           </div>
-          <img className="video-stories-image" src={slide.image} alt={slide.alt} />
+          <img className="video-stories-image" src={slide.image} srcSet={srcSetFor(slide.image)} sizes="(max-width: 860px) 100vw, 620px" width="1600" height="900" alt={slide.alt} />
         </div>
         <button type="button" className="video-stories-arrow video-stories-arrow-next" onClick={() => changeSlide(1)} aria-label="Next story"><ChevronRight size={20} /></button>
         <div className="video-stories-dots" aria-label="Choose a story">
@@ -756,7 +758,7 @@ function CareersLandingPage() {
             <div className="career-home-location"><Globe size={16} /> Opportunities across India</div>
           </div>
           <div className="career-home-image-wrap">
-            <img src="/assets/careers-team.png" alt="A diverse Indian team sharing ideas around a laptop" />
+            <img src="/assets/careers-team.webp" srcSet={srcSetFor('/assets/careers-team.webp')} sizes="(max-width: 860px) 100vw, 640px" width="1600" height="900" fetchpriority="high" alt="A diverse Indian team sharing ideas around a laptop" />
             <div className="career-image-note"><span>GOOD WORK, TOGETHER</span><strong>Bring your best ideas.</strong></div>
             <i className="career-image-spark career-image-spark-red" /><i className="career-image-spark career-image-spark-yellow" />
           </div>
@@ -765,7 +767,7 @@ function CareersLandingPage() {
 
       <section className="career-home-people">
         <div className="career-home-inner career-people-inner">
-          <div className="career-people-image"><img src="/assets/careers-collaboration.png" alt="Srisun colleagues reviewing an idea together" /><span>PEOPLE BEHIND THE WORK</span></div>
+          <div className="career-people-image"><img src="/assets/careers-collaboration.webp" srcSet={srcSetFor('/assets/careers-collaboration.webp')} sizes="(max-width: 860px) 100vw, 640px" width="1600" height="674" loading="lazy" alt="Srisun colleagues reviewing an idea together" /><span>PEOPLE BEHIND THE WORK</span></div>
           <div className="career-people-copy"><span className="career-home-kicker">A PLACE TO DO YOUR BEST WORK</span><h2>We grow when our people grow.</h2><p>Different skills and points of view help us solve real problems. At Srisun, you can keep learning, take ownership of your work and see the difference it makes.</p><div className="career-people-accent"><b>Curiosity</b><b>Collaboration</b><b>Care</b></div></div>
         </div>
       </section>
@@ -938,6 +940,58 @@ const contentPages = [
   ...['Security','Compliance','IPR Complaints','Terms of Service','Privacy Policy','Refund Policy','Trademark Policy','Cookie Policy','GDPR Compliance','Abuse Policy'].map((title) => ({ path:menuItemHref(title),title,group:'Policies',description:`Srisun’s ${title.toLowerCase()}. For questions or requests about this policy, contact our team.`,cta:`Contact Us About ${title}` }))
 ];
 
+// WebP photos ship at 1600px and 800px wide; the browser picks the size it needs.
+const srcSetFor = (src) => `${src.replace(/\.webp$/, '-800.webp')} 800w, ${src} 1600w`;
+
+// True when the build wrote this page's head tags (canonical, description, structured data).
+const headPrerenderedFor = (pathname) => {
+  const href = typeof document !== 'undefined' && document.head.querySelector('link[rel="canonical"]')?.getAttribute('href');
+  const trim = (value) => value.replace(/\/+$/, '') || '/';
+  return Boolean(href) && trim(new URL(href, window.location.origin).pathname) === trim(pathname);
+};
+
+// Search descriptions (shown in Google results), written per page and kept under 160 characters.
+const seoDescriptions = {
+  '/services/sales': 'Sales process setup from Srisun: lead capture, pipelines, follow-up reminders, quotes and sales reports, so every enquiry gets a timely reply.',
+  '/services/erp': 'ERP consulting and implementation for Indian businesses: connect finance, inventory, sales and HR in one system, planned around how you already work.',
+  '/services/legal': 'Website policies, agreement templates and compliance checklists for your business, prepared by Srisun and kept up to date as your services change.',
+  '/services/marketing': 'Digital marketing from Srisun: Google and Meta ads, social media, email and WhatsApp campaigns, with clear reports on spend and enquiries.',
+  '/services/crm': 'CRM setup and customisation by Srisun: customer records, pipelines, reminders and WhatsApp logging, so your team always knows the next step.',
+  '/services/forms': 'Online admission, registration, feedback and payment forms that work on any phone and send each response to email, a sheet or your CRM.',
+  '/services/booking': 'Online booking for appointments, classes and services, with SMS and WhatsApp reminders, advance payments and staff calendars, set up by Srisun.',
+  '/services/domain-server': 'Domain registration, web hosting, business email, SSL and backups, set up and managed by Srisun so your website and inbox stay online.',
+  '/solutions/tech-consulting': 'Independent technology consulting across India: strategy, IT assessments, cloud, data, AI readiness and cybersecurity, with roadmaps you can act on.',
+  '/solutions/web-and-e-commerce': 'Websites and online stores for businesses across India: custom design, WooCommerce and Shopify, payment integrations, SEO-ready builds and support.',
+  '/industries/education': 'Technology for schools, colleges and training institutes: online admissions, fee payments, WhatsApp updates for parents and websites staff can edit.',
+  '/industries/finance': 'Software, automation and security for lenders and financial firms: digital loan applications, repayment reminders and security reviews.',
+  '/industries/retail': 'Online stores, stock control and WhatsApp marketing for shops and retail brands, with UPI payments and one view of stock across every channel.',
+  '/industries/manufacturing': 'ERP, shop-floor apps and production dashboards that connect purchase, stock, quality checks and dispatch for manufacturers across India.',
+  '/industries/healthcare': 'Online appointments, visit reminders, clinic websites and patient data protection for clinics, hospitals and diagnostic centres.',
+  '/industries/professional-services': 'Client CRM, online onboarding, billing workflows and meeting booking for consultants, agencies, CA firms and law practices.',
+  '/industries/smes': 'Practical technology for small and medium businesses: websites, simple ERP, local marketing and basic security, introduced one step at a time.',
+  '/products/srisun-books': 'Request a walkthrough of Srisun Books. Our team will show you how it fits your process and confirm the current features and availability.',
+  '/products/xloan': 'XLoan supports lending workflows from first enquiry to final decision. Request a walkthrough to see the current features and availability.',
+  '/resources/announcements': 'Company news, product updates and announcements from Srisun. Contact our team if you would like recent updates shared with you.',
+  '/resources/concierge': 'Not sure where to start? Tell Srisun what you need, from a website to automation or security, and we will point you to the right team.',
+  '/resources/shri-ai-agent': 'Shri is Srisun’s work on AI agents that answer questions, find information and pass requests to the right person. Ask what it can do today.',
+  '/resources/the-long-game': 'Thoughts from Srisun on building useful technology and the long-term digital skills organisations need to keep it working well.',
+  '/services': 'Srisun services for growing organisations: sales setup, ERP, CRM, marketing, online forms, booking, legal paperwork, domains and hosting.',
+  '/solutions': 'Technology consulting, websites and online stores, custom software, AI and automation, cybersecurity, messaging and digital growth from Srisun.',
+  '/industries': 'How Srisun helps education, finance, retail, manufacturing, healthcare, professional services and SMEs with practical, sector-specific technology.',
+  '/clients': 'The schools, colleges and businesses that work with Srisun, along with our training programme and ways to introduce new customers.',
+  '/partners': 'Work with Srisun as a technology, reseller, integration, strategic or affiliate partner on projects for organisations across India.',
+  '/products': 'Software products from Srisun: Srisun AI, Srisun Books, Srisun Social, Zedu and XLoan. Request a walkthrough to see which one suits you.',
+  '/partners/partner-program': 'The Srisun Partner Program is for organisations that want to build, sell or deliver technology with us. See who it suits and how to apply.',
+  '/partners/technology-partners': 'Partner with Srisun if your platform, AI product or security tool could help our customers. See what to share and how partnerships start.',
+  '/partners/reseller-partners': 'Offer Srisun websites, software, AI and security services to your own business customers. See who the reseller programme suits.',
+  '/partners/integration-partners': 'For API, integration and data providers whose products help Srisun clients connect their systems. See what to share and how to start.',
+  '/partners/strategic-partnerships': 'Long-term partnerships with institutions and organisations planning larger technology programmes with Srisun over several years.',
+  '/partners/affiliate-program': 'Know a business that needs a website, software or security help? Introduce them to Srisun through our affiliate programme.',
+  '/company/about-srisun': 'Srisun is a technology company in Tiruvannamalai, Tamil Nadu, offering consulting, software, automation, cybersecurity and digital marketing.',
+  '/company/our-story': 'How Srisun grew from a small team in Tiruvannamalai into a company building websites, software and digital services for clients in India and abroad.'
+};
+contentPages.forEach((page) => { if (seoDescriptions[page.path]) page.description = seoDescriptions[page.path]; });
+
 const getPageFaq = (page) => page.showcase ? showcasePages[page.showcase].faq : subpageFaq(page.path) ? subpageFaq(page.path) : page.erp ? [
     { question: 'What does ERP implementation involve?', answer: 'ERP implementation can include process discovery, system selection, configuration, data migration, integrations, testing, training and rollout. The right scope depends on your current systems and business requirements.' },
     { question: 'Can an ERP system connect finance, inventory and sales?', answer: 'Yes. An ERP platform can connect these functions through shared records and workflows. Srisun can help map your requirements and plan integrations around the systems you use.' },
@@ -1086,7 +1140,7 @@ function ErpPage() {
 
       <section className="erp-integrations-section" id="erp-integrations"><div className="content-page-inner"><div className="erp-section-heading erp-integrations-heading"><span className="erp-section-kicker">INTEGRATIONS</span><h2>Don’t forget the systems around your ERP.</h2><p>We map the data and handovers that link your ERP to the rest of your business.</p></div><div className="erp-integration-map"><div className="erp-integration-node node-center"><Boxes size={25}/><strong>ERP</strong><small>Shared operations</small></div>{[['Payments','₹'],['E-commerce','EC'],['Banking','BK'],['Customer tools','CRM'],['Shipping','SH'],['Reporting','BI'],['Communication','CM'],['Inventory','IN']].map(([title,mark],index)=><div className={`erp-integration-node node-${index+1}`} key={title}><span>{mark}</span><strong>{title}</strong></div>)}<div className="erp-map-line line-1"/><div className="erp-map-line line-2"/><div className="erp-map-line line-3"/><div className="erp-map-line line-4"/><div className="erp-map-line line-5"/><div className="erp-map-line line-6"/><div className="erp-map-line line-7"/><div className="erp-map-line line-8"/></div></div></section>
 
-      <section className="erp-support-section"><div className="content-page-inner"><div className="erp-section-heading"><span className="erp-section-kicker">SUPPORT THROUGH THE JOURNEY</span><h2>Making your ERP plan work in practice.</h2></div><div className="erp-support-grid"><article><div className="erp-support-photo"><img src="/assets/client-story-studio.png" alt="Teams collaborating on business technology" loading="lazy"/></div><div><span>ERP CONSULTING</span><h3>Experienced help from first discussion to rollout.</h3><p>Help with requirements, choosing a platform, planning the rollout, moving data and preparing your team.</p><a href="/contact-us">Talk to Our Team <ChevronRight size={14}/></a></div></article><article><div className="erp-support-photo support-photo-alt"><img src="/assets/careers-team.png" alt="Srisun team working together" loading="lazy"/></div><div><span>ONGOING SUPPORT</span><h3>Keep improving after launch.</h3><p>We review what is working, fix gaps and adjust your ERP workflows as priorities change.</p><a href="/contact-us">Plan Your Next Step <ChevronRight size={14}/></a></div></article></div></div></section>
+      <section className="erp-support-section"><div className="content-page-inner"><div className="erp-section-heading"><span className="erp-section-kicker">SUPPORT THROUGH THE JOURNEY</span><h2>Making your ERP plan work in practice.</h2></div><div className="erp-support-grid"><article><div className="erp-support-photo"><img src="/assets/client-story-studio.webp" alt="Teams collaborating on business technology" loading="lazy"/></div><div><span>ERP CONSULTING</span><h3>Experienced help from first discussion to rollout.</h3><p>Help with requirements, choosing a platform, planning the rollout, moving data and preparing your team.</p><a href="/contact-us">Talk to Our Team <ChevronRight size={14}/></a></div></article><article><div className="erp-support-photo support-photo-alt"><img src="/assets/careers-team.webp" alt="Srisun team working together" loading="lazy"/></div><div><span>ONGOING SUPPORT</span><h3>Keep improving after launch.</h3><p>We review what is working, fix gaps and adjust your ERP workflows as priorities change.</p><a href="/contact-us">Plan Your Next Step <ChevronRight size={14}/></a></div></article></div></div></section>
 
       <section className="erp-process-section"><div className="content-page-inner"><div className="erp-section-heading"><span className="erp-section-kicker">HOW WE WORK</span><h2>From your first question to launch day.</h2><p>Clear stages keep the project focused on your business needs throughout.</p></div><div className="erp-process-grid">{steps.map(([number,title,description])=><article key={number}><span>{number}</span><h3>{title}</h3><p>{description}</p></article>)}</div></div></section>
 
@@ -1419,7 +1473,7 @@ const cybersecurityPage = {
 
 const businessCommunicationPage = {
   theme: 'comms',
-  seoTitle: 'WhatsApp, SMS & Business Messaging Services in India | Srisun',
+  seoTitle: 'WhatsApp & SMS Business Messaging in India | Srisun',
   micro: {
     theme: 'comms', label: 'Messaging', home: '/solutions/business-communication', nav: showcaseNav,
     cta: ['Get Started', '/contact-us', 'Start'],
@@ -1834,8 +1888,9 @@ export function App() {
 
   useEffect(() => {
     // Case study pages publish their own metadata from the database once
-    // the record has loaded, so this route-level block stands aside.
-    if (!caseStudySlug) {
+    // the record has loaded, so this route-level block stands aside. Pages the
+    // build prerendered already carry complete head tags, so they are left alone.
+    if (!caseStudySlug && !headPrerenderedFor(normalizedPath)) {
       const title = isCareersPage
         ? normalizedPath.endsWith('/jobs') ? 'Open Roles at Srisun | Careers' : normalizedPath.includes('/apply') ? 'Apply for a Role at Srisun | Careers' : normalizedPath.split('/').length > 3 ? `${selectedCareerRole?.title || 'Careers'} at Srisun | Careers` : 'Careers at Srisun | Build what moves people forward'
         : isContactPage ? 'Contact Srisun | Let’s build something better'
@@ -1853,18 +1908,18 @@ export function App() {
       setMeta('description', description);
       setMeta('robots', (routePage?.group === 'Policies' && !publishedPage(normalizedPath)) || normalizedPath === '/search' || normalizedPath.endsWith('/apply') || isNotFound || caseStudySlug || isAdmin ? 'noindex,follow' : 'index,follow');
       setMeta('og:title', title, true); setMeta('og:description', description, true);
-      setMeta('og:type', 'website', true); setMeta('og:url', `https://www.srisun.com${normalizedPath === '/' ? '/' : normalizedPath}`, true);
-      setMeta('og:image', 'https://www.srisun.com/assets/srisun-logo.png', true);
+      setMeta('og:type', 'website', true); setMeta('og:url', `https://srisun.ai${normalizedPath === '/' ? '/' : normalizedPath}`, true);
+      setMeta('og:image', 'https://srisun.ai/assets/srisun-logo.png', true);
       let canonical = document.head.querySelector('link[rel="canonical"]');
       if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
-      canonical.href = `https://www.srisun.com${normalizedPath === '/' ? '/' : normalizedPath}`;
+      canonical.href = `https://srisun.ai${normalizedPath === '/' ? '/' : normalizedPath}`;
       let schemaScript = document.getElementById('srisun-schema');
       if (!schemaScript) { schemaScript = document.createElement('script'); schemaScript.id = 'srisun-schema'; schemaScript.type = 'application/ld+json'; document.head.appendChild(schemaScript); }
       schemaScript.textContent = JSON.stringify({
         '@context': 'https://schema.org', '@graph': [
-          { '@type': 'Organization', '@id': 'https://www.srisun.com/#organization', name: 'Srisun', url: 'https://www.srisun.com/', logo: 'https://www.srisun.com/assets/srisun-logo.png', email: 'hello@srisun.ai', telephone: '+91 88833 88162', description: 'Building technology for better lives and businesses.' },
-          { '@type': 'WebPage', '@id': `https://www.srisun.com${normalizedPath}#webpage`, url: `https://www.srisun.com${normalizedPath === '/' ? '/' : normalizedPath}`, name: title, description, isPartOf: { '@id': 'https://www.srisun.com/#website' }, about: { '@id': 'https://www.srisun.com/#organization' } },
-          { '@type': 'WebSite', '@id': 'https://www.srisun.com/#website', url: 'https://www.srisun.com/', name: 'Srisun', publisher: { '@id': 'https://www.srisun.com/#organization' } },
+          { '@type': 'Organization', '@id': 'https://srisun.ai/#organization', name: 'Srisun', url: 'https://srisun.ai/', logo: 'https://srisun.ai/assets/srisun-logo.png', email: 'hello@srisun.ai', telephone: '+91 88833 88162', description: 'Building technology for better lives and businesses.' },
+          { '@type': 'WebPage', '@id': `https://srisun.ai${normalizedPath}#webpage`, url: `https://srisun.ai${normalizedPath === '/' ? '/' : normalizedPath}`, name: title, description, isPartOf: { '@id': 'https://srisun.ai/#website' }, about: { '@id': 'https://srisun.ai/#organization' } },
+          { '@type': 'WebSite', '@id': 'https://srisun.ai/#website', url: 'https://srisun.ai/', name: 'Srisun', publisher: { '@id': 'https://srisun.ai/#organization' } },
           ...(routePage && routePage.group !== 'Policies' && normalizedPath !== '/search' ? [{ '@type': 'FAQPage', mainEntity: getPageFaq(routePage).map((faq) => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })) }] : [])
         ]
       });
@@ -1938,6 +1993,6 @@ if (typeof document !== 'undefined') {
   }
 }
 
-export { contentPages, jobsSnapshot as openRoles };
+export { contentPages, showcasePages, jobsSnapshot as openRoles };
 
 

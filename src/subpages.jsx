@@ -811,11 +811,14 @@ function CaseStudyPage({ client }) {
   // Search metadata, straight from the database record. Only a published case
   // study is marked indexable; a draft stays out of the index entirely.
   useEffect(() => {
-    const origin = 'https://www.srisun.com';
+    const origin = 'https://srisun.ai';
     const url = `${origin}/clients/stories/${client.id}`;
     const published = cs?.status === 'published';
     const title = cs?.seoTitle || `${client.name} | Srisun Case Study`;
     const description = cs?.metaDescription || cs?.summary || client.description || `${client.name} is part of the Srisun client portfolio.`;
+
+    // the build already wrote complete head tags for a published, prerendered story
+    if (published && document.head.querySelector(`link[rel="canonical"][href="${url}"]`)) return;
 
     document.title = title;
 

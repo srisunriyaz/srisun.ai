@@ -73,12 +73,25 @@ export function useClientList({ query = '', industries = [], solutions = [] }) {
   return state;
 }
 
+// A prerendered case study carries its own data (set during the build, or embedded
+// in the page as #srisun-client), so the story shows at once and is then refreshed.
+const preloadedClient = (slug) => {
+  let client = globalThis.__SRISUN_CLIENT__;
+  if (!client && typeof document !== 'undefined') {
+    try { client = JSON.parse(document.getElementById('srisun-client')?.textContent || 'null'); } catch { client = null; }
+  }
+  return client?.id === slug ? client : null;
+};
+
 export function useClient(slug) {
-  const [state, setState] = useState({ client: null, loading: true, error: null, notFound: false });
+  const [state, setState] = useState(() => {
+    const client = preloadedClient(slug);
+    return { client, loading: !client, error: null, notFound: false };
+  });
 
   useEffect(() => {
     const controller = new AbortController();
-    setState({ client: null, loading: true, error: null, notFound: false });
+    setState((prev) => (prev.client?.id === slug ? prev : { client: null, loading: true, error: null, notFound: false }));
     fetchClient(slug, controller.signal)
       .then((client) => setState({ client, loading: false, error: null, notFound: false }))
       .catch((error) => {
