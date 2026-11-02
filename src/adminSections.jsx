@@ -99,7 +99,7 @@ export function Enquiries() {
     <>
       <div className="ad-toolbar">
         <div className="ad-search"><Search size={17} aria-hidden="true" /><input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search name, email, company or message" aria-label="Search enquiries" /></div>
-        <Segments value={filter} onChange={setFilter} ariaLabel="Filter by status" options={[['all', 'All'], ['new', 'New'], ['in_progress', 'In progress'], ['closed', 'Closed']]} />
+        <Segments value={filter} onChange={setFilter} ariaLabel="Filter by status" options={[['all', 'All'], ['new', 'Unread'], ['in_progress', 'In progress'], ['closed', 'Closed']]} />
       </div>
       {actionError ? <ErrorLine message={actionError} /> : null}
       {loading ? <Loading /> : error ? <ErrorLine message={error} /> : (
@@ -116,13 +116,14 @@ export function Enquiries() {
               subtitle={[item.company, item.topic].filter(Boolean).join(' · ') || 'General enquiry'}
               preview={item.message}
               status={item.status}
+              pill={item.status === 'new' ? 'Unread' : `Read · ${label(item.status)}`}
               date={item.createdAt}
             >
               <dl className="ad-details">
                 <div><dt>Email</dt><dd><a href={`mailto:${item.email}`}>{item.email}</a></dd></div>
                 {item.phone ? <div><dt>Phone</dt><dd><a href={`tel:${item.phone.replace(/[^\d+]/g, '')}`}>{item.phone}</a></dd></div> : null}
                 {item.company ? <div><dt>Company</dt><dd>{item.company}</dd></div> : null}
-                {item.topic ? <div><dt>Topic</dt><dd>{item.topic}</dd></div> : null}
+                <div><dt>Enquiry type</dt><dd>{item.topic || 'General enquiry'}</dd></div>
                 <div><dt>Received</dt><dd>{formatDate(item.createdAt)}</dd></div>
               </dl>
               <p className="ad-message">{item.message}</p>
@@ -143,13 +144,13 @@ export function Enquiries() {
   );
 }
 
-function InboxItem({ open, onToggle, title, subtitle, preview, status, date, children }) {
+function InboxItem({ open, onToggle, title, subtitle, preview, status, pill, date, children }) {
   return (
     <article className={`ad-inbox-item${open ? ' is-open' : ''}${status === 'new' ? ' is-new' : ''}`}>
       <button type="button" className="ad-inbox-head" onClick={onToggle} aria-expanded={open}>
         <span className="ad-inbox-who"><strong>{title}</strong><span>{subtitle}</span></span>
         {!open ? <span className="ad-inbox-preview">{preview}</span> : <span />}
-        <span className={`ad-pill ad-pill-${status}`}>{label(status)}</span>
+        <span className={`ad-pill ad-pill-${status}`}>{pill || label(status)}</span>
         <time dateTime={date}>{formatDate(date)}</time>
       </button>
       {open ? <div className="ad-inbox-body">{children}</div> : null}

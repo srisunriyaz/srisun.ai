@@ -20,7 +20,6 @@ import {
   BookOpen,
   BriefcaseBusiness,
   Phone,
-  AtSign,
   MapPin,
   Send,
   Compass,
@@ -1781,13 +1780,12 @@ function ContactUsPage() {
           <div className="contact-modern-panel">
             <div className="contact-modern-logo"><img src="/assets/srisun-logo.png" alt="Srisun" /></div>
             <span className="contact-modern-eyebrow"><i /> LET’S TALK</span>
-            <h1>Have a project<br />in <em>mind?</em></h1>
+            <h1>Feel free to<br /><em>reach out.</em></h1>
             <p>Tell us what you are working on, and we will put you in touch with the right people at Srisun.</p>
             <div className="contact-modern-links">
-              <a href="tel:+918883388162"><span className="contact-modern-icon"><Phone size={17} /></span><span><small>CALL US</small><strong>88833 88162</strong></span><ChevronRight size={17} /></a>
-              <a href="mailto:hello@srisun.ai"><span className="contact-modern-icon"><AtSign size={17} /></span><span><small>WRITE TO US</small><strong>hello@srisun.ai</strong></span><ChevronRight size={17} /></a>
+              <div><span className="contact-modern-icon"><Phone size={17} /></span><span><small>CONTACT US</small><strong><span className="nowrap">Sales: <a href="tel:+918883388162">88833 88162</a> |</span> <span className="nowrap">Support: <a href="tel:+918883388164">88833 88164</a></span></strong><strong><a href="mailto:sales@srisun.ai">sales@srisun.ai</a> | <a href="mailto:support@srisun.ai">support@srisun.ai</a></strong></span><span /></div>
+              <div><span className="contact-modern-icon"><MapPin size={17} /></span><span><small>OUR OFFICE</small><strong>Srisun Corporation, #16, 1st Floor, GR Tower, Tindivanam Road, Kilnachipet, Tiruvannamalai, Tamil Nadu, India - 606611</strong></span><span /></div>
             </div>
-            <div className="contact-modern-founder"><span>SR</span><div><strong>Sundar Rajamani</strong><small>Founder &amp; CEO · SRISUN Group</small></div></div>
             <div className="contact-modern-colorbar" aria-hidden="true"><i /><i /><i /><i /></div>
           </div>
 
@@ -1810,10 +1808,6 @@ function ContactUsPage() {
           </form>
           </div>
           <div className="contact-modern-office">
-          <div className="contact-modern-office-inner">
-            <span className="contact-modern-office-icon"><MapPin size={21} /></span>
-            <div><small>OUR OFFICE</small><strong>Srisun Corporation</strong><p>#16, 1st floor, GR Tower, Tindivanam Road, Kilnachipet, Tiruvannamalai, Tamil Nadu, India - 606611</p></div>
-          </div>
           <div className="contact-modern-map-wrap">
             <iframe
               src="https://www.google.com/maps?q=GR%20Tower%2C%20Tindivanam%20Road%2C%20Kilnachipet%2C%20Tiruvannamalai%2C%20Tamil%20Nadu%20606611%2C%20India&output=embed"

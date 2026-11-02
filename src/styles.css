@@ -1391,13 +1391,16 @@ a { color: inherit; text-decoration: none; }
 .contact-modern-panel h1 em { color: #78bdff; font-style: normal; }
 .contact-modern-panel > p { max-width: 390px; margin: 0; color: #c2cfdf; font-size: 17px; line-height: 1.7; }
 .contact-modern-links { width: 100%; margin-top: 30px; display: grid; gap: 5px; }
-.contact-modern-links a { min-height: 57px; padding: 8px 0; display: grid; grid-template-columns: 36px minmax(0,1fr) 18px; gap: 12px; align-items: center; border-bottom: 1px solid rgba(255,255,255,.13); color: #fff; }
+.contact-modern-links > a, .contact-modern-links > div { min-height: 57px; padding: 8px 0; display: grid; grid-template-columns: 36px minmax(0,1fr) 18px; gap: 12px; align-items: center; border-bottom: 1px solid rgba(255,255,255,.13); color: #fff; }
 .contact-modern-icon { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.16); border-radius: 8px; color: #8cc7ff; }
-.contact-modern-links a:nth-child(2) .contact-modern-icon { color: #ff8d95; }
+.contact-modern-links > :nth-child(2) .contact-modern-icon { color: #ff8d95; }
 .contact-modern-links a:nth-child(3) .contact-modern-icon { color: #62d5ab; }
-.contact-modern-links a > span:nth-child(2) { display: flex; flex-direction: column; gap: 3px; }
+.contact-modern-links > * > span:nth-child(2) { display: flex; flex-direction: column; gap: 3px; }
 .contact-modern-links small { color: #9aabc0; font-size: 13px; font-weight: 700; letter-spacing: .12em; }
 .contact-modern-links strong { font-size: 16px; font-weight: 500; }
+.contact-modern-links strong a { color: inherit; overflow-wrap: anywhere; }
+.contact-modern-links .nowrap { white-space: nowrap; }
+.contact-modern-links strong a:hover { text-decoration: underline; }
 .contact-modern-links > a > svg { color: #91a6bf; transition: transform .18s; }
 .contact-modern-links a:hover > svg { transform: translateX(3px); }
 .contact-modern-founder { margin-top: auto; padding-top: 25px; display: flex; align-items: center; gap: 12px; }
@@ -1451,6 +1454,9 @@ a { color: inherit; text-decoration: none; }
   .contact-modern-panel h1 { font-size: clamp(44px, 12.6vw, 57px); }
   .contact-modern-panel > p { font-size: 17px; }
   .contact-modern-links { margin-top: 22px; }
+  .contact-modern-links > div { grid-template-columns: 36px minmax(0,1fr); }
+  .contact-modern-links > div > span:last-child { display: none; }
+  .contact-modern-links > div strong { font-size: 15px; }
   .contact-modern-form { padding: 26px 20px; border-radius: 9px; }
   .contact-modern-fields { grid-template-columns: 1fr; gap: 13px; }
   .contact-modern-topic, .contact-modern-message { grid-column: auto; }

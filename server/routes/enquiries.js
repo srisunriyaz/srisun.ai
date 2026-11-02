@@ -3,6 +3,7 @@
 import { query, one } from '../db.js';
 import { fail, only, str, email, phone, oneOf, ipHash } from '../http.js';
 import { rateLimit } from '../auth.js';
+import { sendAdminMail } from '../mail.js';
 
 export const ENQUIRY_STATUSES = ['new', 'in_progress', 'closed'];
 const TOPICS = ['Technology consulting', 'Website or application', 'Software and automation', 'General enquiry'];
@@ -30,6 +31,17 @@ export async function submitEnquiry(req, body) {
      VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
     values
   );
+  // The enquiry is already saved; a mail failure is logged, not shown to the visitor.
+  const [name, address, phoneNo, company, topic, message, fromPage] = values;
+  await sendAdminMail({
+    subject: `New enquiry #${row.id} from ${name.replace(/\s+/g, ' ')}`,
+    replyTo: address,
+    text: [
+      `Name: ${name}`, `Email: ${address}`, `Phone: ${phoneNo || '-'}`, `Company: ${company || '-'}`,
+      `Enquiry type: ${topic || 'General enquiry'}`, `Page: ${fromPage || '-'}`, '', message, '',
+      'Open it in the admin: https://srisun-website.vercel.app/admin/enquiries'
+    ].join('\n')
+  });
   return { id: row.id };
 }
 
