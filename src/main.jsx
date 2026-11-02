@@ -1783,8 +1783,15 @@ function ContactUsPage() {
             <h1>Feel free to<br /><em>reach out.</em></h1>
             <p>Tell us what you are working on, and we will put you in touch with the right people at Srisun.</p>
             <div className="contact-modern-links">
-              <div><span className="contact-modern-icon"><Phone size={17} /></span><span><small>CONTACT US</small><strong><span className="nowrap">Sales: <a href="tel:+918883388162">88833 88162</a> |</span> <span className="nowrap">Support: <a href="tel:+918883388164">88833 88164</a></span></strong><strong><a href="mailto:sales@srisun.ai">sales@srisun.ai</a> | <a href="mailto:support@srisun.ai">support@srisun.ai</a></strong></span><span /></div>
-              <div><span className="contact-modern-icon"><MapPin size={17} /></span><span><small>OUR OFFICE</small><strong>Srisun Corporation, #16, 1st Floor, GR Tower, Tindivanam Road, Kilnachipet, Tiruvannamalai, Tamil Nadu, India - 606611</strong></span><span /></div>
+              <div className="contact-modern-group">
+                <small>CONTACT US</small>
+                <p><span className="contact-modern-icon"><Phone size={17} /></span><span><a href="tel:+918883388162">88833 88162</a> | <a href="tel:+918883388164">88833 88164</a></span></p>
+                <p><span className="contact-modern-icon is-mail"><Mail size={17} /></span><span><a href="mailto:sales@srisun.ai">sales@srisun.ai</a> | <a href="mailto:support@srisun.ai">support@srisun.ai</a></span></p>
+              </div>
+              <div className="contact-modern-group">
+                <small>OUR OFFICE</small>
+                <p><span className="contact-modern-icon is-pin"><MapPin size={17} /></span><span><strong>Srisun Corporation</strong><br />#16, 1st Floor, GR Tower, Tindivanam Road, Kilnachipet, Tiruvannamalai, Tamil Nadu, India - 606611</span></p>
+              </div>
             </div>
             <div className="contact-modern-colorbar" aria-hidden="true"><i /><i /><i /><i /></div>
           </div>
