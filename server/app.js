@@ -13,6 +13,7 @@ import * as careers from './routes/careers.js';
 import * as enquiries from './routes/enquiries.js';
 import * as pages from './routes/pages.js';
 import * as push from './push.js';
+import * as users from './routes/users.js';
 
 const LOGIN_WINDOW = 15 * 60;
 
@@ -128,6 +129,18 @@ async function route(req, res, method, parts, params) {
     const session = await requireAuth(req);
     if (method !== 'GET') requireCsrf(req, session);
     const userId = session.user_id;
+
+    // HR: careers plus read-only enquiries. Team accounts: admins only.
+    if (session.role === 'hr' && !((b === 'stats' && method === 'GET') || b === 'applications' || b === 'jobs'
+      || (b === 'enquiries' && method === 'GET'))) {
+      fail(403, 'forbidden', 'Your account does not have access to this section.');
+    }
+    if (b === 'users') {
+      if (session.role !== 'admin') fail(403, 'forbidden', 'Only admins can manage team accounts.');
+      if (!c && method === 'GET') return ok(await users.listUsers());
+      if (!c && method === 'POST') return ok(await users.createUser(await readJson(req)), 201);
+      if (c && method === 'PATCH') return ok(await users.updateUser(userId, id(c), await readJson(req)));
+    }
 
     if (b === 'stats' && method === 'GET') return ok(await stats());
 

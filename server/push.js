@@ -69,7 +69,7 @@ export async function notifyAdmins(message, { userId = null } = {}) {
   try {
     const devices = await query(
       `SELECT d.* FROM push_devices d JOIN admin_users u ON u.id = d.user_id
-        WHERE d.enabled AND u.is_active AND ($1::int IS NULL OR d.user_id = $1)`, [userId]);
+        WHERE d.enabled AND u.is_active AND u.role <> 'hr' AND ($1::int IS NULL OR d.user_id = $1)`, [userId]);
     if (!devices.length) return result;
     const token = await accessToken();
     const outcomes = await Promise.allSettled(devices.map((device) => sendTo(device, message, token)));

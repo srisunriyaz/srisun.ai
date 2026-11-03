@@ -5,14 +5,14 @@
 // the browser holds no copy of the data.
 
 import { useCallback, useEffect, useState } from 'react';
-import { ArrowLeft, Plus, Trash2, Eye, Upload, X, Check, Info, FileText, Search, LogOut, AlertCircle, LayoutDashboard, Mail, Inbox, Briefcase, Users, KeyRound, ScrollText } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, Eye, Upload, X, Check, Info, FileText, Search, LogOut, AlertCircle, LayoutDashboard, Mail, Inbox, Briefcase, Users, KeyRound, ScrollText, UserCog } from 'lucide-react';
 import {
   fetchMe, login as apiLogin, logout as apiLogout,
   adminStats, adminClients, adminClient, createClient, updateClient, removeClient, setStatus, uploadFile
 } from './apiClient.js';
 import { emptyCaseStudy, caseStudyPath, isPublished, projectStages } from './clientsApi.js';
 import { fetchTaxonomies } from './apiClient.js';
-import { Overview, Enquiries, Applications, JobsList, JobEditor, PagesList, PageEditor, Account } from './adminSections.jsx';
+import { Overview, Enquiries, Applications, JobsList, JobEditor, PagesList, PageEditor, Account, Team } from './adminSections.jsx';
 import { refreshPush } from './push.js';
 import './admin.css';
 
@@ -471,17 +471,22 @@ const NAV = [
   { to: '/admin/jobs', text: 'Jobs', icon: Briefcase },
   { to: '/admin/clients', text: 'Clients', icon: Users },
   { to: '/admin/pages', text: 'Policy pages', icon: ScrollText },
+  { to: '/admin/team', text: 'Team', icon: UserCog },
   { to: '/admin/account', text: 'Account', icon: KeyRound }
 ];
 
-const TITLES = { '': 'Overview', enquiries: 'Enquiries', applications: 'Job applications', jobs: 'Jobs', clients: 'Clients & case studies', pages: 'Policy pages', account: 'Account' };
+// sections each role may open; the API enforces the same rules
+const HR_SECTIONS = ['', 'enquiries', 'applications', 'jobs', 'account'];
+const canOpen = (role, section) => (role === 'hr' ? HR_SECTIONS.includes(section) : section !== 'team' || role === 'admin');
+
+const TITLES = { '': 'Overview', enquiries: 'Enquiries', applications: 'Job applications', jobs: 'Jobs', clients: 'Clients & case studies', pages: 'Policy pages', team: 'Team', account: 'Account' };
 
 export function AdminApp({ path: initialPath }) {
   const [user, setUser] = useState(undefined);   // undefined = still checking
   const [location, setLocation] = useState(() => ({ path: initialPath, search: window.location.search }));
 
   useEffect(() => { fetchMe().then(setUser).catch(() => setUser(null)); }, []);
-  useEffect(() => { if (user) refreshPush(); }, [user]);
+  useEffect(() => { if (user && user.role !== 'hr') refreshPush(); }, [user]);
 
   const go = useCallback((to) => {
     const url = new URL(to, window.location.origin);
@@ -499,10 +504,13 @@ export function AdminApp({ path: initialPath }) {
   if (user === undefined) return <main className="ad-page"><p className="ad-loading" role="status">Checking your session…</p></main>;
   if (!user) return <LoginScreen onSignedIn={setUser} />;
 
-  const [, , section = '', item] = location.path.replace(/\/+$/, '').split('/');
+  const [, , requested = '', item] = location.path.replace(/\/+$/, '').split('/');
+  const section = canOpen(user.role, requested) ? requested : '';
+  const readOnly = user.role === 'hr';
   const params = new URLSearchParams(location.search);
   let content;
-  if (section === 'enquiries') content = <Enquiries />;
+  if (section === 'enquiries') content = <Enquiries readOnly={readOnly} />;
+  else if (section === 'team') content = <Team user={user} />;
   else if (section === 'applications') content = <Applications key={location.search} initialJob={params.get('job') || ''} />;
   else if (section === 'jobs') content = item ? <JobEditor key={item} slug={item} go={go} /> : <JobsList go={go} />;
   else if (section === 'clients') content = item
@@ -510,13 +518,13 @@ export function AdminApp({ path: initialPath }) {
     : <Dashboard onOpen={(slug) => go(`/admin/clients/${slug}`)} />;
   else if (section === 'pages') content = item ? <PageEditor key={item} slug={item} go={go} /> : <PagesList go={go} />;
   else if (section === 'account') content = <Account user={user} />;
-  else content = <Overview go={go} />;
+  else content = <Overview go={go} role={user.role} />;
 
   return (
     <main className="ad-page ad-shell">
       <nav className="ad-nav" aria-label="Admin">
         <span className="ad-brand">Srisun admin</span>
-        {NAV.map(({ to, text, icon: Icon }) => {
+        {NAV.filter(({ to }) => canOpen(user.role, to.split('/')[2] || '')).map(({ to, text, icon: Icon }) => {
           const active = to === '/admin' ? section === '' : location.path.startsWith(to);
           return (
             <a key={to} href={to} className={active ? 'is-on' : ''} aria-current={active ? 'page' : undefined}

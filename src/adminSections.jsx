@@ -9,7 +9,8 @@ import {
   adminApplications, updateApplication, removeApplication, resumeUrl,
   adminJobs, adminJob, createJob, updateJob, removeJob, changePassword,
   adminPages, adminPage, updatePage,
-  pushDevices, updatePushDevice, removePushDevice, sendTestPush
+  pushDevices, updatePushDevice, removePushDevice, sendTestPush,
+  adminUsers, createAdminUser, updateAdminUser
 } from './apiClient.js';
 import { pushSupported, permission, enablePush, currentToken, forgetLocalToken } from './push.js';
 import { PolicyText } from './subpages.jsx';
@@ -43,7 +44,7 @@ function Segments({ value, options, onChange, ariaLabel }) {
 }
 
 // ---------------------------------------------------------------- overview
-export function Overview({ go }) {
+export function Overview({ go, role }) {
   const [{ data, loading, error }] = useLoad(() => adminStats(), []);
   if (loading) return <Loading />;
   if (error) return <ErrorLine message={error} />;
@@ -52,7 +53,7 @@ export function Overview({ go }) {
     { icon: Inbox, value: data.newApplications, text: 'New applications', sub: `${data.applications} in total`, to: '/admin/applications' },
     { icon: Briefcase, value: data.openJobs, text: 'Open jobs', sub: `${data.jobs} in total`, to: '/admin/jobs' },
     { icon: Users, value: data.clients, text: 'Clients', sub: `${data.published} published case studies`, to: '/admin/clients' }
-  ];
+  ].filter((card) => role !== 'hr' || card.to !== '/admin/clients');
   return (
     <div className="ad-overview">
       {cards.map(({ icon: Icon, value, text, sub, to }) => (
@@ -70,7 +71,7 @@ export function Overview({ go }) {
 // --------------------------------------------------------------- enquiries
 const ENQUIRY_STATUSES = ['new', 'in_progress', 'closed'];
 
-export function Enquiries() {
+export function Enquiries({ readOnly = false }) {
   const [filter, setFilter] = useState('all');
   const [query, setQuery] = useState('');
   // a push notification links here with ?open=<id>
@@ -90,7 +91,7 @@ export function Enquiries() {
     const linked = data?.find((item) => item.id === openId);
     if (!linked) return;
     document.getElementById(`enquiry-${linked.id}`)?.scrollIntoView({ block: 'center' });
-    if (linked.status === 'new') patch(linked.id, { status: 'in_progress' });
+    if (linked.status === 'new' && !readOnly) patch(linked.id, { status: 'in_progress' });
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
   const remove = async (item) => {
     if (!window.confirm(`Delete the enquiry from ${item.name}? This cannot be undone.`)) return;
@@ -120,7 +121,7 @@ export function Enquiries() {
               open={openId === item.id}
               onToggle={() => {
                 setOpenId(openId === item.id ? null : item.id);
-                if (openId !== item.id && item.status === 'new') patch(item.id, { status: 'in_progress' });
+                if (openId !== item.id && item.status === 'new' && !readOnly) patch(item.id, { status: 'in_progress' });
               }}
               title={item.name}
               subtitle={[item.company, item.topic].filter(Boolean).join(' · ') || 'General enquiry'}
@@ -137,14 +138,14 @@ export function Enquiries() {
                 <div><dt>Received</dt><dd>{formatDate(item.createdAt)}</dd></div>
               </dl>
               <p className="ad-message">{item.message}</p>
-              <ItemControls
+              {readOnly ? null : <ItemControls
                 status={item.status}
                 statuses={ENQUIRY_STATUSES}
                 notes={item.notes}
                 onSave={(changes) => patch(item.id, changes)}
                 onDelete={() => remove(item)}
                 extra={<a className="ad-ghost" href={`mailto:${item.email}?subject=${encodeURIComponent('Re: your enquiry to Srisun')}`}><Mail size={15} /> Reply by email</a>}
-              />
+              />}
             </InboxItem>
           ))}
           {visible.length === 0 ? <p className="ad-empty">{data?.length ? 'No enquiries match that search.' : 'No enquiries yet. Messages sent from the Contact page appear here.'}</p> : null}
@@ -425,7 +426,7 @@ export function Account({ user }) {
   const set = (key) => (event) => setForm((prev) => ({ ...prev, [key]: event.target.value }));
   return (
     <>
-    <PushSettings />
+    {user.role !== 'hr' ? <PushSettings /> : null}
     <section className="ad-card ad-account">
       <h2>Your account</h2>
       <p className="ad-hint">Signed in as {user.email}</p>
@@ -582,6 +583,83 @@ export function PageEditor({ slug, go }) {
           {form.body.trim() ? <PolicyText text={form.body} /> : <p className="ad-hint">Add the policy text to see a preview.</p>}
         </section>
       </div>
+    </>
+  );
+}
+
+// -------------------------------------------------------------------- team
+const ROLE_LABELS = { admin: 'Admin (full access)', editor: 'Editor (all sections except Team)', hr: 'HR (careers, read-only enquiries)' };
+
+export function Team({ user }) {
+  const [{ data, loading, error }, reload, setState] = useLoad(() => adminUsers(), []);
+  const blank = { name: '', email: '', role: 'hr', password: '' };
+  const [form, setForm] = useState(blank);
+  const [note, setNote] = useState({ message: null, error: null });
+  const [busy, setBusy] = useState(false);
+  const run = async (work, success) => {
+    setBusy(true); setNote({ message: null, error: null });
+    try { await work(); setNote({ message: success, error: null }); return true; }
+    catch (runError) { setNote({ message: null, error: runError.message }); return false; }
+    finally { setBusy(false); }
+  };
+  const replace = (saved) => setState((prev) => ({ ...prev, data: prev.data.map((item) => (item.id === saved.id ? saved : item)) }));
+  const set = (key) => (event) => setForm((prev) => ({ ...prev, [key]: event.target.value }));
+  const add = async (event) => {
+    event.preventDefault();
+    if (await run(async () => { await createAdminUser(form); await reload(); }, `Account created for ${form.email}. Share the temporary password privately and ask them to change it under Account.`)) setForm(blank);
+  };
+  const resetPassword = (item) => {
+    const password = window.prompt(`New temporary password for ${item.email} (at least 12 characters, letters and a number):`);
+    if (password) run(async () => replace(await updateAdminUser(item.id, { password })), `Password reset for ${item.email}. They have been signed out.`);
+  };
+
+  return (
+    <>
+      <section className="ad-card ad-account">
+        <h2>Add a team member</h2>
+        <p className="ad-hint">HR accounts sign in at this same page and see only job applications, jobs and a read-only list of enquiries.</p>
+        {note.message ? <p className="ad-msg ad-msg-ok" role="status">{note.message}</p> : null}
+        {note.error ? <ErrorLine message={note.error} /> : null}
+        <form onSubmit={add}>
+          <label className="ad-field"><span className="ad-label">Name</span><input value={form.name} onChange={set('name')} required maxLength={120} /></label>
+          <label className="ad-field"><span className="ad-label">Email</span><input type="email" value={form.email} onChange={set('email')} required autoComplete="off" /></label>
+          <label className="ad-field"><span className="ad-label">Role</span>
+            <select value={form.role} onChange={set('role')}>{Object.entries(ROLE_LABELS).map(([value, text]) => <option key={value} value={value}>{text}</option>)}</select>
+          </label>
+          <label className="ad-field"><span className="ad-label">Temporary password</span><span className="ad-hint">At least 12 characters, with letters and a number.</span><input type="text" value={form.password} onChange={set('password')} required minLength={12} autoComplete="new-password" /></label>
+          <button type="submit" className="ad-primary" disabled={busy}>{busy ? 'Saving…' : 'Create account'}</button>
+        </form>
+      </section>
+      <section className="ad-card">
+        <h2>Team accounts</h2>
+        {loading ? <Loading /> : error ? <ErrorLine message={error} /> : (
+          <table className="ad-table">
+            <thead><tr><th>Name</th><th>Role</th><th>Last sign-in</th><th>Status</th><th /></tr></thead>
+            <tbody>
+              {data.map((item) => {
+                const self = item.email === user.email;
+                return (
+                  <tr key={item.id}>
+                    <td><strong>{item.name}</strong>{self ? ' (you)' : ''}<br /><small className="ad-hint">{item.email}</small></td>
+                    <td>
+                      <select value={item.role} disabled={busy || self} aria-label={`Role for ${item.email}`}
+                        onChange={(event) => run(async () => replace(await updateAdminUser(item.id, { role: event.target.value })), `Role updated for ${item.email}.`)}>
+                        {Object.keys(ROLE_LABELS).map((value) => <option key={value} value={value}>{label(value)}</option>)}
+                      </select>
+                    </td>
+                    <td>{item.lastLoginAt ? formatDate(item.lastLoginAt) : 'Never'}</td>
+                    <td>
+                      <label><input type="checkbox" checked={item.active} disabled={busy || self}
+                        onChange={(event) => run(async () => replace(await updateAdminUser(item.id, { active: event.target.checked })), `${item.email} is now ${event.target.checked ? 'active' : 'deactivated'}.`)} /> {item.active ? 'Active' : 'Deactivated'}</label>
+                    </td>
+                    <td>{self ? null : <button type="button" className="ad-ghost" disabled={busy} onClick={() => resetPassword(item)}>Reset password</button>}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+      </section>
     </>
   );
 }
