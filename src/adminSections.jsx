@@ -3,7 +3,10 @@
 // kept in browser storage.
 
 import { useCallback, useEffect, useState } from 'react';
-import { AlertCircle, ArrowLeft, Check, Download, Eye, Inbox, Briefcase, Mail, Plus, Search, Trash2, Users } from 'lucide-react';
+import {
+  AlertCircle, ArrowLeft, ArrowRight, Check, ChevronDown, ChevronRight, Download, Eye, Inbox, Briefcase, Mail, Plus, Search, Trash2, Users,
+  ScrollText, FileText, BellRing, KeyRound, UserPlus, UserCog, CheckCircle2, Send
+} from 'lucide-react';
 import {
   adminStats, adminEnquiries, updateEnquiry, removeEnquiry,
   adminApplications, updateApplication, removeApplication, resumeUrl,
@@ -32,6 +35,26 @@ function useLoad(load, deps) {
 
 const Loading = () => <p className="ad-loading" role="status">Loading…</p>;
 const ErrorLine = ({ message }) => <p className="ad-msg ad-msg-err" role="alert"><AlertCircle size={16} /> {message}</p>;
+const OkLine = ({ message }) => <p className="ad-msg ad-msg-ok" role="status"><Check size={16} /> {message}</p>;
+
+// Initials on a tint picked from the name, so the same person keeps the same colour.
+const HUES = ['--ad-blue', '--ad-green', '--ad-amber', '--ad-violet', '--ad-red'];
+export function Avatar({ name = '' }) {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  const initials = ((words[0]?.[0] || '?') + (words.length > 1 ? words[words.length - 1][0] : '')).toUpperCase();
+  const hue = HUES[[...name].reduce((sum, ch) => sum + ch.charCodeAt(0), 0) % HUES.length];
+  return <span className="ad-avatar" style={{ '--hue': `var(${hue})` }} aria-hidden="true">{initials}</span>;
+}
+
+export function EmptyState({ icon: Icon = Inbox, title, text }) {
+  return (
+    <span className="ad-empty-state">
+      <Icon size={30} strokeWidth={1.5} aria-hidden="true" />
+      <strong>{title}</strong>
+      {text ? <span>{text}</span> : null}
+    </span>
+  );
+}
 
 function Segments({ value, options, onChange, ariaLabel }) {
   return (
@@ -43,28 +66,110 @@ function Segments({ value, options, onChange, ariaLabel }) {
   );
 }
 
+const Switch = ({ checked, disabled, onChange, text, ariaLabel }) => (
+  <label className="ad-switch">
+    <input type="checkbox" checked={checked} disabled={disabled} onChange={onChange} aria-label={ariaLabel} />
+    <span className="ad-switch-track" aria-hidden="true" />
+    {text ? <span>{text}</span> : null}
+  </label>
+);
+
 // ---------------------------------------------------------------- overview
-export function Overview({ go, role }) {
+const greeting = () => {
+  const hour = new Date().getHours();
+  return hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+};
+
+export function Overview({ go, role, name = '' }) {
   const [{ data, loading, error }] = useLoad(() => adminStats(), []);
   if (loading) return <Loading />;
   if (error) return <ErrorLine message={error} />;
+  const hr = role === 'hr';
   const cards = [
-    { icon: Mail, value: data.newEnquiries, text: 'New enquiries', sub: `${data.enquiries} in total`, to: '/admin/enquiries' },
-    { icon: Inbox, value: data.newApplications, text: 'New applications', sub: `${data.applications} in total`, to: '/admin/applications' },
-    { icon: Briefcase, value: data.openJobs, text: 'Open jobs', sub: `${data.jobs} in total`, to: '/admin/jobs' },
-    { icon: Users, value: data.clients, text: 'Clients', sub: `${data.published} published case studies`, to: '/admin/clients' }
-  ].filter((card) => role !== 'hr' || card.to !== '/admin/clients');
+    { icon: Mail, value: data.newEnquiries, text: 'New enquiries', sub: `${data.enquiries} in total`, to: '/admin/enquiries', tone: '--ad-blue' },
+    { icon: Inbox, value: data.newApplications, text: 'New applications', sub: `${data.applications} in total`, to: '/admin/applications', tone: '--ad-violet' },
+    { icon: Briefcase, value: data.openJobs, text: 'Open jobs', sub: `${data.jobs} in total`, to: '/admin/jobs', tone: '--ad-amber' },
+    { icon: Users, value: data.clients, text: 'Clients', sub: `${data.published} published case studies`, to: '/admin/clients', tone: '--ad-green' }
+  ].filter((card) => !hr || card.to !== '/admin/clients');
+
+  const attention = [
+    data.newEnquiries ? { tone: '--ad-blue', num: data.newEnquiries, title: 'Unread enquiries', text: 'Waiting for a first reply', to: '/admin/enquiries' } : null,
+    data.newApplications ? { tone: '--ad-violet', num: data.newApplications, title: 'New applications', text: 'Not reviewed yet', to: '/admin/applications' } : null,
+    !hr && data.drafts ? { tone: '--ad-amber', num: data.drafts, title: 'Draft case studies', text: 'Not visible on the site yet', to: '/admin/clients' } : null,
+    data.openJobs === 0 ? { tone: '--ad-red', num: 0, title: 'No open jobs', text: 'The careers page shows no roles', to: '/admin/jobs' } : null
+  ].filter(Boolean);
+
+  const quick = [
+    { icon: Plus, text: 'Post a new job', to: '/admin/jobs/new' },
+    !hr ? { icon: Users, text: 'Add a client story', to: '/admin/clients/new' } : null,
+    !hr ? { icon: ScrollText, text: 'Edit policy pages', to: '/admin/pages' } : null,
+    { icon: KeyRound, text: hr ? 'Change your password' : 'Notifications & password', to: '/admin/account' }
+  ].filter(Boolean);
+
+  const caseTotal = (data.published || 0) + (data.drafts || 0);
+  const pct = caseTotal ? Math.round((data.published / caseTotal) * 100) : 0;
+  const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
   return (
-    <div className="ad-overview">
-      {cards.map(({ icon: Icon, value, text, sub, to }) => (
-        <button type="button" className="ad-ov-card" key={to} onClick={() => go(to)}>
-          <Icon size={20} aria-hidden="true" />
-          <strong>{value}</strong>
-          <span>{text}</span>
-          <small>{sub}</small>
-        </button>
-      ))}
-    </div>
+    <>
+      <section className="ad-hero">
+        <div>
+          <small>{today}</small>
+          <h2>{greeting()}, {name.split(' ')[0] || 'there'}</h2>
+          <p>{attention.length ? `You have ${attention.length} ${attention.length === 1 ? 'thing' : 'things'} that need attention.` : 'Everything is up to date.'}</p>
+        </div>
+        <div className="ad-hero-actions">
+          <button type="button" className="ad-ghost" onClick={() => go('/admin/enquiries')}><Mail size={15} /> Open inbox</button>
+          <button type="button" className="ad-primary" onClick={() => go('/admin/jobs/new')}><Plus size={15} /> New job</button>
+        </div>
+      </section>
+
+      <div className="ad-overview">
+        {cards.map(({ icon: Icon, value, text, sub, to, tone }) => (
+          <button type="button" className="ad-ov-card" key={to} onClick={() => go(to)} style={{ '--c': `var(${tone})` }}>
+            <span className="ad-ov-top"><span className="ad-ov-icon"><Icon size={19} aria-hidden="true" /></span><ArrowRight size={17} className="ad-ov-arrow" aria-hidden="true" /></span>
+            <strong>{value}</strong>
+            <span>{text}</span>
+            <small>{sub}</small>
+          </button>
+        ))}
+      </div>
+
+      <div className="ad-ov-split">
+        <section className="ad-card">
+          <div className="ad-card-head"><div><h2>Needs attention</h2><p>Items waiting on someone in the team.</p></div></div>
+          {attention.length ? (
+            <ul className="ad-attn">
+              {attention.map((row) => (
+                <li key={row.title}>
+                  <button type="button" onClick={() => go(row.to)}>
+                    <span className="ad-attn-dot" style={{ '--c': `var(${row.tone})` }} />
+                    <span className="ad-attn-text"><strong>{row.title}</strong><span>{row.text}</span></span>
+                    <span className="ad-attn-num">{row.num}</span>
+                    <ChevronRight size={16} aria-hidden="true" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : <p className="ad-allclear"><CheckCircle2 size={18} /> All caught up. Nothing is waiting.</p>}
+        </section>
+
+        <section className="ad-card">
+          <div className="ad-card-head"><div><h2>Quick actions</h2></div></div>
+          <div className="ad-quick">
+            {quick.map(({ icon: Icon, text, to }) => (
+              <button type="button" key={to} onClick={() => go(to)}><span className="ad-card-icon"><Icon size={16} /></span>{text}<ChevronRight size={16} /></button>
+            ))}
+          </div>
+          {!hr ? (
+            <div className="ad-progress">
+              <div className="ad-progress-head"><span>Case studies published</span><strong>{data.published} of {caseTotal}</strong></div>
+              <div className="ad-progress-bar" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Case studies published"><i style={{ width: `${pct}%` }} /></div>
+            </div>
+          ) : null}
+        </section>
+      </div>
+    </>
   );
 }
 
@@ -110,6 +215,7 @@ export function Enquiries({ readOnly = false }) {
       <div className="ad-toolbar">
         <div className="ad-search"><Search size={17} aria-hidden="true" /><input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search name, email, company or message" aria-label="Search enquiries" /></div>
         <Segments value={filter} onChange={setFilter} ariaLabel="Filter by status" options={[['all', 'All'], ['new', 'Unread'], ['in_progress', 'In progress'], ['closed', 'Closed']]} />
+        {data ? <span className="ad-count">{visible.length} {visible.length === 1 ? 'enquiry' : 'enquiries'}</span> : null}
       </div>
       {actionError ? <ErrorLine message={actionError} /> : null}
       {loading ? <Loading /> : error ? <ErrorLine message={error} /> : (
@@ -144,11 +250,15 @@ export function Enquiries({ readOnly = false }) {
                 notes={item.notes}
                 onSave={(changes) => patch(item.id, changes)}
                 onDelete={() => remove(item)}
-                extra={<a className="ad-ghost" href={`mailto:${item.email}?subject=${encodeURIComponent('Re: your enquiry to Srisun')}`}><Mail size={15} /> Reply by email</a>}
+                extra={<a className="ad-primary" href={`mailto:${item.email}?subject=${encodeURIComponent('Re: your enquiry to Srisun')}`}><Mail size={15} /> Reply by email</a>}
               />}
             </InboxItem>
           ))}
-          {visible.length === 0 ? <p className="ad-empty">{data?.length ? 'No enquiries match that search.' : 'No enquiries yet. Messages sent from the Contact page appear here.'}</p> : null}
+          {visible.length === 0 ? (
+            <div className="ad-table-wrap ad-empty">
+              <EmptyState icon={Mail} title={data?.length ? 'No matches' : 'No enquiries yet'} text={data?.length ? 'No enquiries match that search.' : 'Messages sent from the Contact page appear here.'} />
+            </div>
+          ) : null}
         </div>
       )}
     </>
@@ -159,10 +269,11 @@ function InboxItem({ id, open, onToggle, title, subtitle, preview, status, pill,
   return (
     <article id={id} className={`ad-inbox-item${open ? ' is-open' : ''}${status === 'new' ? ' is-new' : ''}`}>
       <button type="button" className="ad-inbox-head" onClick={onToggle} aria-expanded={open}>
-        <span className="ad-inbox-who"><strong>{title}</strong><span>{subtitle}</span></span>
+        <span className="ad-inbox-who"><Avatar name={title} /><span><strong>{title}</strong><small>{subtitle}</small></span></span>
         {!open ? <span className="ad-inbox-preview">{preview}</span> : <span />}
         <span className={`ad-pill ad-pill-${status}`}>{pill || label(status)}</span>
         <time dateTime={date}>{formatDate(date)}</time>
+        <ChevronDown size={18} className="ad-inbox-chev" aria-hidden="true" />
       </button>
       {open ? <div className="ad-inbox-body">{children}</div> : null}
     </article>
@@ -186,9 +297,9 @@ function ItemControls({ status, statuses, notes, onSave, onDelete, extra }) {
         <textarea rows={2} value={draft} maxLength={4000} onChange={(e) => { setDraft(e.target.value); setSaved(false); }} placeholder="Only visible to admins" />
       </label>
       <div className="ad-controls-actions">
-        {extra}
-        <button type="button" className="ad-ghost" disabled={draft === notes} onClick={async () => setSaved(await onSave({ notes: draft }))}>{saved ? <><Check size={15} /> Saved</> : 'Save notes'}</button>
         <button type="button" className="ad-danger" onClick={onDelete}><Trash2 size={15} /> Delete</button>
+        <button type="button" className="ad-ghost" disabled={draft === notes} onClick={async () => setSaved(await onSave({ notes: draft }))}>{saved ? <><Check size={15} /> Saved</> : 'Save notes'}</button>
+        {extra}
       </div>
     </div>
   );
@@ -237,7 +348,10 @@ export function Applications({ initialJob = '' }) {
           <option value="">All jobs</option>
           {(jobs || []).map((item) => <option key={item.id} value={item.id}>{item.title}</option>)}
         </select>
+      </div>
+      <div className="ad-toolbar">
         <Segments value={filter} onChange={setFilter} ariaLabel="Filter by status" options={[['all', 'All'], ...APPLICATION_STATUSES.map((s) => [s, label(s)])]} />
+        {data ? <span className="ad-count">{visible.length} {visible.length === 1 ? 'application' : 'applications'}</span> : null}
       </div>
       {actionError ? <ErrorLine message={actionError} /> : null}
       {loading ? <Loading /> : error ? <ErrorLine message={error} /> : (
@@ -278,7 +392,11 @@ export function Applications({ initialJob = '' }) {
               />
             </InboxItem>
           ))}
-          {visible.length === 0 ? <p className="ad-empty">{data?.length ? 'No applications match that search.' : 'No applications yet. Applications sent from the job pages appear here.'}</p> : null}
+          {visible.length === 0 ? (
+            <div className="ad-table-wrap ad-empty">
+              <EmptyState icon={Inbox} title={data?.length ? 'No matches' : 'No applications yet'} text={data?.length ? 'No applications match that search.' : 'Applications sent from the job pages appear here.'} />
+            </div>
+          ) : null}
         </div>
       )}
     </>
@@ -296,24 +414,31 @@ export function JobsList({ go }) {
         <p className="ad-hint ad-grow">Only jobs marked <strong>Open</strong> appear on the careers page. Closed jobs stop taking applications.</p>
         <button type="button" className="ad-primary" onClick={() => go('/admin/jobs/new')}><Plus size={16} /> Add job</button>
       </div>
-      <table className="ad-table">
-        <thead><tr><th>Job</th><th>Team</th><th>Status</th><th>Applications</th><th aria-label="Actions" /></tr></thead>
-        <tbody>
-          {data.map((job) => (
-            <tr key={job.id}>
-              <td><strong>{job.title}</strong><br /><span className="ad-sub-text">{[job.location, job.type].filter(Boolean).join(' · ')}</span></td>
-              <td>{job.department || <em>Not set</em>}</td>
-              <td><span className={`ad-pill ad-pill-${job.status}`}>{label(job.status)}</span></td>
-              <td>{job.applications ? <button type="button" className="ad-link" onClick={() => go(`/admin/applications?job=${job.id}`)}>{job.applications} {job.applications === 1 ? 'application' : 'applications'}</button> : <span className="ad-sub-text">None yet</span>}</td>
-              <td className="ad-row-actions">
-                <button type="button" className="ad-link" onClick={() => go(`/admin/jobs/${job.id}`)}>Edit</button>
-                {job.status === 'open' ? <a href={`/careers/jobs/${job.id}`} target="_blank" rel="noopener noreferrer" aria-label={`View ${job.title}`}><Eye size={15} /></a> : null}
-              </td>
-            </tr>
-          ))}
-          {data.length === 0 ? <tr><td colSpan={5} className="ad-empty">No jobs yet.</td></tr> : null}
-        </tbody>
-      </table>
+      <div className="ad-table-wrap">
+        <table className="ad-table">
+          <thead><tr><th>Job</th><th>Team</th><th>Status</th><th>Applications</th><th aria-label="Actions" /></tr></thead>
+          <tbody>
+            {data.map((job) => (
+              <tr key={job.id}>
+                <td className="ad-td-main">
+                  <div className="ad-cell-main">
+                    <span className="ad-card-icon"><Briefcase size={16} /></span>
+                    <div><strong>{job.title}</strong><span>{[job.location, job.type].filter(Boolean).join(' · ')}</span></div>
+                  </div>
+                </td>
+                <td data-label="Team">{job.department || <em>Not set</em>}</td>
+                <td data-label="Status"><span className={`ad-pill ad-pill-${job.status}`}>{label(job.status)}</span></td>
+                <td data-label="Applications">{job.applications ? <button type="button" className="ad-link" onClick={() => go(`/admin/applications?job=${job.id}`)}>{job.applications} {job.applications === 1 ? 'application' : 'applications'}</button> : <span className="ad-sub-text">None yet</span>}</td>
+                <td className="ad-row-actions">
+                  <button type="button" className="ad-ghost" onClick={() => go(`/admin/jobs/${job.id}`)}>Edit</button>
+                  {job.status === 'open' ? <a className="ad-icon-btn" href={`/careers/jobs/${job.id}`} target="_blank" rel="noopener noreferrer" aria-label={`View ${job.title}`} title="View on site"><Eye size={15} /></a> : null}
+                </td>
+              </tr>
+            ))}
+            {data.length === 0 ? <tr><td colSpan={5} className="ad-empty"><EmptyState icon={Briefcase} title="No jobs yet" text="Add a job to start taking applications." /></td></tr> : null}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }
@@ -376,16 +501,17 @@ export function JobEditor({ slug, go }) {
         <div className="ad-editor-actions">
           <span className={`ad-pill ad-pill-${form.status}`}>{label(form.status)}</span>
           {currentSlug && form.status === 'open' ? <a className="ad-ghost" href={`/careers/jobs/${currentSlug}`} target="_blank" rel="noopener noreferrer"><Eye size={15} /> View</a> : null}
-          <button type="button" className="ad-ghost" onClick={() => save(null)} disabled={busy}>Save</button>
+          <button type="button" className="ad-ghost" onClick={() => save(null)} disabled={busy}>{busy ? 'Saving…' : 'Save'}</button>
           {form.status === 'open'
             ? <button type="button" className="ad-ghost" onClick={() => save('closed')} disabled={busy}>Close job</button>
             : <button type="button" className="ad-primary" onClick={() => save('open')} disabled={busy}><Check size={16} /> Publish job</button>}
         </div>
       </div>
-      {message ? <p className="ad-msg ad-msg-ok" role="status">{message}</p> : null}
+      {message ? <OkLine message={message} /> : null}
       {error ? <ErrorLine message={error} /> : null}
       <section className="ad-card">
-        <h2>Job details</h2>
+        <h2><span className="ad-card-icon"><Briefcase size={17} /></span> {creating && !currentSlug ? 'New job' : 'Job details'}</h2>
+        <p className="ad-hint" style={{ margin: '0 0 22px' }}>Fields marked * are required before publishing.</p>
         <div className="ad-grid">
           <label className="ad-field"><span className="ad-label">Job title *</span><input value={form.title} onChange={set('title')} maxLength={120} /></label>
           <label className="ad-field"><span className="ad-label">Team</span><input value={form.department} onChange={set('department')} maxLength={120} placeholder="e.g. Engineering & Technology" /></label>
@@ -396,8 +522,10 @@ export function JobEditor({ slug, go }) {
           </label>
         </div>
         <label className="ad-field"><span className="ad-label">Summary *</span><span className="ad-hint">One or two sentences shown on the job list and at the top of the job page.</span><textarea rows={2} value={form.summary} onChange={set('summary')} maxLength={600} /></label>
-        <label className="ad-field"><span className="ad-label">What you’ll work on</span><span className="ad-hint">One point per line.</span><textarea rows={5} value={text.responsibilities} onChange={(e) => setText((prev) => ({ ...prev, responsibilities: e.target.value }))} /></label>
-        <label className="ad-field"><span className="ad-label">What will help you succeed</span><span className="ad-hint">One point per line.</span><textarea rows={5} value={text.qualifications} onChange={(e) => setText((prev) => ({ ...prev, qualifications: e.target.value }))} /></label>
+        <div className="ad-grid">
+          <label className="ad-field"><span className="ad-label">What you’ll work on</span><span className="ad-hint">One point per line.</span><textarea rows={7} value={text.responsibilities} onChange={(e) => setText((prev) => ({ ...prev, responsibilities: e.target.value }))} /></label>
+          <label className="ad-field"><span className="ad-label">What will help you succeed</span><span className="ad-hint">One point per line.</span><textarea rows={7} value={text.qualifications} onChange={(e) => setText((prev) => ({ ...prev, qualifications: e.target.value }))} /></label>
+        </div>
       </section>
       <div className="ad-foot">
         {currentSlug ? <button type="button" className="ad-danger" onClick={remove}><Trash2 size={15} /> Delete job</button> : null}
@@ -425,21 +553,21 @@ export function Account({ user }) {
   };
   const set = (key) => (event) => setForm((prev) => ({ ...prev, [key]: event.target.value }));
   return (
-    <>
-    {user.role !== 'hr' ? <PushSettings /> : null}
-    <section className="ad-card ad-account">
-      <h2>Your account</h2>
-      <p className="ad-hint">Signed in as {user.email}</p>
-      <form onSubmit={submit}>
-        {state.message ? <p className="ad-msg ad-msg-ok" role="status">{state.message}</p> : null}
-        {state.error ? <ErrorLine message={state.error} /> : null}
-        <label className="ad-field"><span className="ad-label">Current password</span><input type="password" value={form.current} onChange={set('current')} autoComplete="current-password" required /></label>
-        <label className="ad-field"><span className="ad-label">New password</span><span className="ad-hint">At least 12 characters, with letters and a number.</span><input type="password" value={form.next} onChange={set('next')} autoComplete="new-password" minLength={12} required /></label>
-        <label className="ad-field"><span className="ad-label">Confirm new password</span><input type="password" value={form.confirm} onChange={set('confirm')} autoComplete="new-password" required /></label>
-        <button type="submit" className="ad-primary" disabled={state.busy}>{state.busy ? 'Saving…' : 'Change password'}</button>
-      </form>
-    </section>
-    </>
+    <div className="ad-account-grid">
+      <section className="ad-card ad-account">
+        <div className="ad-card-head"><div><h2><span className="ad-card-icon"><KeyRound size={17} /></span> Your account</h2></div></div>
+        <div className="ad-profile"><Avatar name={user.name} /><div><strong>{user.name}</strong><span>{user.email}</span></div><span className="ad-role-chip" style={{ marginLeft: 'auto' }}>{user.role}</span></div>
+        <form onSubmit={submit}>
+          {state.message ? <OkLine message={state.message} /> : null}
+          {state.error ? <ErrorLine message={state.error} /> : null}
+          <label className="ad-field"><span className="ad-label">Current password</span><input type="password" value={form.current} onChange={set('current')} autoComplete="current-password" required /></label>
+          <label className="ad-field"><span className="ad-label">New password</span><span className="ad-hint">At least 12 characters, with letters and a number.</span><input type="password" value={form.next} onChange={set('next')} autoComplete="new-password" minLength={12} required /></label>
+          <label className="ad-field"><span className="ad-label">Confirm new password</span><input type="password" value={form.confirm} onChange={set('confirm')} autoComplete="new-password" required /></label>
+          <div><button type="submit" className="ad-primary" disabled={state.busy}>{state.busy ? 'Saving…' : 'Change password'}</button></div>
+        </form>
+      </section>
+      {user.role !== 'hr' ? <PushSettings /> : null}
+    </div>
   );
 }
 
@@ -462,33 +590,44 @@ function PushSettings() {
 
   return (
     <section className="ad-card ad-account">
-      <h2>Push notifications</h2>
-      <p className="ad-hint">Get an alert on this browser or phone when a new enquiry arrives. Alerts show only the enquiry number and type; open the admin to read the details.</p>
-      {note.message ? <p className="ad-msg ad-msg-ok" role="status">{note.message}</p> : null}
+      <div className="ad-card-head">
+        <div>
+          <h2><span className="ad-card-icon"><BellRing size={17} /></span> Push notifications</h2>
+          <p>Get an alert on this browser or phone when a new enquiry arrives. Alerts show only the enquiry number and type; open the admin to read the details.</p>
+        </div>
+      </div>
+      {note.message ? <OkLine message={note.message} /> : null}
       {note.error ? <ErrorLine message={note.error} /> : null}
       {data && !data.configured ? <ErrorLine message="Push is not configured on the server yet." /> : null}
-      {!supported ? <p className="ad-hint">This browser does not support push notifications. On iPhone, add the site to your Home Screen first.</p> : null}
-      {blocked ? <p className="ad-hint">Notifications are blocked for this site. Allow them in your browser’s site settings, then turn them on here.</p> : null}
-      <div className="ad-controls">
-        {supported ? <button type="button" className="ad-primary" disabled={busy} onClick={() => run(async () => { await enablePush(); await reload(); }, 'Notifications are on for this device.')}>{busy ? 'Working…' : 'Turn on for this device'}</button> : null}
-        {devices.some((item) => item.enabled) ? <button type="button" className="ad-ghost" disabled={busy} onClick={() => run(() => sendTestPush(), 'Test notification sent.')}>Send test notification</button> : null}
+      {!supported ? <p className="ad-note">This browser does not support push notifications. On iPhone, add the site to your Home Screen first.</p> : null}
+      {blocked ? <p className="ad-note">Notifications are blocked for this site. Allow them in your browser’s site settings, then turn them on here.</p> : null}
+      <div className="ad-button-row">
+        {supported ? <button type="button" className="ad-primary" disabled={busy} onClick={() => run(async () => { await enablePush(); await reload(); }, 'Notifications are on for this device.')}><BellRing size={15} /> {busy ? 'Working…' : 'Turn on for this device'}</button> : null}
+        {devices.some((item) => item.enabled) ? <button type="button" className="ad-ghost" disabled={busy} onClick={() => run(() => sendTestPush(), 'Test notification sent.')}><Send size={15} /> Send test</button> : null}
       </div>
       {loading ? <Loading /> : error ? <ErrorLine message={error} /> : (
-        <table className="ad-table">
-          <thead><tr><th>Device</th><th>Added</th><th>Last alert</th><th>Status</th><th /></tr></thead>
-          <tbody>
-            {devices.map((item) => (
-              <tr key={item.id}>
-                <td>{item.label}{mine?.endsWith(item.tokenTail) ? ' (this device)' : ''}<br /><small className="ad-hint">{item.origin}</small>{item.lastError ? <><br /><small className="ad-hint">Last failure: {item.lastError}</small></> : null}</td>
-                <td>{formatDate(item.createdAt)}</td>
-                <td>{item.lastSentAt ? formatDate(item.lastSentAt) : '—'}</td>
-                <td><label><input type="checkbox" checked={item.enabled} disabled={busy} onChange={(event) => run(async () => replace(await updatePushDevice(item.id, { enabled: event.target.checked })))} /> {item.enabled ? 'On' : 'Off'}</label></td>
-                <td><button type="button" className="ad-ghost" disabled={busy} onClick={() => run(async () => { await removePushDevice(item.id); if (mine?.endsWith(item.tokenTail)) forgetLocalToken(); await reload(); }, 'Device removed.')}><Trash2 size={15} /> Remove</button></td>
-              </tr>
-            ))}
-            {devices.length === 0 ? <tr><td colSpan={5} className="ad-empty">No devices yet. Turn notifications on above.</td></tr> : null}
-          </tbody>
-        </table>
+        <div className="ad-table-wrap">
+          <table className="ad-table">
+            <thead><tr><th>Device</th><th>Last alert</th><th>Alerts</th><th aria-label="Actions" /></tr></thead>
+            <tbody>
+              {devices.map((item) => (
+                <tr key={item.id}>
+                  <td className="ad-td-main">
+                    <span className="ad-device">
+                      <strong>{item.label}{mine?.endsWith(item.tokenTail) ? <span className="ad-this">This device</span> : null}</strong>
+                      <small>{item.origin} · added {formatDate(item.createdAt)}</small>
+                      {item.lastError ? <small className="ad-err-text">Last failure: {item.lastError}</small> : null}
+                    </span>
+                  </td>
+                  <td data-label="Last alert">{item.lastSentAt ? formatDate(item.lastSentAt) : '—'}</td>
+                  <td data-label="Alerts"><Switch checked={item.enabled} disabled={busy} text={item.enabled ? 'On' : 'Off'} ariaLabel={`Alerts for ${item.label}`} onChange={(event) => run(async () => replace(await updatePushDevice(item.id, { enabled: event.target.checked })))} /></td>
+                  <td className="ad-row-actions"><button type="button" className="ad-icon-btn" disabled={busy} aria-label={`Remove ${item.label}`} title="Remove device" onClick={() => run(async () => { await removePushDevice(item.id); if (mine?.endsWith(item.tokenTail)) forgetLocalToken(); await reload(); }, 'Device removed.')}><Trash2 size={15} /></button></td>
+                </tr>
+              ))}
+              {devices.length === 0 ? <tr><td colSpan={4} className="ad-empty"><EmptyState icon={BellRing} title="No devices yet" text="Turn notifications on above." /></td></tr> : null}
+            </tbody>
+          </table>
+        </div>
       )}
     </section>
   );
@@ -502,22 +641,29 @@ export function PagesList({ go }) {
   return (
     <>
       <p className="ad-hint ad-intro">Policy pages linked from the site footer. Published text appears on the site as soon as you save. Unpublished pages show a short contact panel instead.</p>
-      <table className="ad-table">
-        <thead><tr><th>Page</th><th>Status</th><th>Last updated</th><th aria-label="Actions" /></tr></thead>
-        <tbody>
-          {data.map((page) => (
-            <tr key={page.slug}>
-              <td><strong>{page.title}</strong><br /><span className="ad-sub-text">{page.path}</span></td>
-              <td><span className={`ad-pill ad-pill-${page.status === 'published' ? 'live' : 'draft'}`}>{page.status === 'published' ? 'Published' : 'Draft'}</span></td>
-              <td>{formatDate(page.updatedAt)}</td>
-              <td className="ad-row-actions">
-                <button type="button" className="ad-link" onClick={() => go(`/admin/pages/${page.slug}`)}>Edit</button>
-                <a href={page.path} target="_blank" rel="noopener noreferrer" aria-label={`View ${page.title}`}><Eye size={15} /></a>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="ad-table-wrap">
+        <table className="ad-table">
+          <thead><tr><th>Page</th><th>Status</th><th>Last updated</th><th aria-label="Actions" /></tr></thead>
+          <tbody>
+            {data.map((page) => (
+              <tr key={page.slug}>
+                <td className="ad-td-main">
+                  <div className="ad-cell-main">
+                    <span className="ad-card-icon"><FileText size={16} /></span>
+                    <div><strong>{page.title}</strong><span>{page.path}</span></div>
+                  </div>
+                </td>
+                <td data-label="Status"><span className={`ad-pill ad-pill-${page.status === 'published' ? 'live' : 'draft'}`}>{page.status === 'published' ? 'Published' : 'Draft'}</span></td>
+                <td data-label="Updated">{formatDate(page.updatedAt)}</td>
+                <td className="ad-row-actions">
+                  <button type="button" className="ad-ghost" onClick={() => go(`/admin/pages/${page.slug}`)}>Edit</button>
+                  <a className="ad-icon-btn" href={page.path} target="_blank" rel="noopener noreferrer" aria-label={`View ${page.title}`} title="View on site"><Eye size={15} /></a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }
@@ -557,17 +703,17 @@ export function PageEditor({ slug, go }) {
         <div className="ad-editor-actions">
           <span className={`ad-pill ad-pill-${form.status === 'published' ? 'live' : 'draft'}`}>{form.status === 'published' ? 'Published' : 'Draft'}</span>
           <a className="ad-ghost" href={form.path} target="_blank" rel="noopener noreferrer"><Eye size={15} /> View</a>
-          <button type="button" className="ad-ghost" onClick={() => save(null)} disabled={busy}>Save</button>
+          <button type="button" className="ad-ghost" onClick={() => save(null)} disabled={busy}>{busy ? 'Saving…' : 'Save'}</button>
           {form.status === 'published'
             ? <button type="button" className="ad-ghost" onClick={() => save('draft')} disabled={busy}>Unpublish</button>
             : <button type="button" className="ad-primary" onClick={() => save('published')} disabled={busy}><Check size={16} /> Publish</button>}
         </div>
       </div>
-      {message ? <p className="ad-msg ad-msg-ok" role="status">{message}</p> : null}
+      {message ? <OkLine message={message} /> : null}
       {error ? <ErrorLine message={error} /> : null}
       <div className="ad-page-edit">
         <section className="ad-card">
-          <h2>Page text</h2>
+          <h2 style={{ marginBottom: 20 }}><span className="ad-card-icon"><ScrollText size={17} /></span> Page text</h2>
           <label className="ad-field"><span className="ad-label">Title *</span><input value={form.title} onChange={set('title')} maxLength={120} /></label>
           <label className="ad-field"><span className="ad-label">Summary</span><span className="ad-hint">One or two sentences shown under the title.</span><textarea rows={2} value={form.summary} onChange={set('summary')} maxLength={400} /></label>
           <label className="ad-field">
@@ -577,7 +723,7 @@ export function PageEditor({ slug, go }) {
           </label>
         </section>
         <section className="ad-card ad-preview" aria-label="Preview">
-          <h2>Preview</h2>
+          <span className="ad-preview-label"><Eye size={12} /> Live preview</span>
           <h3 className="ad-preview-title">{form.title}</h3>
           {form.summary ? <p className="ad-preview-summary">{form.summary}</p> : null}
           {form.body.trim() ? <PolicyText text={form.body} /> : <p className="ad-hint">Add the policy text to see a preview.</p>}
@@ -615,51 +761,66 @@ export function Team({ user }) {
 
   return (
     <>
-      <section className="ad-card ad-account">
-        <h2>Add a team member</h2>
-        <p className="ad-hint">HR accounts sign in at this same page and see only job applications, jobs and a read-only list of enquiries.</p>
-        {note.message ? <p className="ad-msg ad-msg-ok" role="status">{note.message}</p> : null}
-        {note.error ? <ErrorLine message={note.error} /> : null}
-        <form onSubmit={add}>
-          <label className="ad-field"><span className="ad-label">Name</span><input value={form.name} onChange={set('name')} required maxLength={120} /></label>
-          <label className="ad-field"><span className="ad-label">Email</span><input type="email" value={form.email} onChange={set('email')} required autoComplete="off" /></label>
-          <label className="ad-field"><span className="ad-label">Role</span>
-            <select value={form.role} onChange={set('role')}>{Object.entries(ROLE_LABELS).map(([value, text]) => <option key={value} value={value}>{text}</option>)}</select>
-          </label>
-          <label className="ad-field"><span className="ad-label">Temporary password</span><span className="ad-hint">At least 12 characters, with letters and a number.</span><input type="text" value={form.password} onChange={set('password')} required minLength={12} autoComplete="new-password" /></label>
-          <button type="submit" className="ad-primary" disabled={busy}>{busy ? 'Saving…' : 'Create account'}</button>
-        </form>
-      </section>
-      <section className="ad-card">
-        <h2>Team accounts</h2>
-        {loading ? <Loading /> : error ? <ErrorLine message={error} /> : (
-          <table className="ad-table">
-            <thead><tr><th>Name</th><th>Role</th><th>Last sign-in</th><th>Status</th><th /></tr></thead>
-            <tbody>
-              {data.map((item) => {
-                const self = item.email === user.email;
-                return (
-                  <tr key={item.id}>
-                    <td><strong>{item.name}</strong>{self ? ' (you)' : ''}<br /><small className="ad-hint">{item.email}</small></td>
-                    <td>
-                      <select value={item.role} disabled={busy || self} aria-label={`Role for ${item.email}`}
-                        onChange={(event) => run(async () => replace(await updateAdminUser(item.id, { role: event.target.value })), `Role updated for ${item.email}.`)}>
-                        {Object.keys(ROLE_LABELS).map((value) => <option key={value} value={value}>{label(value)}</option>)}
-                      </select>
-                    </td>
-                    <td>{item.lastLoginAt ? formatDate(item.lastLoginAt) : 'Never'}</td>
-                    <td>
-                      <label><input type="checkbox" checked={item.active} disabled={busy || self}
-                        onChange={(event) => run(async () => replace(await updateAdminUser(item.id, { active: event.target.checked })), `${item.email} is now ${event.target.checked ? 'active' : 'deactivated'}.`)} /> {item.active ? 'Active' : 'Deactivated'}</label>
-                    </td>
-                    <td>{self ? null : <button type="button" className="ad-ghost" disabled={busy} onClick={() => resetPassword(item)}>Reset password</button>}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        )}
-      </section>
+      {note.message ? <OkLine message={note.message} /> : null}
+      {note.error ? <ErrorLine message={note.error} /> : null}
+      <div className="ad-team-grid">
+        <section className="ad-card ad-account">
+          <div className="ad-card-head">
+            <div>
+              <h2><span className="ad-card-icon"><UserPlus size={17} /></span> Add a team member</h2>
+              <p>HR accounts sign in at this same page and see only job applications, jobs and a read-only list of enquiries.</p>
+            </div>
+          </div>
+          <form onSubmit={add}>
+            <label className="ad-field"><span className="ad-label">Name</span><input value={form.name} onChange={set('name')} required maxLength={120} /></label>
+            <label className="ad-field"><span className="ad-label">Email</span><input type="email" value={form.email} onChange={set('email')} required autoComplete="off" /></label>
+            <label className="ad-field"><span className="ad-label">Role</span>
+              <select value={form.role} onChange={set('role')}>{Object.entries(ROLE_LABELS).map(([value, text]) => <option key={value} value={value}>{text}</option>)}</select>
+            </label>
+            <label className="ad-field"><span className="ad-label">Temporary password</span><span className="ad-hint">At least 12 characters, with letters and a number.</span><input type="text" value={form.password} onChange={set('password')} required minLength={12} autoComplete="new-password" /></label>
+            <div><button type="submit" className="ad-primary" disabled={busy}><UserPlus size={15} /> {busy ? 'Saving…' : 'Create account'}</button></div>
+          </form>
+        </section>
+        <section className="ad-card">
+          <div className="ad-card-head">
+            <div><h2><span className="ad-card-icon"><UserCog size={17} /></span> Team accounts</h2><p>{data ? `${data.length} ${data.length === 1 ? 'account' : 'accounts'}` : ' '}</p></div>
+          </div>
+          {loading ? <Loading /> : error ? <ErrorLine message={error} /> : (
+            <div className="ad-table-wrap">
+              <table className="ad-table">
+                <thead><tr><th>Member</th><th>Role</th><th>Last sign-in</th><th>Status</th><th aria-label="Actions" /></tr></thead>
+                <tbody>
+                  {data.map((item) => {
+                    const self = item.email === user.email;
+                    return (
+                      <tr key={item.id}>
+                        <td className="ad-td-main">
+                          <div className="ad-cell-main">
+                            <Avatar name={item.name} />
+                            <div><strong>{item.name}{self ? <span className="ad-this">You</span> : null}</strong><span>{item.email}</span></div>
+                          </div>
+                        </td>
+                        <td data-label="Role">
+                          <select className="ad-inline-select" value={item.role} disabled={busy || self} aria-label={`Role for ${item.email}`}
+                            onChange={(event) => run(async () => replace(await updateAdminUser(item.id, { role: event.target.value })), `Role updated for ${item.email}.`)}>
+                            {Object.keys(ROLE_LABELS).map((value) => <option key={value} value={value}>{value === 'hr' ? 'HR' : label(value)}</option>)}
+                          </select>
+                        </td>
+                        <td data-label="Last sign-in">{item.lastLoginAt ? formatDate(item.lastLoginAt) : <em>Never</em>}</td>
+                        <td data-label="Status">
+                          <Switch checked={item.active} disabled={busy || self} text={item.active ? 'Active' : 'Deactivated'} ariaLabel={`Account active for ${item.email}`}
+                            onChange={(event) => run(async () => replace(await updateAdminUser(item.id, { active: event.target.checked })), `${item.email} is now ${event.target.checked ? 'active' : 'deactivated'}.`)} />
+                        </td>
+                        <td className="ad-row-actions">{self ? null : <button type="button" className="ad-ghost" disabled={busy} onClick={() => resetPassword(item)}><KeyRound size={14} /> Reset password</button>}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      </div>
     </>
   );
 }
