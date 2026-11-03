@@ -21,7 +21,9 @@ import { refreshPush } from './push.js';
 import './admin.css';
 
 const MAX_UPLOAD_MB = 4;
-const LOGO = '/assets/srisun-favicon.png';
+const LOGO = '/assets/srisun-favicon.png';          // four-block mark only
+const LOGO_WHITE = '/assets/srisun-logo-white.png';  // full logo, white wordmark for dark surfaces
+const LOGO_DARK = '/assets/srisun-logo-dark.png';    // same crop, dark wordmark for light surfaces
 
 function Field({ label, hint, children }) {
   return (
@@ -74,7 +76,7 @@ function LoginScreen({ onSignedIn, theme }) {
   return (
     <main className="ad-page ad-login-page" data-theme={theme}>
       <aside className="ad-login-art" aria-hidden="true">
-        <div className="ad-login-brand"><img src={LOGO} alt="" /><strong>SRISUN</strong><span>Admin console</span></div>
+        <div className="ad-login-brand"><img src={LOGO_WHITE} alt="Srisun" width="1524" height="332" /><span>Admin console</span></div>
         <div>
           <h2>Run the whole site from <em>one calm workspace.</em></h2>
           <p>Enquiries, job applications, open roles, client stories and policy pages, all in one place.</p>
@@ -91,7 +93,7 @@ function LoginScreen({ onSignedIn, theme }) {
       </aside>
       <div className="ad-login-side">
         <form className="ad-login" onSubmit={submit}>
-          <div className="ad-login-mobile-brand"><img src={LOGO} alt="" /><strong>SRISUN</strong></div>
+          <div className="ad-login-mobile-brand"><img src={theme === 'dark' ? LOGO_WHITE : LOGO_DARK} alt="Srisun" /></div>
           <h1>Welcome back</h1>
           <p className="ad-login-intro">Sign in to your Srisun admin account.</p>
           {error ? <p className="ad-msg ad-msg-err" role="alert"><AlertCircle size={16} /> {error}</p> : null}
@@ -635,8 +637,8 @@ export function AdminApp({ path: initialPath }) {
     <div className="ad-page ad-shell" data-theme={theme} data-collapsed={isRail}>
       <aside className="ad-side" data-open={drawer} aria-label="Admin navigation">
         <div className="ad-side-brand">
-          <img src={LOGO} alt="" />
-          <span className="ad-side-brand-text"><strong>SRISUN</strong><small>Admin console</small></span>
+          <img className="ad-side-mark" src={LOGO} alt="Srisun" />
+          <span className="ad-side-brand-text"><img src={LOGO_WHITE} alt="Srisun" width="1524" height="332" /><small>Admin console</small></span>
           <button type="button" className="ad-side-collapse" onClick={() => setCollapsed(isRail ? 'false' : 'true')} aria-label={isRail ? 'Expand sidebar' : 'Collapse sidebar'} title={isRail ? 'Expand' : 'Collapse'}>
             {isRail ? <PanelLeftOpen size={15} /> : <PanelLeftClose size={15} />}
           </button>
