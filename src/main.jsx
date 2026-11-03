@@ -1984,7 +1984,9 @@ if (typeof document !== 'undefined') {
   // earlier visits installed, so returning visitors get the live site.
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.getRegistrations()
-      .then((registrations) => registrations.forEach((registration) => registration.unregister()))
+      .then((registrations) => registrations
+        .filter((registration) => !(registration.active || registration.installing || registration.waiting)?.scriptURL.endsWith('/firebase-messaging-sw.js'))
+        .forEach((registration) => registration.unregister()))
       .catch(() => {});
   }
   if (typeof caches !== 'undefined') {

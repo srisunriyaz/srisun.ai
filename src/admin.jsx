@@ -13,6 +13,7 @@ import {
 import { emptyCaseStudy, caseStudyPath, isPublished, projectStages } from './clientsApi.js';
 import { fetchTaxonomies } from './apiClient.js';
 import { Overview, Enquiries, Applications, JobsList, JobEditor, PagesList, PageEditor, Account } from './adminSections.jsx';
+import { refreshPush } from './push.js';
 import './admin.css';
 
 const MAX_UPLOAD_MB = 4;
@@ -480,6 +481,7 @@ export function AdminApp({ path: initialPath }) {
   const [location, setLocation] = useState(() => ({ path: initialPath, search: window.location.search }));
 
   useEffect(() => { fetchMe().then(setUser).catch(() => setUser(null)); }, []);
+  useEffect(() => { if (user) refreshPush(); }, [user]);
 
   const go = useCallback((to) => {
     const url = new URL(to, window.location.origin);

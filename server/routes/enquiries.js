@@ -4,6 +4,7 @@ import { query, one } from '../db.js';
 import { fail, only, str, email, phone, oneOf, ipHash } from '../http.js';
 import { rateLimit } from '../auth.js';
 import { sendAdminMail } from '../mail.js';
+import { notifyAdmins } from '../push.js';
 
 export const ENQUIRY_STATUSES = ['new', 'in_progress', 'closed'];
 const TOPICS = ['Technology consulting', 'Website or application', 'Software and automation', 'General enquiry'];
@@ -24,6 +25,12 @@ export async function submitEnquiry(req, body) {
     page && page.startsWith('/') ? page : null,
     ipHash(req)
   ];
+  // a repeated click or resubmission of the same message is not stored twice
+  const duplicate = await one(
+    `SELECT id FROM enquiries WHERE lower(email) = lower($1) AND message = $2 AND created_at > now() - interval '24 hours' LIMIT 1`,
+    [values[1], values[5]]
+  );
+  if (duplicate) fail(409, 'duplicate', 'We have already received this message and will get back to you soon.');
   // only messages that pass validation count towards the strict limit
   await rateLimit(`enquiry:${ipHash(req)}`, { limit: 5, windowSeconds: 3600, message: 'You have sent several messages recently. Please try again later.' });
   const row = await one(
@@ -33,6 +40,8 @@ export async function submitEnquiry(req, body) {
   );
   // The enquiry is already saved; a mail failure is logged, not shown to the visitor.
   const [name, address, phoneNo, company, topic, message, fromPage] = values;
+  // Push carries no visitor details; the admin opens the enquiry to read them.
+  const pushed = notifyAdmins({ title: `New enquiry #${row.id}`, body: topic || 'General enquiry', path: `/admin/enquiries?open=${row.id}` });
   await sendAdminMail({
     subject: `New enquiry #${row.id} from ${name.replace(/\s+/g, ' ')}`,
     replyTo: address,
@@ -42,6 +51,7 @@ export async function submitEnquiry(req, body) {
       'Open it in the admin: https://srisun-website.vercel.app/admin/enquiries'
     ].join('\n')
   });
+  await pushed;
   return { id: row.id };
 }
 

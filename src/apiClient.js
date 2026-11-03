@@ -172,6 +172,11 @@ export const updateJob = (slug, payload) => request(`/admin/jobs/${encodeURIComp
 export const removeJob = (slug) => request(`/admin/jobs/${encodeURIComponent(slug)}`, { method: 'DELETE' });
 
 export const adminEnquiries = (params = {}, signal) => request(`/admin/enquiries${qs(params)}`, { signal }).then((r) => r.data);
+export const pushDevices = () => request('/admin/push/devices').then((r) => r.data);
+export const registerPushDevice = (payload) => request('/admin/push/devices', { method: 'POST', body: payload }).then((r) => r.data);
+export const updatePushDevice = (id, payload) => request(`/admin/push/devices/${id}`, { method: 'PATCH', body: payload }).then((r) => r.data);
+export const removePushDevice = (id) => request(`/admin/push/devices/${id}`, { method: 'DELETE' });
+export const sendTestPush = () => request('/admin/push/test', { method: 'POST' }).then((r) => r.data);
 export const updateEnquiry = (id, payload) => request(`/admin/enquiries/${id}`, { method: 'PATCH', body: payload }).then((r) => r.data);
 export const removeEnquiry = (id) => request(`/admin/enquiries/${id}`, { method: 'DELETE' });
 

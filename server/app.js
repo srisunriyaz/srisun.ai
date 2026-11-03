@@ -12,6 +12,7 @@ import * as clients from './routes/clients.js';
 import * as careers from './routes/careers.js';
 import * as enquiries from './routes/enquiries.js';
 import * as pages from './routes/pages.js';
+import * as push from './push.js';
 
 const LOGIN_WINDOW = 15 * 60;
 
@@ -156,6 +157,14 @@ async function route(req, res, method, parts, params) {
       if (!c && method === 'GET') return ok(await pages.listAdmin());
       if (c && !d && method === 'GET') return ok(await pages.getAdmin(c));
       if (c && !d && method === 'PUT') return ok(await pages.save(c, await readJson(req, 128 * 1024), userId));
+    }
+
+    if (b === 'push') {
+      if (c === 'devices' && !d && method === 'GET') return ok(await push.listDevices(userId));
+      if (c === 'devices' && !d && method === 'POST') return ok(await push.registerDevice(req, userId, await readJson(req, 16 * 1024)), 201);
+      if (c === 'devices' && d && method === 'PATCH') return ok(await push.updateDevice(userId, id(d), await readJson(req)));
+      if (c === 'devices' && d && method === 'DELETE') { await push.removeDevice(userId, id(d)); return ok({ ok: true }); }
+      if (c === 'test' && method === 'POST') return ok(await push.sendTest(userId));
     }
 
     if (b === 'enquiries') {

@@ -8,8 +8,10 @@ import {
   adminStats, adminEnquiries, updateEnquiry, removeEnquiry,
   adminApplications, updateApplication, removeApplication, resumeUrl,
   adminJobs, adminJob, createJob, updateJob, removeJob, changePassword,
-  adminPages, adminPage, updatePage
+  adminPages, adminPage, updatePage,
+  pushDevices, updatePushDevice, removePushDevice, sendTestPush
 } from './apiClient.js';
+import { pushSupported, permission, enablePush, currentToken, forgetLocalToken } from './push.js';
 import { PolicyText } from './subpages.jsx';
 
 const formatDate = (value) => new Date(value).toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' });
@@ -71,7 +73,8 @@ const ENQUIRY_STATUSES = ['new', 'in_progress', 'closed'];
 export function Enquiries() {
   const [filter, setFilter] = useState('all');
   const [query, setQuery] = useState('');
-  const [openId, setOpenId] = useState(null);
+  // a push notification links here with ?open=<id>
+  const [openId, setOpenId] = useState(() => Number(new URLSearchParams(window.location.search).get('open')) || null);
   const [{ data, loading, error }, , setState] = useLoad(() => adminEnquiries(filter === 'all' ? {} : { status: filter }), [filter]);
   const [actionError, setActionError] = useState(null);
 
@@ -83,6 +86,12 @@ export function Enquiries() {
       return true;
     } catch (patchError) { setActionError(patchError.message); return false; }
   };
+  useEffect(() => {
+    const linked = data?.find((item) => item.id === openId);
+    if (!linked) return;
+    document.getElementById(`enquiry-${linked.id}`)?.scrollIntoView({ block: 'center' });
+    if (linked.status === 'new') patch(linked.id, { status: 'in_progress' });
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
   const remove = async (item) => {
     if (!window.confirm(`Delete the enquiry from ${item.name}? This cannot be undone.`)) return;
     setActionError(null);
@@ -107,6 +116,7 @@ export function Enquiries() {
           {visible.map((item) => (
             <InboxItem
               key={item.id}
+              id={`enquiry-${item.id}`}
               open={openId === item.id}
               onToggle={() => {
                 setOpenId(openId === item.id ? null : item.id);
@@ -144,9 +154,9 @@ export function Enquiries() {
   );
 }
 
-function InboxItem({ open, onToggle, title, subtitle, preview, status, pill, date, children }) {
+function InboxItem({ id, open, onToggle, title, subtitle, preview, status, pill, date, children }) {
   return (
-    <article className={`ad-inbox-item${open ? ' is-open' : ''}${status === 'new' ? ' is-new' : ''}`}>
+    <article id={id} className={`ad-inbox-item${open ? ' is-open' : ''}${status === 'new' ? ' is-new' : ''}`}>
       <button type="button" className="ad-inbox-head" onClick={onToggle} aria-expanded={open}>
         <span className="ad-inbox-who"><strong>{title}</strong><span>{subtitle}</span></span>
         {!open ? <span className="ad-inbox-preview">{preview}</span> : <span />}
@@ -414,6 +424,8 @@ export function Account({ user }) {
   };
   const set = (key) => (event) => setForm((prev) => ({ ...prev, [key]: event.target.value }));
   return (
+    <>
+    <PushSettings />
     <section className="ad-card ad-account">
       <h2>Your account</h2>
       <p className="ad-hint">Signed in as {user.email}</p>
@@ -425,6 +437,58 @@ export function Account({ user }) {
         <label className="ad-field"><span className="ad-label">Confirm new password</span><input type="password" value={form.confirm} onChange={set('confirm')} autoComplete="new-password" required /></label>
         <button type="submit" className="ad-primary" disabled={state.busy}>{state.busy ? 'Saving…' : 'Change password'}</button>
       </form>
+    </section>
+    </>
+  );
+}
+
+// Push alerts for new enquiries, per browser/device.
+function PushSettings() {
+  const [{ data, loading, error }, reload, setState] = useLoad(() => pushDevices(), []);
+  const [busy, setBusy] = useState(false);
+  const [note, setNote] = useState({ message: null, error: null });
+  const run = async (work, success) => {
+    setBusy(true); setNote({ message: null, error: null });
+    try { await work(); if (success) setNote({ message: success, error: null }); }
+    catch (runError) { setNote({ message: null, error: runError.message }); }
+    finally { setBusy(false); }
+  };
+  const mine = currentToken();
+  const supported = pushSupported();
+  const blocked = permission() === 'denied';
+  const devices = data?.devices || [];
+  const replace = (saved) => setState((prev) => ({ ...prev, data: { ...prev.data, devices: prev.data.devices.map((item) => (item.id === saved.id ? saved : item)) } }));
+
+  return (
+    <section className="ad-card ad-account">
+      <h2>Push notifications</h2>
+      <p className="ad-hint">Get an alert on this browser or phone when a new enquiry arrives. Alerts show only the enquiry number and type; open the admin to read the details.</p>
+      {note.message ? <p className="ad-msg ad-msg-ok" role="status">{note.message}</p> : null}
+      {note.error ? <ErrorLine message={note.error} /> : null}
+      {data && !data.configured ? <ErrorLine message="Push is not configured on the server yet." /> : null}
+      {!supported ? <p className="ad-hint">This browser does not support push notifications. On iPhone, add the site to your Home Screen first.</p> : null}
+      {blocked ? <p className="ad-hint">Notifications are blocked for this site. Allow them in your browser’s site settings, then turn them on here.</p> : null}
+      <div className="ad-controls">
+        {supported ? <button type="button" className="ad-primary" disabled={busy} onClick={() => run(async () => { await enablePush(); await reload(); }, 'Notifications are on for this device.')}>{busy ? 'Working…' : 'Turn on for this device'}</button> : null}
+        {devices.some((item) => item.enabled) ? <button type="button" className="ad-ghost" disabled={busy} onClick={() => run(() => sendTestPush(), 'Test notification sent.')}>Send test notification</button> : null}
+      </div>
+      {loading ? <Loading /> : error ? <ErrorLine message={error} /> : (
+        <table className="ad-table">
+          <thead><tr><th>Device</th><th>Added</th><th>Last alert</th><th>Status</th><th /></tr></thead>
+          <tbody>
+            {devices.map((item) => (
+              <tr key={item.id}>
+                <td>{item.label}{mine?.endsWith(item.tokenTail) ? ' (this device)' : ''}<br /><small className="ad-hint">{item.origin}</small>{item.lastError ? <><br /><small className="ad-hint">Last failure: {item.lastError}</small></> : null}</td>
+                <td>{formatDate(item.createdAt)}</td>
+                <td>{item.lastSentAt ? formatDate(item.lastSentAt) : '—'}</td>
+                <td><label><input type="checkbox" checked={item.enabled} disabled={busy} onChange={(event) => run(async () => replace(await updatePushDevice(item.id, { enabled: event.target.checked })))} /> {item.enabled ? 'On' : 'Off'}</label></td>
+                <td><button type="button" className="ad-ghost" disabled={busy} onClick={() => run(async () => { await removePushDevice(item.id); if (mine?.endsWith(item.tokenTail)) forgetLocalToken(); await reload(); }, 'Device removed.')}><Trash2 size={15} /> Remove</button></td>
+              </tr>
+            ))}
+            {devices.length === 0 ? <tr><td colSpan={5} className="ad-empty">No devices yet. Turn notifications on above.</td></tr> : null}
+          </tbody>
+        </table>
+      )}
     </section>
   );
 }
