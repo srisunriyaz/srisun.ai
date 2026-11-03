@@ -50,7 +50,7 @@ export async function enablePush() {
   if (result !== 'granted') throw new Error('Notification permission was not granted.');
   const token = await fetchToken();
   if (!token) throw new Error('Could not get a push token from Firebase. Please try again.');
-  const device = await registerPushDevice({ token, previousToken: stored(), label: deviceLabel() });
+  const device = await registerPushDevice({ token, previousToken: stored(), label: deviceLabel(), origin: window.location.origin });
   store(token);
   return device;
 }
@@ -60,7 +60,7 @@ export async function refreshPush() {
   if (!stored() || permission() !== 'granted') return;
   try {
     const token = await fetchToken();
-    if (token) { await registerPushDevice({ token, previousToken: stored(), label: deviceLabel() }); store(token); }
+    if (token) { await registerPushDevice({ token, previousToken: stored(), label: deviceLabel(), origin: window.location.origin }); store(token); }
   } catch { /* the device list will show it as stale; the admin can re-enable */ }
 }
 

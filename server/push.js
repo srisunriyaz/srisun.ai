@@ -7,6 +7,8 @@ import { createSign } from 'node:crypto';
 import { query, one } from './db.js';
 import { fail, str } from './http.js';
 
+const SITE_ORIGINS = ['https://srisun.ai', 'https://www.srisun.ai', 'https://srisun-website.vercel.app'];
+
 let account;
 const serviceAccount = () => {
   if (account !== undefined) return account;
@@ -96,8 +98,10 @@ export async function listDevices(userId) {
 export async function registerDevice(req, userId, body) {
   const token = str(body, 'token', 4096, { required: true, label: 'Token' });
   if (!/^[\w:.-]{20,}$/.test(token)) fail(422, 'validation_failed', 'That device token is not valid.');
-  const origin = req.headers.origin || `https://${req.headers['x-forwarded-host'] || req.headers.host}`;
-  if (!/^https:\/\/[\w.-]+(:\d+)?$/.test(origin) && !/^http:\/\/localhost(:\d+)?$/.test(origin)) fail(422, 'validation_failed', 'Unsupported site address.');
+  // srisun.ai proxies /api to Vercel and rewrites Origin, so the page states its own
+  // address; only known Srisun sites (or local development) are accepted.
+  const origin = String(body.origin || req.headers.origin || '');
+  if (!SITE_ORIGINS.includes(origin) && !/^http:\/\/localhost(:\d+)?$/.test(origin)) fail(422, 'validation_failed', 'Unsupported site address.');
   const previous = str(body, 'previousToken', 4096);
   if (previous && previous !== token) await query('DELETE FROM push_devices WHERE token = $1 AND user_id = $2', [previous, userId]);
   const row = await one(
